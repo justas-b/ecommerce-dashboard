@@ -28,7 +28,13 @@ def convert_to_date(df: pd.DataFrame) -> NoReturn:
         df[col] = pd.to_datetime(df[col])
 
 
+def time_to_dispatch(df: pd.DataFrame) -> NoReturn:
+    """Number of days taken to dispatch order from order date"""
+    df["days_to_dispatch"] = (df["date_posted"] - df["date_paid"]).dt.days
+
+
 if __name__ == "__main__":
     clean_column_names(df)
     drop_unused_columns(COLUMNS_TO_KEEP, df)
     convert_to_date(df)
+    time_to_dispatch(df)
