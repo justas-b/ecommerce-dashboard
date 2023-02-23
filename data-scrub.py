@@ -33,8 +33,14 @@ def time_to_dispatch(df: pd.DataFrame) -> NoReturn:
     df["days_to_dispatch"] = (df["date_posted"] - df["date_paid"]).dt.days
 
 
+def save_csv(df: pd.DataFrame) -> NoReturn:
+    """Saves the cleaned dataframe to a CSV"""
+    df.to_csv("cleaned_data.csv")
+
+
 if __name__ == "__main__":
     clean_column_names(df)
     drop_unused_columns(COLUMNS_TO_KEEP, df)
     convert_to_date(df)
     time_to_dispatch(df)
+    save_csv(df)
