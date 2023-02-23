@@ -6,8 +6,7 @@ df = pd.read_csv("sold-order-items.csv")
 
 def clean_column_names(df: pd.DataFrame) -> NoReturn:
     """Cleans the column names of the dataframe"""
-    columns = df.columns
-    cleaned_columns = [column.replace(" ", "_").lower() for column in columns]
+    cleaned_columns = [col.replace(" ", "_").lower() for col in df.columns]
     df.columns = cleaned_columns
 
 
