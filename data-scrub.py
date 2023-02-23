@@ -1,7 +1,11 @@
 import pandas as pd
+import datetime
 from typing import NoReturn
 
-df = pd.read_csv("sold-order-items.csv")
+COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery", "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
+FILE_NAME = "sold-order-items.csv"
+
+df = pd.read_csv(FILE_NAME)
 
 
 def clean_column_names(df: pd.DataFrame) -> NoReturn:
@@ -16,11 +20,15 @@ def drop_unused_columns(columns_to_keep: list, df: pd.DataFrame) -> NoReturn:
     df.drop(to_drop, axis=1, inplace=True)
 
 
-if __name__ == "__main__":
-    columns_to_keep = ["sale_date", "item_name", "quantity", "price"  "discount_amount", "order_delivery", "item_total", "date_posted", "delivery_zipcode", "delivery_country"]
-    clean_column_names(df)
-    drop_unused_columns(columns_to_keep, df)
-    print(df.info())
+def convert_to_date(df: pd.DataFrame) -> NoReturn:
+    """Converts dates to datetime objects"""
+    date_cols = [col for col in df.columns if "date" in col]
 
-#TODO:
-#Convert dates to datetime
+    for col in date_cols:
+        df[col] = pd.to_datetime(df[col])
+
+
+if __name__ == "__main__":
+    clean_column_names(df)
+    drop_unused_columns(COLUMNS_TO_KEEP, df)
+    convert_to_date(df)
