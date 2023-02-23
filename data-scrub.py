@@ -1,5 +1,4 @@
 import pandas as pd
-import datetime
 from typing import NoReturn
 
 COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery", "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
