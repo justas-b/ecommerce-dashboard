@@ -1,5 +1,4 @@
 # TODO:
-# distribution of days taken to dispatch orders
 # order distribution across free and paid deliveries
 # total revenue across free and paid deliveries
 # avg and sum of total order revenue
@@ -62,6 +61,20 @@ def average_revenue_per_country(df: pd.DataFrame) -> px.bar:
     }
 
     fig = px.bar(data, x="Average Revenue (£)", y="Country", text="Average Revenue (£)")
+    fig.update_traces(textposition="outside")
+
+    return fig
+
+
+def days_to_dispatch(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the distribution of the days taken to dispatch orders"""
+    time_to_dispatch = df["days_to_dispatch"].value_counts().sort_index()
+    data = {
+        "Days to Dispatch": time_to_dispatch.keys(),
+        "Orders": time_to_dispatch.values
+    }
+
+    fig = px.bar(data, x="Days to Dispatch", y="Orders", text="Orders")
     fig.update_traces(textposition="outside")
 
     return fig
