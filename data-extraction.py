@@ -1,5 +1,4 @@
 # TODO:
-# total quantity of items ordered
 # orders per delivery country
 # total and average revenue per country
 # distribution of days taken to dispatch orders
@@ -19,3 +18,8 @@ df = pd.read_csv("cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
 def total_orders(df: pd.DataFrame) -> int:
     """Extracts the total number of orders"""
     return df.shape[0]
+
+
+def total_items(df: pd.DataFrame) -> int:
+    """Extracts the total number of items ordered"""
+    return df["quantity"].sum()
