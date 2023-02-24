@@ -1,7 +1,9 @@
 import pandas as pd
 from typing import NoReturn
 
+# change to columns you would like to keep
 COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery", "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
+# change to the file name of the dirty CSV file
 FILE_NAME = "sold-order-items.csv"
 
 df = pd.read_csv(FILE_NAME)
@@ -34,7 +36,7 @@ def time_to_dispatch(df: pd.DataFrame) -> NoReturn:
 
 def save_csv(df: pd.DataFrame) -> NoReturn:
     """Saves the cleaned dataframe to a CSV"""
-    df.to_csv("cleaned_data.csv")
+    df.to_csv("cleaned-data.csv")
 
 
 if __name__ == "__main__":
