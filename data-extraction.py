@@ -1,5 +1,4 @@
 # TODO:
-# total number of orders
 # total quantity of items ordered
 # orders per delivery country
 # total and average revenue per country
@@ -16,4 +15,7 @@ import plotly.express as px
 
 df = pd.read_csv("cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
 
-print(df.info())
+
+def total_orders(df: pd.DataFrame) -> int:
+    """Extracts the total number of orders"""
+    return df.shape[0]
