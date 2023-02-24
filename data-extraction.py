@@ -1,5 +1,4 @@
 # TODO:
-# order distribution across free and paid deliveries
 # total revenue across free and paid deliveries
 # avg and sum of total order revenue
 # orders and item revenue per item
@@ -76,5 +75,20 @@ def days_to_dispatch(df: pd.DataFrame) -> px.bar:
 
     fig = px.bar(data, x="Days to Dispatch", y="Orders", text="Orders")
     fig.update_traces(textposition="outside")
+
+    return fig
+
+
+def order_delivery_charge(df: pd.DataFrame) -> px.pie:
+    """Pie chart of the total number of orders across free and paid deliveries
+    """
+    orders_per_delivery = df["order_delivery"].apply(
+        lambda x: "Paid" if x else "Free").value_counts()
+    data = {
+        "Delivery Type": orders_per_delivery.keys(),
+        "Orders": orders_per_delivery.values
+    }
+
+    fig = px.pie(data, values="Orders", names="Delivery Type")
 
     return fig
