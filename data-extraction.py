@@ -1,5 +1,4 @@
 # TODO:
-# total revenue across free and paid deliveries
 # avg and sum of total order revenue
 # orders and item revenue per item
 # map of orders
@@ -90,5 +89,20 @@ def order_delivery_charge(df: pd.DataFrame) -> px.pie:
     }
 
     fig = px.pie(data, values="Orders", names="Delivery Type")
+
+    return fig
+
+
+def revenue_delivery_charge(df: pd.DataFrame) -> px.pie:
+    """Pie chart of the total revenue across free and paid deliveries"""
+    revenue_per_delivery = df[["order_delivery", "item_total"]]
+    revenue_per_delivery["order_delivery"] = revenue_per_delivery["order_delivery"].apply(lambda x: "Paid" if x else "Free")
+    revenue_per_delivery = revenue_per_delivery.groupby("order_delivery")["item_total"].sum()
+    data = {
+        "Delivery Type": revenue_per_delivery.keys(),
+        "Revenue": revenue_per_delivery.values
+    }
+
+    fig = px.pie(data, values="Revenue", names="Delivery Type")
 
     return fig
