@@ -1,5 +1,4 @@
 # TODO:
-# total and average revenue per country
 # distribution of days taken to dispatch orders
 # order distribution across free and paid deliveries
 # total revenue across free and paid deliveries
@@ -48,6 +47,21 @@ def total_revenue_per_country(df: pd.DataFrame) -> px.bar:
     }
 
     fig = px.bar(data, x="Total Revenue (£)", y="Country", text="Total Revenue (£)")
+    fig.update_traces(textposition="outside")
+
+    return fig
+
+
+def average_revenue_per_country(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the average revenue per country"""
+    avg_country_revenue = df[["delivery_country", "item_total"]]
+    avg_country_revenue = avg_country_revenue.groupby("delivery_country")["item_total"].mean().sort_values()
+    data = {
+        "Country": avg_country_revenue.keys(),
+        "Average Revenue (£)": [round(val, 2) for val in avg_country_revenue.values]
+    }
+
+    fig = px.bar(data, x="Average Revenue (£)", y="Country", text="Average Revenue (£)")
     fig.update_traces(textposition="outside")
 
     return fig
