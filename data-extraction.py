@@ -30,9 +30,24 @@ def orders_by_country(df: pd.DataFrame) -> px.bar:
     data = {
         "Country": reversed(country_count.keys()), 
         "Orders": reversed(country_count.values)
-        }
+    }
 
     fig = px.bar(data, x="Orders", y="Country", text="Orders")
+    fig.update_traces(textposition="outside")
+
+    return fig
+
+
+def total_revenue_per_country(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the total revenue per country"""
+    country_revenue = df[["delivery_country", "item_total"]]
+    country_revenue = country_revenue.groupby("delivery_country")["item_total"].sum().sort_values()
+    data ={
+        "Country": country_revenue.keys(),
+        "Total Revenue (£)": country_revenue.values
+    }
+
+    fig = px.bar(data, x="Total Revenue (£)", y="Country", text="Total Revenue (£)")
     fig.update_traces(textposition="outside")
 
     return fig
