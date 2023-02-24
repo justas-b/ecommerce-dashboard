@@ -6,7 +6,7 @@ COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_d
 # change to the file name of the dirty CSV file
 FILE_NAME = "sold-order-items.csv"
 
-df = pd.read_csv(FILE_NAME)
+df = pd.read_csv(FILE_NAME, parse_dates=["Date Paid", "Date Posted"])
 
 
 def clean_column_names(df: pd.DataFrame) -> NoReturn:
@@ -21,14 +21,6 @@ def drop_unused_columns(columns_to_keep: list, df: pd.DataFrame) -> NoReturn:
     df.drop(to_drop, axis=1, inplace=True)
 
 
-def convert_to_date(df: pd.DataFrame) -> NoReturn:
-    """Converts dates to datetime objects"""
-    date_cols = [col for col in df.columns if "date" in col]
-
-    for col in date_cols:
-        df[col] = pd.to_datetime(df[col])
-
-
 def time_to_dispatch(df: pd.DataFrame) -> NoReturn:
     """Number of days taken to dispatch order from order date"""
     df["days_to_dispatch"] = (df["date_posted"] - df["date_paid"]).dt.days
@@ -36,12 +28,11 @@ def time_to_dispatch(df: pd.DataFrame) -> NoReturn:
 
 def save_csv(df: pd.DataFrame) -> NoReturn:
     """Saves the cleaned dataframe to a CSV"""
-    df.to_csv("cleaned-data.csv")
+    df.to_csv("cleaned-data.csv", index=False)
 
 
 if __name__ == "__main__":
     clean_column_names(df)
     drop_unused_columns(COLUMNS_TO_KEEP, df)
-    convert_to_date(df)
     time_to_dispatch(df)
     save_csv(df)
