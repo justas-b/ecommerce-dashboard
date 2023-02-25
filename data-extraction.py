@@ -1,7 +1,4 @@
 # TODO:
-# avg and sum of total order revenue
-# orders and item revenue per item
-# map of orders
 # avg quantity per order
 
 import pandas as pd
@@ -18,6 +15,16 @@ def total_orders(df: pd.DataFrame) -> int:
 def total_items(df: pd.DataFrame) -> int:
     """Extracts the total number of items ordered"""
     return df["quantity"].sum()
+
+
+def total_revenue(df: pd.DataFrame) -> float:
+    """Total revenue of all orders"""
+    return round(df["item_total"].sum(), 2)
+
+
+def average_revenue(df: pd.DataFrame) -> float:
+    """Average revenue across all orders"""
+    return round(df["item_total"].mean(), 2)
 
 
 def orders_by_country(df: pd.DataFrame) -> px.bar:
