@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components  as dbc
 from data_extraction import *
 
@@ -23,8 +23,13 @@ app.layout = html.Div(
         ]),
         html.Div(className="top_plot_div", id="top_plot_div", children=[
             html.H2("Orders per Day"),
-            dcc.Graph(figure=orders_per_day())
-        ]),
+            dcc.Graph(figure=orders_per_day()),
+            dcc.RadioItems(className="radio_item", id="day_callback", 
+            options=[
+                {"label": "Orders", "value": "orders"},
+                {"label": "Revenue", "value": "revenue"},
+            ], value="orders")
+            ]),
         html.Div(id="bottom_plot_div", children=[
             html.Div(className="indiv_bottom_graph", children=[
                 html.H2("Orders per Country"),
@@ -38,6 +43,16 @@ app.layout = html.Div(
                 dcc.Graph(figure=days_to_dispatch())])
         ])
     ])
+
+@app.callback(
+    Output(component_id="top_plot_div", component_property="children"),
+    Input(component_id="day_callback", component_property="value")
+)
+def update_test(input):
+    if input == "orders":
+        return orders_per_day()
+    else:
+        return revenue_per_day()
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=8080)
