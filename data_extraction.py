@@ -24,7 +24,7 @@ def average_revenue() -> float:
     return round(df["item_total"].mean(), 2)
 
 
-def orders_by_country(df: pd.DataFrame) -> px.bar:
+def orders_by_country() -> px.bar:
     """Bar plot of the distribution of orders per country"""
     country_count = df["delivery_country"].value_counts()
     data = {
@@ -38,7 +38,7 @@ def orders_by_country(df: pd.DataFrame) -> px.bar:
     return fig
 
 
-def total_revenue_per_country(df: pd.DataFrame) -> px.bar:
+def total_revenue_per_country() -> px.bar:
     """Bar plot of the total revenue per country"""
     country_revenue = df[["delivery_country", "item_total"]]
     country_revenue = country_revenue.groupby("delivery_country")["item_total"].sum().sort_values()
@@ -53,7 +53,7 @@ def total_revenue_per_country(df: pd.DataFrame) -> px.bar:
     return fig
 
 
-def average_revenue_per_country(df: pd.DataFrame) -> px.bar:
+def average_revenue_per_country() -> px.bar:
     """Bar plot of the average revenue per country"""
     avg_country_revenue = df[["delivery_country", "item_total"]]
     avg_country_revenue = avg_country_revenue.groupby("delivery_country")["item_total"].mean().sort_values()
@@ -68,7 +68,7 @@ def average_revenue_per_country(df: pd.DataFrame) -> px.bar:
     return fig
 
 
-def days_to_dispatch(df: pd.DataFrame) -> px.bar:
+def days_to_dispatch() -> px.bar:
     """Bar plot of the distribution of the days taken to dispatch orders"""
     time_to_dispatch = df["days_to_dispatch"].value_counts().sort_index()
     data = {
@@ -82,7 +82,7 @@ def days_to_dispatch(df: pd.DataFrame) -> px.bar:
     return fig
 
 
-def order_delivery_charge(df: pd.DataFrame) -> px.pie:
+def order_delivery_charge() -> px.pie:
     """Pie chart of the total number of orders across free and paid deliveries
     """
     orders_per_delivery = df["order_delivery"].apply(
@@ -97,7 +97,7 @@ def order_delivery_charge(df: pd.DataFrame) -> px.pie:
     return fig
 
 
-def revenue_delivery_charge(df: pd.DataFrame) -> px.pie:
+def revenue_delivery_charge() -> px.pie:
     """Pie chart of the total revenue across free and paid deliveries"""
     revenue_per_delivery = df[["order_delivery", "item_total"]]
     revenue_per_delivery["order_delivery"] = revenue_per_delivery["order_delivery"].apply(lambda x: "Paid" if x else "Free")
@@ -112,7 +112,7 @@ def revenue_delivery_charge(df: pd.DataFrame) -> px.pie:
     return fig
 
 
-def orders_per_day(df: pd.DataFrame) -> px.bar:
+def orders_per_day() -> px.bar:
     """Bar plot of the number of orders per day"""
     num_per_day = df["date_paid"].value_counts().sort_index()
     data = {
@@ -124,7 +124,7 @@ def orders_per_day(df: pd.DataFrame) -> px.bar:
     return fig
 
 
-def revenue_per_day(df: pd.DataFrame) -> px.bar:
+def revenue_per_day() -> px.bar:
     """Bar plot of the revenue per day"""
     rev_per_day = df[["date_paid", "item_total"]].groupby("date_paid")["item_total"].sum()
     data = {
