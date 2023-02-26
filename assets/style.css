@@ -1,0 +1,10 @@
+.header_div {
+    text-align: center; 
+    font-size: 20px
+}
+
+.info_text {
+    text-align: center; 
+    width: 24%; 
+    display: inline-block;
+}

@@ -7,15 +7,19 @@ app = Dash(external_stylesheets=[
 
 app.layout = html.Div(
     id="parent_div", children=[
-        html.Div(id="header_div", children=[
+        html.Div(className="header_div", id="header_div", children=[
             html.H1("E-commerce Dashboard"),
             html.P("Dashboard Info")
-        ], style={"text-align": "center", "font-size": "20px"}),
+        ]),
         html.Div(id="info_div", children=[
-            html.P(f"Orders: {total_orders()}", style={"text-align": "center","width": "24%", "display": "inline-block"}),
-            html.P(f"Items Ordered: {total_items()}", style={"text-align": "center", "width": "24%", "display": "inline-block"}),
-            html.P(f"Revenue: £{total_revenue()}", style={"text-align": "center", "width": "24%", "display": "inline-block"}),
-            html.P(f"Average Revenue: £{average_revenue()}", style={"text-align": "center", "width": "24%", "display": "inline-block"})
+            html.P(className="info_text", children=[
+                f"Orders: {total_orders()}"]),
+            html.P(className="info_text", children=[
+                f"Items Ordered: {total_items()}"]),
+            html.P(className="info_text", children=[
+                f"Revenue: £{total_revenue()}"]),
+            html.P(className="info_text", children=[
+                f"Average Revenue: £{average_revenue()}"])
         ]),
         html.Div(id="top_plot_div", children=[
             html.H1("Top Plot Div")
