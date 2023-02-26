@@ -1,6 +1,3 @@
-# TODO:
-# avg quantity per order
-
 import pandas as pd
 import plotly.express as px
 
@@ -111,5 +108,30 @@ def revenue_delivery_charge(df: pd.DataFrame) -> px.pie:
     }
 
     fig = px.pie(data, values="Revenue", names="Delivery Type")
+
+    return fig
+
+
+def orders_per_day(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the number of orders per day"""
+    num_per_day = df["date_paid"].value_counts().sort_index()
+    data = {
+        "Date": num_per_day.keys(),
+        "Orders": num_per_day.values
+    }
+    fig = px.bar(data, x="Date", y="Orders")
+
+    return fig
+
+
+def revenue_per_day(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the revenue per day"""
+    rev_per_day = df[["date_paid", "item_total"]].groupby("date_paid")["item_total"].sum()
+    data = {
+        "Date": rev_per_day.keys(),
+        "Revenue (£)": rev_per_day.values
+    }
+
+    fig = px.bar(data, x="Date", y="Revenue (£)")
 
     return fig
