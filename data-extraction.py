@@ -1,6 +1,3 @@
-# TODO:
-# avg quantity per order
-
 import pandas as pd
 import plotly.express as px
 
@@ -123,5 +120,18 @@ def orders_per_day(df: pd.DataFrame) -> px.bar:
         "Orders": num_per_day.values
     }
     fig = px.bar(data, x="Date", y="Orders")
+
+    return fig
+
+
+def revenue_per_day(df: pd.DataFrame) -> px.bar:
+    """Bar plot of the revenue per day"""
+    rev_per_day = df[["date_paid", "item_total"]].groupby("date_paid")["item_total"].sum()
+    data = {
+        "Date": rev_per_day.keys(),
+        "Revenue (£)": rev_per_day.values
+    }
+
+    fig = px.bar(data, x="Date", y="Revenue (£)")
 
     return fig
