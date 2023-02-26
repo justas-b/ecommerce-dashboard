@@ -8,3 +8,14 @@
     width: 24%; 
     display: inline-block;
 }
+
+.top_plot_div {
+    text-align: center; 
+    font-size: 20px
+}
+
+.indiv_bottom_graph {
+    text-align: center; 
+    width: 33%; 
+    display: inline-block;
+}
