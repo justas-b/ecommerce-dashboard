@@ -4,22 +4,22 @@ import plotly.express as px
 df = pd.read_csv("cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
 
 
-def total_orders(df: pd.DataFrame) -> int:
+def total_orders() -> int:
     """Extracts the total number of orders"""
     return df.shape[0]
 
 
-def total_items(df: pd.DataFrame) -> int:
+def total_items() -> int:
     """Extracts the total number of items ordered"""
     return df["quantity"].sum()
 
 
-def total_revenue(df: pd.DataFrame) -> float:
+def total_revenue() -> float:
     """Total revenue of all orders"""
     return round(df["item_total"].sum(), 2)
 
 
-def average_revenue(df: pd.DataFrame) -> float:
+def average_revenue() -> float:
     """Average revenue across all orders"""
     return round(df["item_total"].mean(), 2)
 
