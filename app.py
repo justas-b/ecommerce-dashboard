@@ -32,8 +32,14 @@ app.layout = html.Div(
             ]),
         html.Div(id="bottom_plot_div", children=[
             html.Div(className="indiv_bottom_graph", children=[
-                html.H2("Orders per Country"),
-                dcc.Graph(figure=orders_by_country())
+                html.Div(id="country_plot_title"),
+                dcc.Graph(id="country_plot_fig"),
+                dcc.Dropdown(className="dropdown", id="country_callback",
+                options=[
+                    {"label": "Orders", "value": "orders"},
+                    {"label": "Total Revenue", "value": "total"},
+                    {"label": "Average Revenue", "value": "average"}
+                ], value="orders", clearable=False)
                 ]),
             html.Div(className="indiv_bottom_graph", children=[
                 html.H2("Orders per Delivery Type"),
@@ -58,6 +64,23 @@ def update_day_fig(input: str) -> tuple:
         return html.H2(f"Orders {output_title}"), orders_per_day()
     else:
         return html.H2(f"Revenue {output_title}"), revenue_per_day()
+
+
+@app.callback(
+    Output(component_id="country_plot_title", component_property="children"),
+    Output(component_id="country_plot_fig", component_property="figure"),
+    Input(component_id="country_callback", component_property="value")
+)
+def update_country_fig(input: str) -> tuple:
+    """Callback function to update the 'country' title and figure"""
+    output_title = "per Country"
+
+    if input == "orders":
+        return html.H2(f"Orders {output_title}"), orders_by_country()
+    elif input == "total":
+        return html.H2(f"Total Revenue {output_title}"), total_revenue_per_country()
+    else:
+        return html.H2(f"Average Revenue {output_title}"), average_revenue_per_country()
 
 
 if __name__ == "__main__":
