@@ -22,8 +22,8 @@ app.layout = html.Div(
                 f"Average Revenue: £{average_revenue()}"])
         ]),
         html.Div(className="top_plot_div", id="top_plot_div", children=[
-            html.H2("Orders per Day"),
-            dcc.Graph(figure=orders_per_day()),
+            html.Div(id="day_plot_title"),
+            dcc.Graph(id="day_plot_fig"),
             dcc.RadioItems(className="radio_item", id="day_callback", 
             options=[
                 {"label": "Orders", "value": "orders"},
@@ -44,15 +44,21 @@ app.layout = html.Div(
         ])
     ])
 
+
 @app.callback(
-    Output(component_id="top_plot_div", component_property="children"),
+    Output(component_id="day_plot_title", component_property="children"),
+    Output(component_id="day_plot_fig", component_property="figure"),
     Input(component_id="day_callback", component_property="value")
 )
-def update_test(input):
+def update_day_fig(input: str) -> tuple:
+    """Callback function to update the 'days' title and figure"""
+    output_title = "per Day"
+
     if input == "orders":
-        return orders_per_day()
+        return html.H2(f"Orders {output_title}"), orders_per_day()
     else:
-        return revenue_per_day()
+        return html.H2(f"Revenue {output_title}"), revenue_per_day()
+
 
 if __name__ == "__main__":
     app.run_server(debug=True, port=8080)
