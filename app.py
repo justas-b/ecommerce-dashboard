@@ -3,48 +3,56 @@ import dash_bootstrap_components  as dbc
 from data_extraction import *
 
 app = Dash(external_stylesheets=[
-           dbc.themes.ZEPHYR])
+           dbc.themes.LUX])
 
-app.layout = html.Div(
-    id="parent_div", children=[
-        html.Div(className="header_div", id="header_div", children=[
+app.layout = html.Div(id="parent_div", children=[
+        dbc.Row(className="header_div", id="header_div", children=[
             html.H1("E-commerce Dashboard"),
-            html.P("Dashboard Info")
+            html.P("Summary Data")
         ]),
-        html.Div(id="info_div", children=[
-            html.P(className="info_text", children=[
-                f"Orders: {total_orders()}"]),
-            html.P(className="info_text", children=[
-                f"Items Ordered: {total_items()}"]),
-            html.P(className="info_text", children=[
-                f"Revenue: £{total_revenue()}"]),
-            html.P(className="info_text", children=[
-                f"Average Revenue: £{average_revenue()}"])
+
+        dbc.Row(id="info_div", children=[
+            dbc.Col(f"Orders: {total_orders()}", className="info_text"),
+            dbc.Col(f"Items Ordered: {total_items()}", className="info_text"),
+            dbc.Col(f"Revenue: £{total_revenue()}", className="info_text"),
+            dbc.Col(f"Average Revenue: £{average_revenue()}", className="info_text")
         ]),
-        html.Div(className="top_plot_div", id="top_plot_div", children=[
-            html.Div(id="day_plot_title"),
+
+        dbc.Row(className="top_plot_div", id="top_plot_div", children=[
+            dbc.Col(children=[html.Div(id="day_plot_title"),
             dcc.Graph(id="day_plot_fig"),
-            dcc.RadioItems(className="radio_item", id="day_callback", 
+            html.Div(className="small", children=[
+            dbc.RadioItems(className="selector", id="day_callback", 
             options=[
-                {"label": "Orders", "value": "orders"},
-                {"label": "Revenue", "value": "revenue"},
-            ], value="orders")
-            ]),
-        html.Div(id="bottom_plot_div", children=[
-            html.Div(className="indiv_bottom_graph", children=[
+                {"label": " Orders", "value": "orders"},
+                {"label": " Revenue", "value": "revenue"},
+            ], value="orders", inline=True)])
+            ])])
+            ,
+
+        dbc.Row(id="bottom_plot_div", children=[
+            dbc.Col(className="indiv_bottom_graph", children=[
                 html.Div(id="country_plot_title"),
                 dcc.Graph(id="country_plot_fig"),
-                dcc.Dropdown(className="dropdown", id="country_callback",
+                dbc.Select(className="selector", id="country_callback",
                 options=[
                     {"label": "Orders", "value": "orders"},
                     {"label": "Total Revenue", "value": "total"},
                     {"label": "Average Revenue", "value": "average"}
-                ], value="orders", clearable=False)
+                ], value="orders")
                 ]),
-            html.Div(className="indiv_bottom_graph", children=[
-                html.H2("Orders per Delivery Type"),
-                dcc.Graph(figure=order_delivery_charge())]),
-            html.Div(className="indiv_bottom_graph", children=[
+
+            dbc.Col(className="indiv_bottom_graph", children=[
+                html.Div(id="delivery_title"),
+                dcc.Graph(id="delivery_plot"),
+                html.Div(className="small", children=[
+                    dbc.RadioItems(className="selector", id="delivery_callback", 
+                    options=[
+                        {"label": " Orders", "value": "orders"},
+                        {"label": " Revenue", "value": "revenue"}], 
+                    value="orders", inline=True)])]),
+                    
+            dbc.Col(className="indiv_bottom_graph", children=[
                 html.H2("Days to Dispatch"),
                 dcc.Graph(figure=days_to_dispatch())])
         ])
@@ -81,6 +89,21 @@ def update_country_fig(input: str) -> tuple:
         return html.H2(f"Total Revenue {output_title}"), total_revenue_per_country()
     else:
         return html.H2(f"Average Revenue {output_title}"), average_revenue_per_country()
+
+
+@app.callback(
+    Output(component_id="delivery_title", component_property="children"),
+    Output(component_id="delivery_plot", component_property="figure"),
+    Input(component_id="delivery_callback", component_property="value")
+)
+def update_day_fig(input: str) -> tuple:
+    """Callback function to update the 'delivery' title and figure"""
+    output_title = "per Delivery Type"
+
+    if input == "orders":
+        return html.H2(f"Orders {output_title}"), order_delivery_charge()
+    else:
+        return html.H2(f"Revenue {output_title}"), revenue_delivery_charge()
 
 
 if __name__ == "__main__":
