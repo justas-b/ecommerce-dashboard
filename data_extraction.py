@@ -142,3 +142,11 @@ def revenue_per_day() -> px.bar:
     fig = px.bar(data, x="Date", y="Revenue (£)")
 
     return fig
+
+
+def date_range() -> tuple:
+    """Extracts the date range from the data"""
+    start = df["date_paid"].min().date()
+    end = df["date_paid"].max().date()
+
+    return start.strftime("%d/%m/%Y"), end.strftime("%d/%m/%Y")
