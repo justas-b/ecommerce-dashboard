@@ -33,7 +33,6 @@ def orders_by_country() -> px.bar:
     }
 
     fig = px.bar(data, x="Orders", y="Country", text="Orders")
-    fig.update_traces(textposition="outside")
 
     return fig
 
@@ -50,7 +49,6 @@ def total_revenue_per_country() -> px.bar:
 
     fig = px.bar(data, x="Total Revenue (£)",
                  y="Country", text="Total Revenue (£)")
-    fig.update_traces(textposition="outside")
 
     return fig
 
@@ -67,7 +65,6 @@ def average_revenue_per_country() -> px.bar:
 
     fig = px.bar(data, x="Average Revenue (£)",
                  y="Country", text="Average Revenue (£)")
-    fig.update_traces(textposition="outside")
 
     return fig
 
@@ -125,7 +122,8 @@ def orders_per_day() -> px.bar:
         "Date": num_per_day.keys(),
         "Orders": num_per_day.values
     }
-    fig = px.bar(data, x="Date", y="Orders")
+    fig = px.bar(data, x="Date", y="Orders", text="Orders")
+    fig.update_traces(textposition="outside")
 
     return fig
 
@@ -139,7 +137,8 @@ def revenue_per_day() -> px.bar:
         "Revenue (£)": rev_per_day.values
     }
 
-    fig = px.bar(data, x="Date", y="Revenue (£)")
+    fig = px.bar(data, x="Date", y="Revenue (£)", text="Revenue (£)")
+    fig.update_traces(textposition="outside")
 
     return fig
 
