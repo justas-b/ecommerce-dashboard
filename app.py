@@ -42,7 +42,7 @@ app.layout = html.Div(children=[
                             value="orders", inline=True)]
                     ))
                 ])
-            ]),
+            ], justify="center"),
 
             dbc.Row(id="bottom_plot_div", children=[
                 dbc.Col(className="graph_div", children=[
