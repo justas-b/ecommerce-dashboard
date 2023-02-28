@@ -16,6 +16,8 @@
 
 - Download entire <code>ecommerce-dashboard/</code> folder
 - RECOMMENDED: Create a virtual environment to run the application
+	- <code>python3 -m venv venv</code>
+	- <code>source ./venv/bin/activate</code>
 - Install required libraries
 	- <code>pip3 install -r requirements.txt</code>
 - Drop a CSV file into the parent directory (named <code>sold-order-items.csv</code>
