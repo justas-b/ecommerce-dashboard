@@ -2,7 +2,8 @@ import pandas as pd
 from typing import NoReturn
 
 # change to columns you would like to keep
-COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery", "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
+COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery",
+                   "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
 # change to the file name of the dirty CSV file
 FILE_NAME = "sold-order-items.csv"
 
