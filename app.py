@@ -7,10 +7,12 @@ load_figure_template("cerulean")
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 
+START, END = date_range()
+
 app.layout = html.Div(children=[
     dbc.Col(className="header_div", children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
-        dbc.Row(html.P("Summary Data")),
+        dbc.Row(html.P(f"{START} to {END}")),
         dbc.Row(id="info_div", children=[
             dbc.Col(f"Orders: {total_orders()}",
                     className="info_text"),
