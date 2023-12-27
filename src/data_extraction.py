@@ -1,31 +1,51 @@
 import pandas as pd
 import plotly.express as px
 
-df = pd.read_csv("cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
+df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
 
 
 def total_orders() -> int:
-    """Extracts the total number of orders"""
+    """Extracts the total number of orders.
+
+    Returns:
+        int: Number of orders.
+    """
     return df.shape[0]
 
 
 def total_items() -> int:
-    """Extracts the total number of items ordered"""
+    """Extracts the total number of items ordered.
+
+    Returns:
+        int: Number of items ordered.
+    """
     return df["quantity"].sum()
 
 
 def total_revenue() -> float:
-    """Total revenue of all orders"""
+    """Total revenue of all orders.
+
+    Returns:
+        float: Total revenue.
+    """
     return round(df["item_total"].sum(), 2)
 
 
 def average_revenue() -> float:
-    """Average revenue across all orders"""
+    """Average revenue across all orders.
+
+    Returns:
+        float: Average revenue across orders.
+    """
     return round(df["item_total"].mean(), 2)
 
 
 def orders_by_country() -> px.bar:
-    """Bar plot of the distribution of orders per country"""
+    """Bar plot of the distribution of orders per country.
+
+    Returns:
+        px.bar: Bar plot of orders per country.
+    """
     country_count = df["delivery_country"].value_counts()
     data = {
         "Country": reversed(country_count.keys()),
@@ -38,7 +58,11 @@ def orders_by_country() -> px.bar:
 
 
 def total_revenue_per_country() -> px.bar:
-    """Bar plot of the total revenue per country"""
+    """Bar plot of the total revenue per country.
+
+    Returns:
+        px.bar: Bar plot of revenue per country.
+    """
     country_revenue = df[["delivery_country", "item_total"]]
     country_revenue = country_revenue.groupby("delivery_country")[
         "item_total"].sum().sort_values()
@@ -54,7 +78,11 @@ def total_revenue_per_country() -> px.bar:
 
 
 def average_revenue_per_country() -> px.bar:
-    """Bar plot of the average revenue per country"""
+    """Bar plot of the average revenue per country.
+
+    Returns:
+        px.bar: Bar plot of average revenue per country.
+    """
     avg_country_revenue = df[["delivery_country", "item_total"]]
     avg_country_revenue = avg_country_revenue.groupby(
         "delivery_country")["item_total"].mean().sort_values()
@@ -70,7 +98,11 @@ def average_revenue_per_country() -> px.bar:
 
 
 def days_to_dispatch() -> px.bar:
-    """Bar plot of the distribution of the days taken to dispatch orders"""
+    """Bar plot of the distribution of the days taken to dispatch orders.
+
+    Returns:
+        px.bar: Distribution of days taken to dispatch.
+    """
     time_to_dispatch = df["days_to_dispatch"].value_counts().sort_index()
     data = {
         "Days to Dispatch": time_to_dispatch.keys(),
@@ -84,7 +116,10 @@ def days_to_dispatch() -> px.bar:
 
 
 def order_delivery_charge() -> px.pie:
-    """Pie chart of the total number of orders across free and paid deliveries
+    """Pie chart of the total number of orders across free and paid deliveries.
+
+    Returns:
+        px.pie: Orders across paid and free deliveries.
     """
     orders_per_delivery = df["order_delivery"].apply(
         lambda x: "Paid" if x else "Free").value_counts()
@@ -99,7 +134,11 @@ def order_delivery_charge() -> px.pie:
 
 
 def revenue_delivery_charge() -> px.pie:
-    """Pie chart of the total revenue across free and paid deliveries"""
+    """Pie chart of the total revenue across free and paid deliveries.
+
+    Returns:
+        px.pie: Revenue across paid and free deliveries.
+    """
     revenue_per_delivery = df[["order_delivery", "item_total"]]
     revenue_per_delivery["order_delivery"] = revenue_per_delivery["order_delivery"].apply(
         lambda x: "Paid" if x else "Free")
@@ -116,7 +155,11 @@ def revenue_delivery_charge() -> px.pie:
 
 
 def orders_per_day() -> px.bar:
-    """Bar plot of the number of orders per day"""
+    """Bar plot of the number of orders per day.
+
+    Returns:
+        px.bar: Bar plot of the number of orders per day.
+    """
     num_per_day = df["date_paid"].value_counts().sort_index()
     data = {
         "Date": num_per_day.keys(),
@@ -129,7 +172,11 @@ def orders_per_day() -> px.bar:
 
 
 def revenue_per_day() -> px.bar:
-    """Bar plot of the revenue per day"""
+    """Bar plot of the revenue per day.
+
+    Returns:
+        px.bar: Bar plot of the revenue per day.
+    """
     rev_per_day = df[["date_paid", "item_total"]].groupby("date_paid")[
         "item_total"].sum()
     data = {
@@ -144,7 +191,11 @@ def revenue_per_day() -> px.bar:
 
 
 def date_range() -> tuple:
-    """Extracts the date range from the data"""
+    """Extracts the date range from the data.
+
+    Returns:
+        tuple: Start and end dates of the data, in the format of dd/mm/yyyy.
+    """
     start = df["date_paid"].min().date()
     end = df["date_paid"].max().date()
 
