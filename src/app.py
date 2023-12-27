@@ -81,12 +81,19 @@ app.layout = html.Div(children=[
     Input(component_id="day_callback", component_property="value")
 )
 def update_day_fig(input: str) -> tuple:
-    """Callback function to update the 'days' title and figure"""
+    """Callback function to update the 'days' title and figure.
+
+    Args:
+        input (str): Input from RadioItems where the input is 'orders' or 'revenue'.
+
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
     output_title = "per Day"
 
     if input == "orders":
         return html.H2(f"Orders {output_title}"), orders_per_day()
-    else:
+    elif input == "revenue":
         return html.H2(f"Revenue {output_title}"), revenue_per_day()
 
 
@@ -96,14 +103,21 @@ def update_day_fig(input: str) -> tuple:
     Input(component_id="country_callback", component_property="value")
 )
 def update_country_fig(input: str) -> tuple:
-    """Callback function to update the 'country' title and figure"""
+    """Callback function to update the 'country' title and figure.
+
+    Args:
+        input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
+
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
     output_title = "per Country"
 
     if input == "orders":
         return html.H2(f"Orders {output_title}"), orders_by_country()
     elif input == "total":
         return html.H2(f"Total Revenue {output_title}"), total_revenue_per_country()
-    else:
+    elif input == "average":
         return html.H2(f"Average Revenue {output_title}"), average_revenue_per_country()
 
 
@@ -112,8 +126,15 @@ def update_country_fig(input: str) -> tuple:
     Output(component_id="delivery_plot", component_property="figure"),
     Input(component_id="delivery_callback", component_property="value")
 )
-def update_day_fig(input: str) -> tuple:
-    """Callback function to update the 'delivery' title and figure"""
+def update_delivery_fig(input: str) -> tuple:
+    """Callback function to update the 'delivery' title and figure.
+
+    Args:
+        input (str): Input from a RadioItems widget where the inputs can be 'orders' or 'revenue'.
+
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
     output_title = "per Delivery Type"
 
     if input == "orders":
