@@ -1,7 +1,7 @@
 import pandas as pd
 import plotly.express as px
 
-df = pd.read_csv("cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
+df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
 
 
 def total_orders() -> int:
