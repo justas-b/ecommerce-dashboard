@@ -1,7 +1,7 @@
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
-from data_extraction import *
+from src.data_extraction import *
 
 load_figure_template("cerulean")
 

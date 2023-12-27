@@ -5,7 +5,7 @@ from typing import NoReturn
 COLUMNS_TO_KEEP = ["item_name", "quantity", "price", "discount_amount", "order_delivery",
                    "item_total", "date_paid", "date_posted", "delivery_zipcode", "delivery_country"]
 # change to the file name of the dirty CSV file
-FILE_NAME = "sold-order-items.csv"
+FILE_NAME = "EtsySoldOrderItems2022.csv"
 
 df = pd.read_csv(FILE_NAME, parse_dates=["Date Paid", "Date Posted"])
 
