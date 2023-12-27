@@ -2,32 +2,34 @@ import sys
 
 sys.path.append("./")
 
+import pandas as pd
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
-from src import data_extraction
+from src.extractor import DataExtractor
 
 
 load_figure_template("cerulean")
-
+df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
+extractor = DataExtractor(df)
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 
-START, END = data_extraction.date_range()
+START, END = extractor.date_range()
 
 app.layout = html.Div(children=[
     dbc.Col(className="header_div", children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
         dbc.Row(html.P(f"{START} to {END}")),
         dbc.Row(id="info_div", children=[
-            dbc.Col(f"Orders: {data_extraction.total_orders()}",
+            dbc.Col(f"Orders: {extractor.total_orders()}",
                     className="info_text"),
-            dbc.Col(f"Items Ordered: {data_extraction.total_items()}",
+            dbc.Col(f"Items Ordered: {extractor.total_items()}",
                     className="info_text"),
-            dbc.Col(f"Revenue: £{data_extraction.total_revenue()}",
+            dbc.Col(f"Revenue: £{extractor.total_revenue()}",
                     className="info_text"),
             dbc.Col(
-                f"Average Revenue: £{data_extraction.average_revenue()}", className="info_text")
+                f"Average Revenue: £{extractor.average_revenue()}", className="info_text")
         ]),
     ]),
 
@@ -74,7 +76,7 @@ app.layout = html.Div(children=[
 
                 dbc.Col(className="graph_div", children=[
                     html.H2("Days to Dispatch"),
-                    dcc.Graph(figure=data_extraction.days_to_dispatch())])
+                    dcc.Graph(figure=extractor.days_to_dispatch())])
             ])
         ])
     )
@@ -98,9 +100,9 @@ def update_day_fig(input: str) -> tuple:
     output_title = "per Day"
 
     if input == "orders":
-        return html.H2(f"Orders {output_title}"), data_extraction.orders_per_day()
+        return html.H2(f"Orders {output_title}"), extractor.orders_per_day()
     elif input == "revenue":
-        return html.H2(f"Revenue {output_title}"), data_extraction.revenue_per_day()
+        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day()
 
 
 @app.callback(
@@ -120,11 +122,11 @@ def update_country_fig(input: str) -> tuple:
     output_title = "per Country"
 
     if input == "orders":
-        return html.H2(f"Orders {output_title}"), data_extraction.orders_by_country()
+        return html.H2(f"Orders {output_title}"), extractor.orders_by_country()
     elif input == "total":
-        return html.H2(f"Total Revenue {output_title}"), data_extraction.total_revenue_per_country()
+        return html.H2(f"Total Revenue {output_title}"), extractor.total_revenue_per_country()
     elif input == "average":
-        return html.H2(f"Average Revenue {output_title}"), data_extraction.average_revenue_per_country()
+        return html.H2(f"Average Revenue {output_title}"), extractor.average_revenue_per_country()
 
 
 @app.callback(
@@ -144,9 +146,9 @@ def update_delivery_fig(input: str) -> tuple:
     output_title = "per Delivery Type"
 
     if input == "orders":
-        return html.H2(f"Orders {output_title}"), data_extraction.order_delivery_charge()
+        return html.H2(f"Orders {output_title}"), extractor.order_delivery_charge()
     else:
-        return html.H2(f"Revenue {output_title}"), data_extraction.revenue_delivery_charge()
+        return html.H2(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":
