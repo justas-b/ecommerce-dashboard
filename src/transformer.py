@@ -1,5 +1,6 @@
 import os
 import json
+import glob
 import logging
 
 import pandas as pd
@@ -45,8 +46,10 @@ class DataTransformer():
                     df = pd.read_excel(f"src/data/{filename}.xlsx")
                 except Exception as e:
                     logging.error(f"File {filename} is not .csv or .xlsx format, or does not exist. Error: {e}")
-
-        # return df
+        else:
+            files = glob.glob("src/data/*.xlsx") + glob.glob("src/data/*.csv")
+            latest_file = max(files, key=os.path.getctime)
+        return latest_file
 
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
