@@ -36,10 +36,12 @@ class DataTransformer():
         # can have a filename input and then load a csv or excel file
         # no input and load the most recent file eithe csv or excel
         filename = json.load(open("config.json"))["FILENAME"]
-        try:
-            df = pd.read_csv(f"src/data/{filename}.csv")
-        except:
-            df = pd.read_excel(f"src/data/{filename}.xlsx")
+        if filename is not None:
+            try:
+                df = pd.read_csv(f"src/data/{filename}.csv")
+            except:
+                df = pd.read_excel(f"src/data/{filename}.xlsx")
+
         return df
 
     @staticmethod
