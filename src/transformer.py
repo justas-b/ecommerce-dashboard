@@ -49,7 +49,10 @@ class DataTransformer():
         else:
             files = glob.glob("src/data/*.xlsx") + glob.glob("src/data/*.csv")
             latest_file = max(files, key=os.path.getctime)
-        return latest_file
+            file_type = latest_file.split(".")[-1]
+            df = pd.read_excel(latest_file) if file_type == "xlsx" else pd.read_csv(latest_file)
+            
+        return df
 
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
