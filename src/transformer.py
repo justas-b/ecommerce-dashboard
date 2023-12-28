@@ -1,3 +1,6 @@
+import os
+import json
+
 import pandas as pd
 
 # TODO:
@@ -6,9 +9,11 @@ import pandas as pd
 # str - load the file of the specific filename
 
 class DataTransformer():
-    def __init__(self, filename: str) -> None:
+    """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. 
+    """
+    def __init__(self) -> None:
         self.df = self.load_file()
-        
+
     def clean_column_names(self) -> None:
         """Cleans the column names of the dataframe.
         """
@@ -27,8 +32,15 @@ class DataTransformer():
         self.time_to_dispatch()
 
     @staticmethod
-    def load_file(filename: str) -> pd.DataFrame:
-        pass
+    def load_file() -> pd.DataFrame:
+        # can have a filename input and then load a csv or excel file
+        # no input and load the most recent file eithe csv or excel
+        filename = json.load(open("config.json"))["FILENAME"]
+        try:
+            df = pd.read_csv(f"src/data/{filename}.csv")
+        except:
+            df = pd.read_excel(f"src/data/{filename}.xlsx")
+        return df
 
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
@@ -39,3 +51,8 @@ class DataTransformer():
             filename (str): Filename to save the df as.
         """
         df.to_csv(f"src/data/{filename}.csv", index=False)
+
+
+if __name__ == "__main__":
+    transformer = DataTransformer()
+    print(transformer.df)
