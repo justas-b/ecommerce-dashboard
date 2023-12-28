@@ -7,12 +7,17 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
+from src.transformer import DataTransformer
 from src.extractor import DataExtractor
 
 
+original_df = pd.read_csv("src/data/EtsySoldOrderItems2022.csv")
+transformer = DataTransformer(original_df)
+transformer.apply_transformations()
+transformed_df = transformer.df
+extractor = DataExtractor(transformed_df)
+
 load_figure_template("cerulean")
-df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
-extractor = DataExtractor(df)
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 
 START, END = extractor.date_range()

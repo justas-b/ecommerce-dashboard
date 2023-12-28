@@ -1,5 +1,9 @@
 import pandas as pd
 
+# TODO:
+# have several ways of loading the data initially
+# None - loads most recent excel/csv file from src/data/
+# str - load the file of the specific filename
 
 class DataTransformer():
     def __init__(self, df: pd.DataFrame) -> None:
