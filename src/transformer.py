@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 import pandas as pd
 
@@ -40,9 +41,12 @@ class DataTransformer():
             try:
                 df = pd.read_csv(f"src/data/{filename}.csv")
             except:
-                df = pd.read_excel(f"src/data/{filename}.xlsx")
+                try:
+                    df = pd.read_excel(f"src/data/{filename}.xlsx")
+                except Exception as e:
+                    logging.error(f"File {filename} is not .csv or .xlsx format, or does not exist. Error: {e}")
 
-        return df
+        # return df
 
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
