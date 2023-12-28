@@ -6,9 +6,9 @@ import pandas as pd
 # str - load the file of the specific filename
 
 class DataTransformer():
-    def __init__(self, df: pd.DataFrame) -> None:
-        self.df = df.copy()
-
+    def __init__(self, filename: str) -> None:
+        self.df = self.load_file()
+        
     def clean_column_names(self) -> None:
         """Cleans the column names of the dataframe.
         """
@@ -25,6 +25,10 @@ class DataTransformer():
         """
         self.clean_column_names()
         self.time_to_dispatch()
+
+    @staticmethod
+    def load_file(filename: str) -> pd.DataFrame:
+        pass
 
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
