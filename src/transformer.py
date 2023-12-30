@@ -5,10 +5,6 @@ import logging
 
 import pandas as pd
 
-# TODO:
-# have several ways of loading the data initially
-# None - loads most recent excel/csv file from src/data/
-# str - load the file of the specific filename
 
 class DataTransformer():
     """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. 
@@ -72,8 +68,3 @@ class DataTransformer():
             filename (str): Filename to save the df as.
         """
         df.to_csv(f"src/data/{filename}.csv", index=False)
-
-
-if __name__ == "__main__":
-    transformer = DataTransformer()
-    print(transformer.df)
