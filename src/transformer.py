@@ -35,6 +35,11 @@ class DataTransformer():
 
     @staticmethod
     def load_file() -> pd.DataFrame:
+        """Loads the data using the filename from the config.json file (.csv or .xlsx format), or loads the most recent data file from src/data/.
+
+        Returns:
+            pd.DataFrame: Data in the form of a pandas dataframe.
+        """
         filename = json.load(open("config.json"))["FILENAME"]
         if filename is not None:
             try:
@@ -48,12 +53,12 @@ class DataTransformer():
             files = glob.glob("src/data/*.xlsx") + glob.glob("src/data/*.csv")
 
             if len(files) == 0:
-                logging.error("No data files found in src/data/")
+                logging.error("File is not .csv or .xlsx format, or does not exist in src/data/.")
                 exit()
 
             latest_file = max(files, key=os.path.getctime)
             file_type = latest_file.split(".")[-1]
-            
+
             df = pd.read_excel(latest_file) if file_type == "xlsx" else pd.read_csv(latest_file)
 
         return df
