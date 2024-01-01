@@ -2,17 +2,18 @@ import sys
 
 sys.path.append("./")
 
-import pandas as pd
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
+from src.transformer import DataTransformer
 from src.extractor import DataExtractor
 
+transformer = DataTransformer()
+transformer.apply_transformations()
+extractor = DataExtractor(transformer.df)
 
 load_figure_template("cerulean")
-df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])
-extractor = DataExtractor(df)
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 
 START, END = extractor.date_range()

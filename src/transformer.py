@@ -1,9 +1,16 @@
+import os
+import json
+import glob
+import logging
+
 import pandas as pd
 
 
 class DataTransformer():
-    def __init__(self, df: pd.DataFrame) -> None:
-        self.df = df
+    """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. 
+    """
+    def __init__(self) -> None:
+        self.df = self.load_file()
 
     def clean_column_names(self) -> None:
         """Cleans the column names of the dataframe.
@@ -16,6 +23,45 @@ class DataTransformer():
         """
         self.df["days_to_dispatch"] = (self.df["date_posted"] - self.df["date_paid"]).dt.days
     
+    def apply_transformations(self) -> None:
+        """Applies all transformation methods to the instantiated dataframe.
+        """
+        self.clean_column_names()
+        self.time_to_dispatch()
+
+    @staticmethod
+    def load_file() -> pd.DataFrame:
+        """Loads the data using the filename from the config.json file (.csv or .xlsx format), or loads the most recent data file from src/data/.
+
+        Returns:
+            pd.DataFrame: Data in the form of a pandas dataframe.
+        """
+        filename = json.load(open("config.json"))["FILENAME"]
+        if filename is not None:
+            try:
+                df = pd.read_csv(f"src/data/{filename}.csv")
+            except:
+                try:
+                    df = pd.read_excel(f"src/data/{filename}.xlsx")
+                except Exception as e:
+                    logging.error(f"File {filename} is not .csv or .xlsx format, or does not exist. Error: {e}")
+        else:
+            files = glob.glob("src/data/*.xlsx") + glob.glob("src/data/*.csv")
+
+            if len(files) == 0:
+                logging.error("File is not .csv or .xlsx format, or does not exist in src/data/.")
+                exit()
+
+            latest_file = max(files, key=os.path.getctime)
+            file_type = latest_file.split(".")[-1]
+
+            df = pd.read_excel(latest_file) if file_type == "xlsx" else pd.read_csv(latest_file)
+
+        date_columns = list(filter(lambda x: "date" in x.lower(), df.columns))
+        df[date_columns] = df[date_columns].apply(pd.to_datetime)
+
+        return df
+
     @staticmethod
     def save_csv(df: pd.DataFrame, filename: str) -> None:
         """Saves the cleaned dataframe to a CSV.
@@ -25,14 +71,3 @@ class DataTransformer():
             filename (str): Filename to save the df as.
         """
         df.to_csv(f"src/data/{filename}.csv", index=False)
-
-
-if __name__ == "__main__":
-    # change to the file name of the dirty CSV file
-    FILE_NAME = "EtsySoldOrderItems2022.csv"
-    df = pd.read_csv(f"src/data/{FILE_NAME}", parse_dates=["Date Paid", "Date Posted"])
-
-    transformer = DataTransformer(df)
-    transformer.clean_column_names()
-    transformer.time_to_dispatch()
-    transformer.save_csv(transformer.df, "cleaned-data")
