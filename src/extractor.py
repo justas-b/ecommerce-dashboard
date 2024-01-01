@@ -3,6 +3,11 @@ import plotly.express as px
 
 
 class DataExtractor():
+    """Class that is able to extract various types of data from the input dataframe.
+
+    Args:
+        df (pd.DataFrame): Dataframe to extract data from.
+    """
     def __init__(self, df: pd.DataFrame) -> None:
         self.df = df
 
@@ -190,7 +195,3 @@ class DataExtractor():
         end = self.df["date_paid"].max().date()
 
         return start.strftime("%d/%m/%Y"), end.strftime("%d/%m/%Y")
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("src/data/cleaned-data.csv", parse_dates=["date_paid", "date_posted"])

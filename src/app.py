@@ -2,7 +2,6 @@ import sys
 
 sys.path.append("./")
 
-import pandas as pd
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
@@ -10,12 +9,9 @@ from dash_bootstrap_templates import load_figure_template
 from src.transformer import DataTransformer
 from src.extractor import DataExtractor
 
-
-original_df = pd.read_csv("src/data/EtsySoldOrderItems2022.csv")
-transformer = DataTransformer(original_df)
+transformer = DataTransformer()
 transformer.apply_transformations()
-transformed_df = transformer.df
-extractor = DataExtractor(transformed_df)
+extractor = DataExtractor(transformer.df)
 
 load_figure_template("cerulean")
 app = Dash(external_stylesheets=[dbc.themes.LUX])
