@@ -57,6 +57,9 @@ class DataTransformer():
 
             df = pd.read_excel(latest_file) if file_type == "xlsx" else pd.read_csv(latest_file)
 
+        date_columns = list(filter(lambda x: "date" in x.lower(), df.columns))
+        df[date_columns] = df[date_columns].apply(pd.to_datetime)
+
         return df
 
     @staticmethod
