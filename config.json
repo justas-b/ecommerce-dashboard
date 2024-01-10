@@ -1,3 +1,10 @@
 {
-    "FILENAME": null
+    "FILENAME": null,
+    "SALE_DATE": null,
+    "QUANTITY": null,
+    "PRICE": null,
+    "PAID_DATE": null,
+    "POSTED_DATE": null,
+    "COUNTRY": null,
+    "DELIVERY_COST": null
 }
