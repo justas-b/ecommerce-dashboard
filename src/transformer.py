@@ -10,33 +10,33 @@ class DataTransformer():
     """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. 
     """
     def __init__(self) -> None:
+        self.config = json.load(open("config.json"))
         self.df = self.load_file()
 
-    def clean_column_names(self) -> None:
-        """Cleans the column names of the dataframe.
+    def limit_columns(self) -> None:
+        """Limits the columns only to columns that are used.
         """
-        cleaned_columns = [col.replace(" ", "_").lower() for col in self.df.columns]
-        self.df.columns = cleaned_columns
+        columns = list(self.config.values())[1:]
+        self.df = self.df[columns]
         
     def time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        self.df["days_to_dispatch"] = (self.df["date_posted"] - self.df["date_paid"]).dt.days
+        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["PAID_DATE"]]).dt.days
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.
         """
-        self.clean_column_names()
+        self.limit_columns()
         self.time_to_dispatch()
 
-    @staticmethod
-    def load_file() -> pd.DataFrame:
+    def load_file(self) -> pd.DataFrame:
         """Loads the data using the filename from the config.json file (.csv or .xlsx format), or loads the most recent data file from src/data/.
 
         Returns:
             pd.DataFrame: Data in the form of a pandas dataframe.
         """
-        filename = json.load(open("config.json"))["FILENAME"]
+        filename = self.config["FILENAME"]
         if filename is not None:
             try:
                 df = pd.read_csv(f"src/data/{filename}.csv")
