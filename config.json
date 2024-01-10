@@ -1,10 +1,10 @@
 {
-    "FILENAME": "EtsySoldOrderItems2022",
-    "SALE_DATE": "Sale Date",
-    "QUANTITY": "Quantity",
-    "PRICE": "Price",
-    "PAID_DATE": "Date Paid",
-    "POSTED_DATE": "Date Posted",
-    "COUNTRY": "Delivery Country",
-    "DELIVERY_COST": "Order Delivery"
+    "FILENAME": null,
+    "SALE_DATE": null,
+    "QUANTITY": null,
+    "PRICE": null,
+    "PAID_DATE": null,
+    "POSTED_DATE": null,
+    "COUNTRY": null,
+    "DELIVERY_COST": null
 }
