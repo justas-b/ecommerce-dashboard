@@ -12,6 +12,12 @@ class DataExtractor():
     """
     def __init__(self, df: pd.DataFrame) -> None:
         self.config = json.load(open("config.json"))
+        self.quantity = self.config["QUANTITY"]
+        self.price = self.config["PRICE"]
+        self.paid_date = self.config["PAID_DATE"]
+        self.country = self.config["COUNTRY"]
+        self.delivery_cost = self.config["DELIVERY_COST"]
+
         self.df = df
 
     def total_orders(self) -> int:
@@ -28,7 +34,7 @@ class DataExtractor():
         Returns:
             int: Number of items ordered.
         """
-        return self.df[self.config["QUANTITY"]].sum()
+        return self.df[self.quantity].sum()
 
     def total_revenue(self) -> float:
         """Total revenue of all orders.
@@ -36,7 +42,7 @@ class DataExtractor():
         Returns:
             float: Total revenue.
         """
-        return round(self.df[self.config["PRICE"]].sum(), 2)
+        return round(self.df[self.price].sum(), 2)
 
     def average_revenue(self) -> float:
         """Average revenue across all orders.
@@ -44,7 +50,7 @@ class DataExtractor():
         Returns:
             float: Average revenue across orders.
         """
-        return round(self.df[self.config["PRICE"]].mean(), 2)
+        return round(self.df[self.price].mean(), 2)
 
     def orders_by_country(self) -> px.bar:
         """Bar plot of the distribution of orders per country.
@@ -52,7 +58,7 @@ class DataExtractor():
         Returns:
             px.bar: Bar plot of orders per country.
         """
-        country_count = self.df[self.config["COUNTRY"]].value_counts()
+        country_count = self.df[self.country].value_counts()
         data = {
             "Country": reversed(country_count.keys()),
             "Orders": reversed(country_count.values)
@@ -68,9 +74,9 @@ class DataExtractor():
         Returns:
             px.bar: Bar plot of revenue per country.
         """
-        country_revenue = self.df[["delivery_country", "item_total"]]
-        country_revenue = country_revenue.groupby("delivery_country")[
-            "item_total"].sum().sort_values()
+        country_revenue = self.df[[self.country, self.price]]
+        country_revenue = country_revenue.groupby(self.country)[
+            self.price].sum().sort_values()
         data = {
             "Country": country_revenue.keys(),
             "Total Revenue (£)": country_revenue.values
@@ -87,9 +93,9 @@ class DataExtractor():
         Returns:
             px.bar: Bar plot of average revenue per country.
         """
-        avg_country_revenue = self.df[[self.config["COUNTRY"], self.config["PRICE"]]]
+        avg_country_revenue = self.df[[self.country, self.price]]
         avg_country_revenue = avg_country_revenue.groupby(
-            self.config["COUNTRY"])[self.config["PRICE"]].mean().sort_values()
+            self.country)[self.price].mean().sort_values()
         data = {
             "Country": avg_country_revenue.keys(),
             "Average Revenue (£)": [round(val, 2) for val in avg_country_revenue.values]
@@ -123,7 +129,7 @@ class DataExtractor():
         Returns:
             px.pie: Orders across paid and free deliveries.
         """
-        orders_per_delivery = self.df[self.config["DELIVERY_COST"]].apply(
+        orders_per_delivery = self.df[self.delivery_cost].apply(
             lambda x: "Paid" if x else "Free").value_counts()
         data = {
             "Delivery Type": orders_per_delivery.keys(),
@@ -140,10 +146,10 @@ class DataExtractor():
         Returns:
             px.pie: Revenue across paid and free deliveries.
         """
-        revenue_per_delivery = self.df[[self.config["DELIVERY_COST"], self.config["PRICE"]]]
-        revenue_per_delivery[self.config["DELIVERY_COST"]] = revenue_per_delivery[self.config["DELIVERY_COST"]].apply(
+        revenue_per_delivery = self.df[[self.delivery_cost, self.price]]
+        revenue_per_delivery[self.delivery_cost] = revenue_per_delivery[self.delivery_cost].apply(
             lambda x: "Paid" if x else "Free")
-        revenue_per_delivery = revenue_per_delivery.groupby(self.config["DELIVERY_COST"])[self.config["PRICE"]].sum()
+        revenue_per_delivery = revenue_per_delivery.groupby(self.delivery_cost)[self.price].sum()
         data = {
             "Delivery Type": revenue_per_delivery.keys(),
             "Revenue": revenue_per_delivery.values
@@ -159,7 +165,7 @@ class DataExtractor():
         Returns:
             px.bar: Bar plot of the number of orders per day.
         """
-        num_per_day = self.df[self.config["PAID_DATE"]].value_counts().sort_index()
+        num_per_day = self.df[self.paid_date].value_counts().sort_index()
         data = {
             "Date": num_per_day.keys(),
             "Orders": num_per_day.values
@@ -175,7 +181,7 @@ class DataExtractor():
         Returns:
             px.bar: Bar plot of the revenue per day.
         """
-        rev_per_day = self.df[[self.config["PAID_DATE"], self.config["PRICE"]]].groupby(self.config["PAID_DATE"])[self.config["PRICE"]].sum()
+        rev_per_day = self.df[[self.paid_date, self.price]].groupby(self.paid_date)[self.price].sum()
         data = {
             "Date": rev_per_day.keys(),
             "Revenue (£)": rev_per_day.values
@@ -192,7 +198,7 @@ class DataExtractor():
         Returns:
             tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
-        start = self.df[self.config["PAID_DATE"]].min().date()
-        end = self.df[self.config["PAID_DATE"]].max().date()
+        start = self.df[self.paid_date].min().date()
+        end = self.df[self.paid_date].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
