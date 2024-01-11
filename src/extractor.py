@@ -225,10 +225,13 @@ class DataExtractor():
 
         return weeks
 
+    def number_of_months(self) -> int:
+        """Gets the number of months that the data covers.
 
-if __name__ == "__main__":
-    from transformer import DataTransformer
-    tran = DataTransformer()
-    df = tran.df
-    ex = DataExtractor(df)
-    print(ex.number_of_weeks())
+        Returns:
+            int: The number of months that the data covers.
+        """
+        days = self.number_of_days()
+        months = math.ceil(days / (365/12))
+
+        return months
