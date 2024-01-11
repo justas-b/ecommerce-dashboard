@@ -1,4 +1,5 @@
 import json
+import math
 
 import pandas as pd
 import plotly.express as px
@@ -168,12 +169,7 @@ class DataExtractor():
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        num_per_day = self.df[self.paid_date].value_counts().sort_index()
-        data = {
-            "Date": num_per_day.keys(),
-            "Orders": num_per_day.values
-        }
-        fig = px.histogram(self.df, x=self.paid_date, nbins=bins)
+        fig = px.histogram(self.df, x=self.paid_date, nbins=bins*50)
         fig.update_traces(textposition="outside")
 
         return fig
@@ -205,3 +201,23 @@ class DataExtractor():
         end = self.df[self.paid_date].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
+    
+    def number_of_days(self) -> int:
+        """Gets the number of days that the data covers.
+
+        Returns:
+            int: The number of days that the data covers.
+        """
+        start = self.df[self.paid_date].min().date()
+        end = self.df[self.paid_date].max().date()
+        days = math.ceil((end - start).days)
+
+        return days
+
+
+if __name__ == "__main__":
+    from transformer import DataTransformer
+    tran = DataTransformer()
+    df = tran.df
+    ex = DataExtractor(df)
+    print(ex.number_of_days())
