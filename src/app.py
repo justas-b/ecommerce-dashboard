@@ -19,16 +19,16 @@ app = Dash(external_stylesheets=[dbc.themes.LUX])
 START, END = extractor.date_range()
 
 app.layout = html.Div(children=[
-    dbc.Col(className="header_div", children=[
+    dbc.Col(class_name="header_div", children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
         dbc.Row(html.P(f"{START} to {END}")),
         dbc.Row(id="info_div", children=[
             dbc.Col(f"Orders: {extractor.total_orders()}",
-                    className="info_text"),
+                    class_name="info_text"),
             dbc.Col(f"Items Ordered: {extractor.total_items()}",
-                    className="info_text"),
+                    class_name="info_text"),
             dbc.Col(f"Revenue: £{extractor.total_revenue()}",
-                    className="info_text"),
+                    class_name="info_text"),
             dbc.Col(
                 f"Average Revenue: £{extractor.average_revenue()}", className="info_text")
         ]),
@@ -37,45 +37,46 @@ app.layout = html.Div(children=[
     dbc.Card(
         dbc.CardBody([
             dbc.Row(id="top_plot_div", children=[
-                dbc.Col(className="graph_div", children=[
+                dbc.Col(class_name="graph_div", children=[
                     dbc.Row(html.Div(id="day_plot_title")),
-                    dbc.Row(dcc.Graph(id="day_plot_fig")),
                     dbc.Row(html.Div(className="small", children=[
-                        dbc.RadioItems(className="selector", id="day_callback",
+                        dbc.RadioItems(class_name="selector", id="day_callback",
                             options=[
                                 {"label": " Orders",
                                  "value": "orders"},
                                 {"label": " Revenue",
                                  "value": "revenue"},
                             ],
-                            value="orders", inline=True)]
-                    ))
+                        value="orders", inline=True)]
+                    )),    
+                    dbc.Row(dcc.Graph(id="day_plot_fig")),
+                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
                 ])
             ], justify="center"),
 
             dbc.Row(id="bottom_plot_div", children=[
-                dbc.Col(className="graph_div", children=[
+                dbc.Col(class_name="graph_div", children=[
                     html.Div(id="country_plot_title"),
                     dcc.Graph(id="country_plot_fig"),
-                    dbc.Select(className="selector", id="country_callback",
-                               options=[
-                                   {"label": "Orders", "value": "orders"},
-                                   {"label": "Total Revenue", "value": "total"},
-                                   {"label": "Average Revenue", "value": "average"}
-                               ], value="orders")
+                    dbc.Select(class_name="selector", id="country_callback",
+                        options=[
+                            {"label": "Orders", "value": "orders"},
+                            {"label": "Total Revenue", "value": "total"},
+                            {"label": "Average Revenue", "value": "average"}
+                        ], value="orders")
                 ]),
 
-                dbc.Col(className="graph_div", children=[
+                dbc.Col(class_name="graph_div", children=[
                     html.Div(id="delivery_title"),
                     dcc.Graph(id="delivery_plot"),
                     html.Div(className="small", children=[
-                        dbc.RadioItems(className="selector", id="delivery_callback",
+                        dbc.RadioItems(class_name="selector", id="delivery_callback",
                                        options=[
                                            {"label": " Orders", "value": "orders"},
                                            {"label": " Revenue", "value": "revenue"}],
                                        value="orders", inline=True)])]),
 
-                dbc.Col(className="graph_div", children=[
+                dbc.Col(class_name="graph_div", children=[
                     html.H2("Days to Dispatch"),
                     dcc.Graph(figure=extractor.days_to_dispatch())])
             ])
@@ -87,9 +88,10 @@ app.layout = html.Div(children=[
 @app.callback(
     Output(component_id="day_plot_title", component_property="children"),
     Output(component_id="day_plot_fig", component_property="figure"),
-    Input(component_id="day_callback", component_property="value")
+    Input(component_id="day_callback", component_property="value"),
+    Input(component_id="granularity_slider", component_property="value"),
 )
-def update_day_fig(input: str) -> tuple:
+def update_day_fig(day_input: str, granularity_input: int) -> tuple:
     """Callback function to update the 'days' title and figure.
 
     Args:
@@ -100,10 +102,17 @@ def update_day_fig(input: str) -> tuple:
     """
     output_title = "per Day"
 
-    if input == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.orders_per_day()
-    elif input == "revenue":
-        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day()
+    if granularity_input == 1:
+        nbins = extractor.number_of_days()
+    elif granularity_input == 2:
+        nbins = extractor.number_of_weeks()
+    else:
+        nbins = extractor.number_of_months()
+ 
+    if day_input == "orders":
+        return html.H2(f"Orders {output_title}"), extractor.orders_per_day(bins=nbins)
+    elif day_input == "revenue":
+        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(

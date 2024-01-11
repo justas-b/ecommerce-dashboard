@@ -1,4 +1,5 @@
 import json
+import math
 
 import pandas as pd
 import plotly.express as px
@@ -159,35 +160,30 @@ class DataExtractor():
 
         return fig
 
-    def orders_per_day(self) -> px.bar:
-        """Bar plot of the number of orders per day.
+    def orders_per_day(self, bins: int) -> px.histogram:
+        """Histogram plot of the count of orders over the time range of the data.
+
+        Args:
+            bins (int): Number of bins in the histogram - acts like the granularity.
 
         Returns:
-            px.bar: Bar plot of the number of orders per day.
+            px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        num_per_day = self.df[self.paid_date].value_counts().sort_index()
-        data = {
-            "Date": num_per_day.keys(),
-            "Orders": num_per_day.values
-        }
-        fig = px.bar(data, x="Date", y="Orders", text="Orders")
+        fig = px.histogram(self.df, x=self.paid_date, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig
 
-    def revenue_per_day(self) -> px.bar:
-        """Bar plot of the revenue per day.
+    def revenue_per_day(self, bins: int) -> px.histogram:
+        """Histogram plot of the sum of prices over the time range of the data.
+
+        Args:
+            bins (int): Number of bins in the histogram - acts like the granularity.
 
         Returns:
-            px.bar: Bar plot of the revenue per day.
+            px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        rev_per_day = self.df[[self.paid_date, self.price]].groupby(self.paid_date)[self.price].sum()
-        data = {
-            "Date": rev_per_day.keys(),
-            "Revenue (£)": rev_per_day.values
-        }
-
-        fig = px.bar(data, x="Date", y="Revenue (£)", text="Revenue (£)")
+        fig = px.histogram(self.df, x=self.paid_date, y=self.price, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig
@@ -202,3 +198,37 @@ class DataExtractor():
         end = self.df[self.paid_date].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
+    
+    def number_of_days(self) -> int:
+        """Gets the number of days that the data covers.
+
+        Returns:
+            int: The number of days that the data covers.
+        """
+        start = self.df[self.paid_date].min().date()
+        end = self.df[self.paid_date].max().date()
+        days = math.ceil((end - start).days)
+
+        return days
+    
+    def number_of_weeks(self) -> int:
+        """Gets the number of weeks that the data covers.
+
+        Returns:
+            int: The number of weeks that the data covers.
+        """
+        days = self.number_of_days()
+        weeks = math.ceil(days / 7)
+
+        return weeks
+
+    def number_of_months(self) -> int:
+        """Gets the number of months that the data covers.
+
+        Returns:
+            int: The number of months that the data covers.
+        """
+        days = self.number_of_days()
+        months = math.ceil(days / (365/12))
+
+        return months
