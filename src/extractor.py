@@ -170,8 +170,10 @@ class DataExtractor():
             "Date": num_per_day.keys(),
             "Orders": num_per_day.values
         }
-        fig = px.bar(data, x="Date", y="Orders", text="Orders")
+        fig = px.histogram(self.df, x=self.paid_date, nbins=52)
         fig.update_traces(textposition="outside")
+        # fig = px.bar(data, x="Date", y="Orders", text="Orders")
+        # fig.update_traces(textposition="outside")
 
         return fig
 
