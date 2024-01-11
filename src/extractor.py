@@ -169,24 +169,21 @@ class DataExtractor():
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.paid_date, nbins=bins*50)
+        fig = px.histogram(self.df, x=self.paid_date, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig
 
-    def revenue_per_day(self) -> px.bar:
-        """Bar plot of the revenue per day.
+    def revenue_per_day(self, bins: int) -> px.histogram:
+        """Histogram plot of the sum of prices over the time range of the data.
+
+        Args:
+            bins (int): Number of bins in the histogram - acts like the granularity.
 
         Returns:
-            px.bar: Bar plot of the revenue per day.
+            px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        rev_per_day = self.df[[self.paid_date, self.price]].groupby(self.paid_date)[self.price].sum()
-        data = {
-            "Date": rev_per_day.keys(),
-            "Revenue (£)": rev_per_day.values
-        }
-
-        fig = px.bar(data, x="Date", y="Revenue (£)", text="Revenue (£)")
+        fig = px.histogram(self.df, x=self.paid_date, y=self.price, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig

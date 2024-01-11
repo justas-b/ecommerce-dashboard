@@ -102,10 +102,17 @@ def update_day_fig(day_input: str, granularity_input: int) -> tuple:
     """
     output_title = "per Day"
 
+    if granularity_input == 1:
+        nbins = extractor.number_of_days()
+    elif granularity_input == 2:
+        nbins = extractor.number_of_weeks()
+    else:
+        nbins = extractor.number_of_months()
+ 
     if day_input == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.orders_per_day(bins=granularity_input)
+        return html.H2(f"Orders {output_title}"), extractor.orders_per_day(bins=nbins)
     elif day_input == "revenue":
-        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day()
+        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
