@@ -159,21 +159,22 @@ class DataExtractor():
 
         return fig
 
-    def orders_per_day(self) -> px.bar:
-        """Bar plot of the number of orders per day.
+    def orders_per_day(self, bins: int) -> px.histogram:
+        """Histogram plot of the count of orders over the time range of the data.
+
+        Args:
+            bins (int): Number of bins in the histogram - acts like the granularity.
 
         Returns:
-            px.bar: Bar plot of the number of orders per day.
+            px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
         num_per_day = self.df[self.paid_date].value_counts().sort_index()
         data = {
             "Date": num_per_day.keys(),
             "Orders": num_per_day.values
         }
-        fig = px.histogram(self.df, x=self.paid_date, nbins=52)
+        fig = px.histogram(self.df, x=self.paid_date, nbins=bins)
         fig.update_traces(textposition="outside")
-        # fig = px.bar(data, x="Date", y="Orders", text="Orders")
-        # fig.update_traces(textposition="outside")
 
         return fig
 
