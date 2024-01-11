@@ -49,7 +49,9 @@ app.layout = html.Div(children=[
                                  "value": "revenue"},
                             ],
                             value="orders", inline=True)]
-                    ))
+                    )),
+                    dbc.Row(dcc.Slider(id="granularity_slider", min=-3, max=3, value=0, 
+               marks={-3: '-3', 3: '3'}))
                 ])
             ], justify="center"),
 
