@@ -88,9 +88,10 @@ app.layout = html.Div(children=[
 @app.callback(
     Output(component_id="day_plot_title", component_property="children"),
     Output(component_id="day_plot_fig", component_property="figure"),
-    Input(component_id="day_callback", component_property="value")
+    Input(component_id="day_callback", component_property="value"),
+    Input(component_id="granularity_slider", component_property="value"),
 )
-def update_day_fig(input: str) -> tuple:
+def update_day_fig(day_input: str, granularity_input: int) -> tuple:
     """Callback function to update the 'days' title and figure.
 
     Args:
@@ -101,9 +102,9 @@ def update_day_fig(input: str) -> tuple:
     """
     output_title = "per Day"
 
-    if input == "orders":
+    if day_input == "orders":
         return html.H2(f"Orders {output_title}"), extractor.orders_per_day()
-    elif input == "revenue":
+    elif day_input == "revenue":
         return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day()
 
 
