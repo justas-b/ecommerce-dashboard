@@ -190,9 +190,9 @@ class DataExtractor():
         """Extracts the date range from the data.
 
         Returns:
-            tuple: Start and end dates of the data, in the format of dd/mm/yyyy.
+            tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
         start = self.df[self.config["PAID_DATE"]].min().date()
         end = self.df[self.config["PAID_DATE"]].max().date()
 
-        return start.strftime("%d/%m/%Y"), end.strftime("%d/%m/%Y")
+        return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
