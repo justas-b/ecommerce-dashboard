@@ -22,3 +22,9 @@
     text-align: center;
     width: 90%
 }
+
+.slider_row {
+    width: 50%;
+    text-align: center;
+    display: inline-block;
+}
