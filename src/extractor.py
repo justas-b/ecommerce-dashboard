@@ -213,6 +213,17 @@ class DataExtractor():
         days = math.ceil((end - start).days)
 
         return days
+    
+    def number_of_weeks(self) -> int:
+        """Gets the number of weeks that the data covers.
+
+        Returns:
+            int: The number of weeks that the data covers.
+        """
+        days = self.number_of_days()
+        weeks = math.ceil(days / 7)
+
+        return weeks
 
 
 if __name__ == "__main__":
@@ -220,4 +231,4 @@ if __name__ == "__main__":
     tran = DataTransformer()
     df = tran.df
     ex = DataExtractor(df)
-    print(ex.number_of_days())
+    print(ex.number_of_weeks())
