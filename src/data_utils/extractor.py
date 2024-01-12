@@ -15,7 +15,7 @@ class DataExtractor():
         self.config = json.load(open("config.json"))
         self.quantity = self.config["QUANTITY"]
         self.price = self.config["PRICE"]
-        self.paid_date = self.config["PAID_DATE"]
+        self.sale_date = self.config["SALE_DATE"]
         self.country = self.config["COUNTRY"]
         self.delivery_cost = self.config["DELIVERY_COST"]
 
@@ -169,7 +169,7 @@ class DataExtractor():
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.paid_date, nbins=bins)
+        fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig
@@ -183,7 +183,7 @@ class DataExtractor():
         Returns:
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.paid_date, y=self.price, nbins=bins)
+        fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
         fig.update_traces(textposition="outside")
 
         return fig
@@ -194,8 +194,8 @@ class DataExtractor():
         Returns:
             tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
-        start = self.df[self.paid_date].min().date()
-        end = self.df[self.paid_date].max().date()
+        start = self.df[self.sale_date].min().date()
+        end = self.df[self.sale_date].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     
@@ -205,8 +205,8 @@ class DataExtractor():
         Returns:
             int: The number of days that the data covers.
         """
-        start = self.df[self.paid_date].min().date()
-        end = self.df[self.paid_date].max().date()
+        start = self.df[self.sale_date].min().date()
+        end = self.df[self.sale_date].max().date()
         days = math.ceil((end - start).days)
 
         return days

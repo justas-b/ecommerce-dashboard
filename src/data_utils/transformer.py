@@ -22,7 +22,7 @@ class DataTransformer():
     def time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["PAID_DATE"]]).dt.days
+        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["SALE_DATE"]]).dt.days
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.

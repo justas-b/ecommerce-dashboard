@@ -25,7 +25,6 @@
 	- <code>SALE_DATE</code>: Column name of the column that has the date of the sale.
 	- <code>QUANTITY</code>: Column name of the column that has the number of items bought for an order.
 	- <code>PRICE</code>: Column name of the column that has the total that a customer has paid for the order.
-	- <code>PAID_DATE</code>: Column name of the column that has the date that the order was paid for.
 	- <code>POSTED_DATE</code>: Column name of the column that has the date that the order was dispatched.
 	- <code>COUNTRY</code>: Column name of the column that has the destination country.
 	- <code>DELIVERY_COST</code>: Column name of the column that has the delivery charge of the order.

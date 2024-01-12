@@ -3,9 +3,10 @@ import datetime
 
 
 class DataGenerator():
-    def __init__(self):
+    def __init__(self, start: str, end: str):
+        self.start = start
+        self.end = end
         self.countries = open("src/data/countries.txt").read().split("\n")
-        pass
 
     def get_random_num(self, start: int, end: int) -> int:
         """Generates a random integer between a start and end number (inclusive).
@@ -53,19 +54,24 @@ class DataGenerator():
         
         return country
     
-    def generate_row(self):
-        pass
+    def generate_row(self) -> list:
+        """Generates a row of random data in order of sale date, quantity, price, post date, country and delivery cost.
 
+        Returns:
+            list: Row of random data in order of sale date, quantity, price, post date, country and delivery cost
+        """
+        sale_date = self.generate_date(start=self.start, end=self.end)
+        quantity = self.get_random_num(start=1, end=5)
+        price = round(self.get_random_num(1, 100) + random.random(), 2)
+        post_date = self.generate_date(start=datetime.datetime.strftime(sale_date, "%Y-%m-%d"), end=self.end, max_days=7)
+        country = self.generate_country()
+        delivery_cost = 0 if self.get_random_num(start=0, end=1) == 0 else round(price*0.2, 2)
 
-    # generate random sale date
-    # generate random quantity
-    # generate random price
-    # generate random paid date
-    # generate random posted date
-    # generate random country
-    # generate random delivery cost
+        row = [sale_date, quantity, price, post_date, country, delivery_cost]
+
+        return row
 
 
 if __name__ == "__main__":
-    generator = DataGenerator()
-    print(generator.generate_country())
+    generator = DataGenerator(start="2023-01-01", end="2023-12-31")
+    print(generator.generate_row())
