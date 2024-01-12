@@ -1,8 +1,17 @@
+import sys
 import random
 import datetime
 
+import pandas as pd
+
 
 class DataGenerator():
+    """Generator class that is capable of generating the necessary sample data for use with the dashboard - can serve to experiment, use as an example, or analyse.
+
+    Args:
+        start (str): Start date in the format of 'YYYY-MM-DD'.
+        end (str): End date in the format of 'YYYY-MM-DD'.
+    """
     def __init__(self, start: str, end: str):
         self.start = start
         self.end = end
@@ -27,7 +36,7 @@ class DataGenerator():
 
         Args:
             start (str): Start date in the format of 'YYYY-MM-DD'.
-            end (str): End date in the format of 'YYYY-MM-DD'
+            end (str): End date in the format of 'YYYY-MM-DD'.
             max_days (int | None, optional): The maximum number of days to consider in the range; will use the difference between start and end if None. Defaults to None.
 
         Returns:
@@ -70,8 +79,34 @@ class DataGenerator():
         row = [sale_date, quantity, price, post_date, country, delivery_cost]
 
         return row
+    
+    def generate_n_rows(self, rows: int) -> pd.DataFrame:
+        """Generates a dataframe, of a given number of rows, of random data.
 
+        Args:
+            rows (int): Number of rows.
+
+        Returns:
+            pd.DataFrame: Dataframe with a given number of rows.
+        """
+        data = [self.generate_row() for i in range(rows)]
+        df = pd.DataFrame(data, columns=["sale_date", "quantity", "price", "post_date", "country", "delivery_cost"])
+
+        return df
+
+    @staticmethod
+    def save_csv(df: pd.DataFrame, filename: str) -> None:
+        """Saves the cleaned dataframe to a CSV.
+
+        Args:
+            df (pd.DataFrame): Dataframe to save to a CSV file.
+            filename (str): Filename to save the df as.
+        """
+        df.to_csv(f"src/data/{filename}.csv", index=False)
+   
 
 if __name__ == "__main__":
+    # This can be used to generate your own sample data
     generator = DataGenerator(start="2023-01-01", end="2023-12-31")
-    print(generator.generate_row())
+    df = generator.generate_n_rows(rows=1000)
+    generator.save_csv(df, filename="sample_data")

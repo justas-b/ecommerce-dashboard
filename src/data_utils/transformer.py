@@ -61,13 +61,3 @@ class DataTransformer():
         df[date_columns] = df[date_columns].apply(pd.to_datetime)
 
         return df
-
-    @staticmethod
-    def save_csv(df: pd.DataFrame, filename: str) -> None:
-        """Saves the cleaned dataframe to a CSV.
-
-        Args:
-            df (pd.DataFrame): Dataframe to save to a CSV file.
-            filename (str): Filename to save the df as.
-        """
-        df.to_csv(f"src/data/{filename}.csv", index=False)
