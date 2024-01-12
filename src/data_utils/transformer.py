@@ -22,7 +22,7 @@ class DataTransformer():
     def time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["PAID_DATE"]]).dt.days
+        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["SALE_DATE"]]).dt.days
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.
@@ -61,13 +61,3 @@ class DataTransformer():
         df[date_columns] = df[date_columns].apply(pd.to_datetime)
 
         return df
-
-    @staticmethod
-    def save_csv(df: pd.DataFrame, filename: str) -> None:
-        """Saves the cleaned dataframe to a CSV.
-
-        Args:
-            df (pd.DataFrame): Dataframe to save to a CSV file.
-            filename (str): Filename to save the df as.
-        """
-        df.to_csv(f"src/data/{filename}.csv", index=False)

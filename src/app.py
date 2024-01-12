@@ -6,8 +6,8 @@ from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
-from src.transformer import DataTransformer
-from src.extractor import DataExtractor
+from src.data_utils.transformer import DataTransformer
+from src.data_utils.extractor import DataExtractor
 
 transformer = DataTransformer()
 transformer.apply_transformations()
