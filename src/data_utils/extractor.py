@@ -169,7 +169,8 @@ class DataExtractor():
         fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
-            yaxis_title_text = "Orders"
+            yaxis_title_text = "Orders",
+            bargap=0.25
         )
 
         return fig
@@ -186,7 +187,8 @@ class DataExtractor():
         fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
-            yaxis_title_text = "Revenue"
+            yaxis_title_text = "Revenue",
+            bargap=0.25
         )
 
         return fig
