@@ -27,10 +27,10 @@ app.layout = html.Div(children=[
                     class_name="info_text"),
             dbc.Col(f"Items Ordered: {extractor.total_items()}",
                     class_name="info_text"),
-            dbc.Col(f"Revenue: £{extractor.total_revenue()}",
+            dbc.Col(f"Revenue: {extractor.total_revenue()}",
                     class_name="info_text"),
             dbc.Col(
-                f"Average Revenue: £{extractor.average_revenue()}", className="info_text")
+                f"Average Revenue: {extractor.average_revenue()}", className="info_text")
         ]),
     ]),
 

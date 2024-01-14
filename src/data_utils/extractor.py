@@ -80,10 +80,10 @@ class DataExtractor():
             self.price].sum().sort_values()
         data = {
             "Country": country_revenue.keys(),
-            "Total Revenue (£)": country_revenue.values
+            "Total Revenue": country_revenue.values
         }
 
-        fig = px.bar(data, x="Total Revenue (£)", y="Country")
+        fig = px.bar(data, x="Total Revenue", y="Country")
 
         return fig
 
@@ -98,10 +98,10 @@ class DataExtractor():
             self.country)[self.price].mean().sort_values()
         data = {
             "Country": avg_country_revenue.keys(),
-            "Average Revenue (£)": [round(val, 2) for val in avg_country_revenue.values]
+            "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
         }
 
-        fig = px.bar(data, x="Average Revenue (£)", y="Country")
+        fig = px.bar(data, x="Average Revenue", y="Country")
 
         return fig
 
