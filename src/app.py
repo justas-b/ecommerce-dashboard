@@ -27,10 +27,10 @@ app.layout = html.Div(children=[
                     class_name="info_text"),
             dbc.Col(f"Items Ordered: {extractor.total_items()}",
                     class_name="info_text"),
-            dbc.Col(f"Revenue: £{extractor.total_revenue()}",
+            dbc.Col(f"Revenue: {extractor.total_revenue()}",
                     class_name="info_text"),
             dbc.Col(
-                f"Average Revenue: £{extractor.average_revenue()}", className="info_text")
+                f"Average Revenue: {extractor.average_revenue()}", className="info_text")
         ]),
     ]),
 
@@ -95,7 +95,8 @@ def update_day_fig(day_input: str, granularity_input: int) -> tuple:
     """Callback function to update the 'days' title and figure.
 
     Args:
-        input (str): Input from RadioItems where the input is 'orders' or 'revenue'.
+        day_input (str): Input from RadioItems where the input is 'orders' or 'revenue'.
+        granularity_input (int): Input from a Slider widget where the input is 1, 2 or 3. The lower the input the higher the granularity is: 1 - daily, 2 - weekly, or 3 - monthly.
 
     Returns:
         tuple: Header element to update the title and a bar plot figure.
