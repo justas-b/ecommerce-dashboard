@@ -65,7 +65,7 @@ class DataExtractor():
             "Orders": reversed(country_count.values)
         }
 
-        fig = px.bar(data, x="Orders", y="Country", text="Orders")
+        fig = px.bar(data, x="Orders", y="Country")
 
         return fig
 
@@ -83,8 +83,7 @@ class DataExtractor():
             "Total Revenue (£)": country_revenue.values
         }
 
-        fig = px.bar(data, x="Total Revenue (£)",
-                    y="Country", text="Total Revenue (£)")
+        fig = px.bar(data, x="Total Revenue (£)", y="Country")
 
         return fig
 
@@ -102,8 +101,7 @@ class DataExtractor():
             "Average Revenue (£)": [round(val, 2) for val in avg_country_revenue.values]
         }
 
-        fig = px.bar(data, x="Average Revenue (£)",
-                    y="Country", text="Average Revenue (£)")
+        fig = px.bar(data, x="Average Revenue (£)", y="Country")
 
         return fig
 
@@ -119,8 +117,7 @@ class DataExtractor():
             "Orders": time_to_dispatch.values
         }
 
-        fig = px.bar(data, x="Days to Dispatch", y="Orders", text="Orders")
-        fig.update_traces(textposition="outside")
+        fig = px.bar(data, x="Days to Dispatch", y="Orders")
 
         return fig
 
@@ -170,7 +167,6 @@ class DataExtractor():
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
         fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
-        fig.update_traces(textposition="outside")
 
         return fig
 
@@ -184,7 +180,6 @@ class DataExtractor():
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
         fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
-        fig.update_traces(textposition="outside")
 
         return fig
 
