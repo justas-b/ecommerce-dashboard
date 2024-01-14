@@ -159,7 +159,7 @@ class DataExtractor():
 
     def orders_per_day(self, bins: int) -> px.histogram:
         """Histogram plot of the count of orders over the time range of the data.
-
+        
         Args:
             bins (int): Number of bins in the histogram - acts like the granularity.
 
@@ -167,6 +167,10 @@ class DataExtractor():
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
         fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
+        fig.update_layout(
+            xaxis_title_text = "Date", 
+            yaxis_title_text = "Orders"
+        )
 
         return fig
 
@@ -180,6 +184,10 @@ class DataExtractor():
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
         fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
+        fig.update_layout(
+            xaxis_title_text = "Date", 
+            yaxis_title_text = "Revenue"
+        )
 
         return fig
 
