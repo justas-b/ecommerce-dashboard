@@ -1,13 +1,13 @@
-import os
 import json
-import glob
 import logging
 
 import pandas as pd
 
+from generator import DataGenerator
+
 
 class DataTransformer():
-    """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. 
+    """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. If there is no filename specified, data will be randomly generated. 
     """
     def __init__(self) -> None:
         self.config = json.load(open("config.json"))
@@ -37,6 +37,7 @@ class DataTransformer():
             pd.DataFrame: Data in the form of a pandas dataframe.
         """
         filename = self.config["FILENAME"]
+        # User data
         if filename is not None:
             try:
                 df = pd.read_csv(f"src/data/{filename}.csv")
@@ -45,17 +46,12 @@ class DataTransformer():
                     df = pd.read_excel(f"src/data/{filename}.xlsx")
                 except Exception as e:
                     logging.error(f"File {filename} is not .csv or .xlsx format, or does not exist. Error: {e}")
+        # Randomly generated data
         else:
-            files = glob.glob("src/data/*.xlsx") + glob.glob("src/data/*.csv")
+            generator = DataGenerator(start="2023-01-01", end="2023-12-31")
 
-            if len(files) == 0:
-                logging.error("File is not .csv or .xlsx format, or does not exist in src/data/.")
-                exit()
-
-            latest_file = max(files, key=os.path.getctime)
-            file_type = latest_file.split(".")[-1]
-
-            df = pd.read_excel(latest_file) if file_type == "xlsx" else pd.read_csv(latest_file)
+            df = generator.generate_n_rows(rows=1000)
+            generator.save_csv(df, filename="sample_data")
 
         date_columns = list(filter(lambda x: "date" in x.lower(), df.columns))
         df[date_columns] = df[date_columns].apply(pd.to_datetime)
