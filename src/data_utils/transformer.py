@@ -1,9 +1,11 @@
+import sys
 import json
 import logging
 
 import pandas as pd
 
-from generator import DataGenerator
+sys.path.append("./")
+from src.data_utils.generator import DataGenerator
 
 
 class DataTransformer():
