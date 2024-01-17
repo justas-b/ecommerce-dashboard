@@ -1,11 +1,10 @@
 import sys
 
-sys.path.append("./")
-
 from dash import Dash, dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
+sys.path.append("./")
 from src.data_utils.transformer import DataTransformer
 from src.data_utils.extractor import DataExtractor
 

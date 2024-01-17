@@ -13,11 +13,14 @@ class DataExtractor():
     """
     def __init__(self, df: pd.DataFrame) -> None:
         self.config = json.load(open("config.json"))
-        self.quantity = self.config["QUANTITY"]
-        self.price = self.config["PRICE"]
-        self.sale_date = self.config["SALE_DATE"]
-        self.country = self.config["COUNTRY"]
-        self.delivery_cost = self.config["DELIVERY_COST"]
+        
+        random_data = self.config["FILENAME"] is None
+
+        self.quantity = self.config["QUANTITY"] if not random_data else "quantity"
+        self.price = self.config["PRICE"] if not random_data else "price"
+        self.sale_date = self.config["SALE_DATE"] if not random_data else "sale_date"
+        self.country = self.config["COUNTRY"] if not random_data else "country"
+        self.delivery_cost = self.config["DELIVERY_COST"] if not random_data else "delivery_cost"
 
         self.df = df
 
