@@ -31,7 +31,7 @@ class DataTransformer():
         self.time_to_dispatch()
 
     def load_file(self) -> pd.DataFrame:
-        """Loads the data using the filename from the config.json file (.csv or .xlsx format), or loads the most recent data file from src/data/.
+        """Loads the data using the filename from the config.json file (.csv or .xlsx format), or randomly generates data using a generator and saves it as 'sample_data' in src/data/.
 
         Returns:
             pd.DataFrame: Data in the form of a pandas dataframe.
@@ -49,7 +49,6 @@ class DataTransformer():
         # Randomly generated data
         else:
             generator = DataGenerator(start="2023-01-01", end="2023-12-31")
-
             df = generator.generate_n_rows(rows=1000)
             generator.save_csv(df, filename="sample_data")
 
