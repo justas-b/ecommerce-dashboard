@@ -30,7 +30,9 @@ class DataGenerator():
 
         return num
 
-    def generate_date(self, start: str, end: str, max_days: int|None=None) -> datetime.datetime:
+    def generate_date(
+            self, start: str, end: str, max_days: int|None=None
+        ) -> datetime.datetime:
         """Generates a random date between a start and end date. A max_days can be specified to restrict the range of the number of days, however, this range cannot be larger than the difference in days between the start and end dates.
 
         Args:
