@@ -34,7 +34,7 @@ app.layout = html.Div(children=[
     ]),
 
     dbc.Card(
-        dbc.CardBody([
+        dbc.CardBody(children=[
             dbc.Row(id="top_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
                     dbc.Row(html.Div(id="day_plot_title")),
@@ -50,30 +50,46 @@ app.layout = html.Div(children=[
                     )),    
                     dbc.Row(dcc.Graph(id="day_plot_fig")),
                     dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
-                ])
-            ], justify="center"),
+                    ]
+                )
+                ], 
+            justify="center"),
 
             dbc.Row(id="bottom_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
                     html.Div(id="country_plot_title"),
                     dcc.Graph(id="country_plot_fig"),
-                    dbc.Select(class_name="selector", id="country_callback",
-                        options=[
-                            {"label": "Orders", "value": "orders"},
-                            {"label": "Total Revenue", "value": "total"},
-                            {"label": "Average Revenue", "value": "average"}
-                        ], value="orders")
+                    dbc.Row(children=[
+                        dbc.Col(children=[
+                                dbc.Select(class_name="selector",   id="country_callback",
+                                options=[
+                                    {"label": "Orders", "value": "orders"},
+                                    {"label": "Total Revenue", "value": "total"},
+                                    {"label": "Average Revenue", "value": "average"}
+                                ], value="orders")
+                            ]
+                        ),
+                        dbc.Col(children=[
+                            dbc.RadioItems(class_name="selector", id="extreme_callback",
+                            options=[
+                                {"label": " Top", "value": "top"},
+                                {"label": " Bottom", "value": "bottom"}],
+                            value="top", inline=True)
+                            ]
+                        ),
+                        ]
+                    ),
                 ]),
 
                 dbc.Col(class_name="graph_div", children=[
                     html.Div(id="delivery_title"),
                     dcc.Graph(id="delivery_plot"),
                     html.Div(className="small", children=[
-                        dbc.RadioItems(class_name="selector", id="delivery_callback",
-                                       options=[
-                                           {"label": " Orders", "value": "orders"},
-                                           {"label": " Revenue", "value": "revenue"}],
-                                       value="orders", inline=True)])]),
+                        dbc.RadioItems(class_name="selector",   id="delivery_callback", options=[
+                            {"label": " Orders", "value": "orders"},
+                            {"label": " Revenue", "value": "revenue"}
+                        ],switch=True,
+                        value="orders", inline=True)])]),
 
                 dbc.Col(class_name="graph_div", children=[
                     html.H2("Days to Dispatch"),
