@@ -61,7 +61,7 @@ app.layout = html.Div(children=[
                     dcc.Graph(id="country_plot_fig"),
                     dbc.Row(children=[
                         dbc.Col(children=[
-                                dbc.Select(class_name="selector",   id="country_callback",
+                                dbc.Select(class_name="selector",   id="country_analytic_callback",
                                 options=[
                                     {"label": "Orders", "value": "orders"},
                                     {"label": "Total Revenue", "value": "total"},
@@ -70,7 +70,7 @@ app.layout = html.Div(children=[
                             ]
                         ),
                         dbc.Col(children=[
-                            dbc.RadioItems(class_name="selector", id="extreme_callback",
+                            dbc.RadioItems(class_name="selector", id="top_bottom_country_callback",
                             options=[
                                 {"label": " Top", "value": "top"},
                                 {"label": " Bottom", "value": "bottom"}],
@@ -134,24 +134,28 @@ def update_day_fig(day_input: str, granularity_input: int) -> tuple:
 @app.callback(
     Output(component_id="country_plot_title", component_property="children"),
     Output(component_id="country_plot_fig", component_property="figure"),
-    Input(component_id="country_callback", component_property="value")
+    Input(component_id="country_analytic_callback", component_property="value"),
+    Input(component_id="top_bottom_country_callback", component_property="value")
 )
-def update_country_fig(input: str) -> tuple:
+def update_country_fig(
+    country_analytic_input: str, top_bottom_input: str
+) -> tuple:
     """Callback function to update the 'country' title and figure.
 
     Args:
-        input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
+        country_analytic_input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
+        top_bottom_input (str): Input from a Select widget where the inputs can be 'top' or 'bottom'.
 
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
     output_title = "per Country"
-
-    if input == "orders":
+    # top bottom input will be passed to the figure functions
+    if country_analytic_input == "orders":
         return html.H2(f"Orders {output_title}"), extractor.orders_by_country()
-    elif input == "total":
+    elif country_analytic_input == "total":
         return html.H2(f"Total Revenue {output_title}"), extractor.total_revenue_per_country()
-    elif input == "average":
+    elif country_analytic_input == "average":
         return html.H2(f"Average Revenue {output_title}"), extractor.average_revenue_per_country()
 
 
