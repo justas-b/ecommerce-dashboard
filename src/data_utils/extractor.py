@@ -60,15 +60,17 @@ class DataExtractor():
         """Bar plot of the distribution of orders per country.
 
         Args:
-            order (str): Order of the data, whether it is the top or bottom ranking countries.
+            order (str): Order of the data, whether it is the head or tail of the ranking.
 
         Returns:
             px.bar: Bar plot of orders per country.
         """
-        country_count = self.df[self.country].value_counts()
+        ascending = True if order == "head" else False
+
+        country_count = self.df[self.country].value_counts().sort_values(ascending=ascending)
         data = {
-            "Country": reversed(country_count.keys()),
-            "Orders": reversed(country_count.values)
+            "Country": country_count.keys(),
+            "Orders": country_count.values
         }
 
         fig = px.bar(data, x="Orders", y="Country")
@@ -79,14 +81,16 @@ class DataExtractor():
         """Bar plot of the total revenue per country.
 
         Args:
-            order (str): Order of the data, whether it is the top or bottom ranking countries.
+            order (str): Order of the data, whether it is the head or tail of the ranking.
 
         Returns:
             px.bar: Bar plot of revenue per country.
         """
+        ascending = True if order == "head" else False
+
         country_revenue = self.df[[self.country, self.price]]
         country_revenue = country_revenue.groupby(self.country)[
-            self.price].sum().sort_values()
+            self.price].sum().sort_values(ascending=ascending)
         data = {
             "Country": country_revenue.keys(),
             "Total Revenue": country_revenue.values
@@ -98,16 +102,18 @@ class DataExtractor():
 
     def average_revenue_per_country(self, order: str) -> px.bar:
         """Bar plot of the average revenue per country.
-        
+
         Args:
-            order (str): Order of the data, whether it is the top or bottom ranking countries.
+            order (str): Order of the data, whether it is the head or tail of the ranking.
 
         Returns:
             px.bar: Bar plot of average revenue per country.
         """
+        ascending = True if order == "head" else False
+
         avg_country_revenue = self.df[[self.country, self.price]]
         avg_country_revenue = avg_country_revenue.groupby(
-            self.country)[self.price].mean().sort_values()
+            self.country)[self.price].mean().sort_values(ascending=ascending)
         data = {
             "Country": avg_country_revenue.keys(),
             "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
