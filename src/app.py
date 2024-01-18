@@ -152,11 +152,11 @@ def update_country_fig(
     output_title = "per Country"
     # top bottom input will be passed to the figure functions
     if country_analytic_input == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.orders_by_country()
+        return html.H2(f"Orders {output_title}"), extractor.orders_by_country(top_bottom_input)
     elif country_analytic_input == "total":
-        return html.H2(f"Total Revenue {output_title}"), extractor.total_revenue_per_country()
+        return html.H2(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(top_bottom_input)
     elif country_analytic_input == "average":
-        return html.H2(f"Average Revenue {output_title}"), extractor.average_revenue_per_country()
+        return html.H2(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(top_bottom_input)
 
 
 @app.callback(

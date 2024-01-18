@@ -56,8 +56,11 @@ class DataExtractor():
         """
         return round(self.df[self.price].mean(), 2)
 
-    def orders_by_country(self) -> px.bar:
+    def orders_by_country(self, order: str) -> px.bar:
         """Bar plot of the distribution of orders per country.
+
+        Args:
+            order (str): Order of the data, whether it is the top or bottom ranking countries.
 
         Returns:
             px.bar: Bar plot of orders per country.
@@ -72,8 +75,11 @@ class DataExtractor():
 
         return fig
 
-    def total_revenue_per_country(self) -> px.bar:
+    def total_revenue_per_country(self, order: str) -> px.bar:
         """Bar plot of the total revenue per country.
+
+        Args:
+            order (str): Order of the data, whether it is the top or bottom ranking countries.
 
         Returns:
             px.bar: Bar plot of revenue per country.
@@ -90,8 +96,11 @@ class DataExtractor():
 
         return fig
 
-    def average_revenue_per_country(self) -> px.bar:
+    def average_revenue_per_country(self, order: str) -> px.bar:
         """Bar plot of the average revenue per country.
+        
+        Args:
+            order (str): Order of the data, whether it is the top or bottom ranking countries.
 
         Returns:
             px.bar: Bar plot of average revenue per country.
