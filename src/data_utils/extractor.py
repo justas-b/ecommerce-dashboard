@@ -67,7 +67,8 @@ class DataExtractor():
         """
         ascending = True if order == "head" else False
 
-        country_count = self.df[self.country].value_counts().sort_values(ascending=ascending)
+        country_count = self.df[self.country].value_counts().sort_values(ascending=ascending).tail(10)
+        
         data = {
             "Country": country_count.keys(),
             "Orders": country_count.values
@@ -90,7 +91,7 @@ class DataExtractor():
 
         country_revenue = self.df[[self.country, self.price]]
         country_revenue = country_revenue.groupby(self.country)[
-            self.price].sum().sort_values(ascending=ascending)
+            self.price].sum().sort_values(ascending=ascending).tail(10)
         data = {
             "Country": country_revenue.keys(),
             "Total Revenue": country_revenue.values
@@ -113,7 +114,7 @@ class DataExtractor():
 
         avg_country_revenue = self.df[[self.country, self.price]]
         avg_country_revenue = avg_country_revenue.groupby(
-            self.country)[self.price].mean().sort_values(ascending=ascending)
+            self.country)[self.price].mean().sort_values(ascending=ascending).tail(10)
         data = {
             "Country": avg_country_revenue.keys(),
             "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
