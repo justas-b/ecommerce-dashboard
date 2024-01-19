@@ -20,83 +20,110 @@ START, END = extractor.date_range()
 app.layout = html.Div(children=[
     dbc.Col(class_name="header_div", children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
+
         dbc.Row(html.P(f"{START} to {END}")),
+
         dbc.Row(id="info_div", children=[
-            dbc.Col(f"Orders: {extractor.total_orders()}",
-                    class_name="info_text"),
-            dbc.Col(f"Items Ordered: {extractor.total_items()}",
-                    class_name="info_text"),
-            dbc.Col(f"Revenue: {extractor.total_revenue()}",
-                    class_name="info_text"),
             dbc.Col(
-                f"Average Revenue: {extractor.average_revenue()}", className="info_text")
+                f"Orders: {extractor.total_orders()}", class_name="info_text"
+            ),
+
+            dbc.Col(
+                f"Items Ordered: {extractor.total_items()}", class_name="info_text"
+            ),
+
+            dbc.Col(
+                f"Revenue: {extractor.total_revenue()}", class_name="info_text"
+            ),
+
+            dbc.Col(
+                f"Average Revenue: {extractor.average_revenue()}",      className="info_text"
+            )
         ]),
     ]),
 
-    dbc.Card(
+    dbc.Card(children=[
         dbc.CardBody(children=[
             dbc.Row(id="top_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
                     dbc.Row(html.Div(id="day_plot_title")),
-                    dbc.Row(html.Div(className="small", children=[
-                        dbc.RadioItems(class_name="selector", id="day_callback",
-                            options=[
-                                {"label": " Orders",
-                                 "value": "orders"},
-                                {"label": " Revenue",
-                                 "value": "revenue"},
-                            ],
-                        value="orders", inline=True)]
-                    )),    
+
+                    dbc.Row(children=[
+                        html.Div(className="small", children=[
+                            dbc.RadioItems(
+                                class_name="selector",               id="day_callback",
+                                options=[
+                                    {"label": " Orders",
+                                    "value": "orders"},
+                                    {"label": " Revenue",
+                                    "value": "revenue"},
+                                ], value="orders", inline=True
+                            )
+                        ])
+                    ]),    
+
                     dbc.Row(dcc.Graph(id="day_plot_fig")),
+
                     dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
                     ]
                 )
                 ], 
-            justify="center"),
+            justify="center"
+            ),
 
             dbc.Row(id="bottom_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
                     html.Div(id="country_plot_title"),
+
                     dcc.Graph(id="country_plot_fig"),
+
                     dbc.Row(children=[
                         dbc.Col(children=[
-                                dbc.Select(class_name="selector",   id="country_analytic_callback",
+                            dbc.Select(
+                                class_name="selector",   id="country_analytic_callback",
                                 options=[
                                     {"label": "Orders", "value": "orders"},
                                     {"label": "Total Revenue", "value": "total"},
                                     {"label": "Average Revenue", "value": "average"}
-                                ], value="orders")
-                            ]
-                        ),
+                                ], value="orders"
+                            )
+                        ]),
+
                         dbc.Col(children=[
-                            dbc.RadioItems(class_name="selector", id="head_tail_country_callback",
-                            options=[
-                                {"label": " Top", "value": "head"},
-                                {"label": " Bottom", "value": "tail"}],
-                            value="head", inline=True)
-                            ]
-                        ),
-                        ]
-                    ),
+                            dbc.RadioItems(
+                                class_name="selector", id="head_tail_country_callback",
+                                options=[
+                                    {"label": " Top", "value": "head"},
+                                    {"label": " Bottom", "value": "tail"}
+                                ], value="head", inline=True
+                            )
+                        ]),
+                    ]),
                 ]),
 
                 dbc.Col(class_name="graph_div", children=[
                     html.Div(id="delivery_title"),
+
                     dcc.Graph(id="delivery_plot"),
+
                     html.Div(className="small", children=[
-                        dbc.RadioItems(class_name="selector",   id="delivery_callback", options=[
-                            {"label": " Orders", "value": "orders"},
-                            {"label": " Revenue", "value": "revenue"}
-                        ],
-                        value="orders", inline=True)])]),
+                        dbc.RadioItems(
+                            class_name="selector", id="delivery_callback", options=[
+                                {"label": " Orders", "value": "orders"},
+                                {"label": " Revenue", "value": "revenue"}
+                            ], value="orders", inline=True
+                        )
+                    ])
+                ]),
 
                 dbc.Col(class_name="graph_div", children=[
                     html.H2("Days to Dispatch"),
-                    dcc.Graph(figure=extractor.days_to_dispatch())])
+                    
+                    dcc.Graph(figure=extractor.days_to_dispatch())
+                ])
             ])
         ])
-    )
+    ])
 ])
 
 
