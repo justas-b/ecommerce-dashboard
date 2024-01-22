@@ -13,6 +13,16 @@
   	- Dashboard (**to dispatch distribution**):
   		- Distribution of the number of days taken to dispatch orders from the sale date.
 
+## Data Requirements
+- Currently, the data that is needed for this dashboard to run successfully **must** contain the sale date (the date the order was made), quantity (number of items in the order), price (total price of the order - including shipping and fees), post date (the date that the order was dispatched), country (destination country) and the delivery cost (cost of delivery).
+- If you are unable to acquire sales data, you can leave the <code>FILENAME</code> value in <code>config.json</code> <code>null</code> and this will generate random data for you to experiment with. An example of what the generator class outputs (the ideal form of the data) is:
+  
+	| sale_date  | quantity | price  | post_date  | country   | delivery_cost |
+	|------------|----------|--------|------------|-----------|---------------|
+	| 01/01/2023 | 3        | 62.58  | 06/01/2023 | Macedonia | 0             |
+	| 01/01/2023 | 3        | 100.62 | 04/01/2023 | Laos      | 20.12         |
+	| 01/01/2023 | 2        | 60.16  | 07/01/2023 | Chile     | 12.03         |
+
 ## Setup (Local)
 - RECOMMENDED: Create a virtual environment to run the application:
 	- <code>python3 -m venv venv</code>
