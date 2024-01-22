@@ -38,6 +38,8 @@
 	- <code>POSTED_DATE</code>: Column name of the column that has the date that the order was dispatched.
 	- <code>COUNTRY</code>: Column name of the column that has the destination country.
 	- <code>DELIVERY_COST</code>: Column name of the column that has the delivery charge of the order.
+
+## Usage (Local)
 - Run main script:
 	- <code>python3 src/app.py</code>
-- Navigate to <code>http://<LOCAL_HOST>:8080/</code> to view the dashboard.
+- Navigate to <code>http://<LOCAL_HOST>:8080/</code> to view and use the dashboard.
