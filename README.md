@@ -1,19 +1,19 @@
-# E-commerce Dashboard
+## Features
+- Runs _any_ (**subject to complete date - see below**) dumped data from an e-commerce platform (CSV [.csv] or Excel [.xlsx] format), and performs an ETL pipeline on the data for use in analysis.
+- Generator class that can be used to generate _random_ data to experiment with/to use if the user is unable to acquire their data.
+- Analytics and data for the time range spanned by the data:
+	- Dashboard (**general**):
+		- General sales information  e.g., order and item counts, total revenue, average revenue (per order).
+  	- Dashboard (**timeline analytics**):
+  		- Selection of order and revenue counts for a variable granularity (daily, weekly and monthly).
+  	- Dashboard (**destination country analytics**):
+  		- Selection of best and worst (limit of 10) performing countries for the number of orders, total and average revenue.
+  	- Dashboard (**delivery type analytics**):
+  		- Distribution of the delivery types (pair or free) across orders and revenue.
+  	- Dashboard (**to dispatch distribution**):
+  		- Distribution of the number of days taken to dispatch orders from the sale date.
 
-- E-commerce dashboard project that allows the user to:
-	- Dump sales data (.csv or .xlsx format) from an e-commerce platform, and perform an ETL (extract-transform-load) pipeline on the data to use for analytics.
-	- Features of the dashboard:
-		- Total number of orders.
-		- Total items ordered.
-		- Total revenue.
-		- Average revenue per order.
-		- Orders and revenue per day.
-		- Orders, revenue and average revenue per country.
-		- Orders and revenue per delivery type.
-		- Days taken to dispatch orders from the order date.
-
-## Running Locally
-
+## Setup (Local)
 - RECOMMENDED: Create a virtual environment to run the application:
 	- <code>python3 -m venv venv</code>
 	- <code>source ./venv/bin/activate</code>
