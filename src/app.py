@@ -22,35 +22,27 @@ app.layout = html.Div(children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
 
         dbc.Row(html.P(f"{START} to {END}")),
-
-        dbc.Row(id="info_div", children=[
-            dbc.Col(
-                f"Orders: {extractor.total_orders()}", class_name="info_text"
-            ),
-
-            dbc.Col(
-                f"Items Ordered: {extractor.total_items()}", class_name="info_text"
-            ),
-
-            dbc.Col(
-                f"Revenue: {extractor.total_revenue()}", class_name="info_text"
-            ),
-
-            dbc.Col(
-                f"Average Revenue: {extractor.average_revenue()}",      className="info_text"
-            )
-        ]),
     ]),
 
     dbc.Card(children=[
         dbc.CardBody(children=[
             dbc.Row(id="overview_div", children=[
-                dbc.Row(
-                # totals: orders, items, revenue
-                ),
-                dbc.Row(
+                dbc.Row(children=[
+                    dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+
+                    dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+
+                    dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text")
+                ]),
+                
+                dbc.Row(children=[
+                    dbc.Col(),
+
+                    dbc.Col(),
+
+                    dbc.Col()
+                ])
                 # averages: orders per day, revenue per day, revenue per order
-                )
             ]
             # best and worst: countries, months, items
             ),
