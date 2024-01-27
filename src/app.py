@@ -44,6 +44,17 @@ app.layout = html.Div(children=[
 
     dbc.Card(children=[
         dbc.CardBody(children=[
+            dbc.Row(id="overview_div", children=[
+                dbc.Row(
+                # totals: orders, items, revenue
+                ),
+                dbc.Row(
+                # averages: orders per day, revenue per day, revenue per order
+                )
+            ]
+            # best and worst: countries, months, items
+            ),
+
             dbc.Row(id="top_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
                     dbc.Row(html.Div(id="day_plot_title")),
