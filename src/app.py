@@ -28,21 +28,20 @@ app.layout = html.Div(children=[
         dbc.CardBody(children=[
             dbc.Row(id="overview_div", children=[
                 dbc.Row(children=[
+                    dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+
                     dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
 
-                    dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text"),
-
-                    dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text")
+                    dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text")
                 ]),
                 
                 dbc.Row(children=[
-                    dbc.Col(),
+                    dbc.Col(f"Revenue per day: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-                    dbc.Col(),
+                    dbc.Col(f"Revenue per order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-                    dbc.Col()
+                    dbc.Col(f"Orders per day: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
                 ])
-                # averages: orders per day, revenue per day, revenue per order
             ]
             # best and worst: countries, months, items
             ),
