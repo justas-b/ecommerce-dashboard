@@ -42,11 +42,11 @@ app.layout = html.Div(children=[
                 ]),
                 
                 dbc.Row(children=[
-                    dbc.Col(f"Revenue per day: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+                    dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-                    dbc.Col(f"Revenue per order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+                    dbc.Col(f"Revenue/order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-                    dbc.Col(f"Orders per day: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+                    dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
                 ])
             ]),
 
