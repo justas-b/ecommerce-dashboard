@@ -13,7 +13,7 @@ transformer.apply_transformations()
 extractor = DataExtractor(transformer.df)
 
 load_figure_template("cerulean")
-app = Dash(external_stylesheets=[dbc.themes.LUX])
+app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 
 START, END = extractor.date_range()
 
@@ -27,7 +27,11 @@ app.layout = html.Div(children=[
     dbc.Card(children=[
         dbc.CardBody(children=[
             dbc.Row(id="overview_div", children=[
-                html.H3("Overview"),
+                dbc.Row(children=[
+                    html.H3("Overview")
+                ]),
+
+                html.Hr(),
                 
                 dbc.Row(children=[
                     dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
@@ -44,9 +48,7 @@ app.layout = html.Div(children=[
 
                     dbc.Col(f"Orders per day: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
                 ])
-            ]
-            # best and worst: countries, months, items
-            ),
+            ]),
 
             dbc.Row(id="top_plot_div", children=[
                 dbc.Col(class_name="graph_div", children=[
