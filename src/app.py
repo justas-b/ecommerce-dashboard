@@ -44,7 +44,7 @@ app.layout = html.Div(children=[
                 dbc.Row(children=[
                     dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-                    dbc.Col(f"Revenue/order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+                    dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
                     dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
                 ])
@@ -149,19 +149,20 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
-    output_title = "per Day"
-
     if granularity == 1:
         nbins = extractor.number_of_days()
+        output_title = "Daily"
     elif granularity == 2:
         nbins = extractor.number_of_weeks()
+        output_title = "Weekly"
     else:
         nbins = extractor.number_of_months()
- 
+        output_title = "Monthly"
+
     if analytic == "orders":
-        return html.H3(f"Orders {output_title}"), extractor.orders_per_day(bins=nbins)
+        return html.H3(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
     elif analytic == "revenue":
-        return html.H3(f"Revenue {output_title}"), extractor.revenue_per_day(bins=nbins)
+        return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
