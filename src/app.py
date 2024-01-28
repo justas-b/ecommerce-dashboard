@@ -27,6 +27,8 @@ app.layout = html.Div(children=[
     dbc.Card(children=[
         dbc.CardBody(children=[
             dbc.Row(id="overview_div", children=[
+                html.H3("Overview"),
+                
                 dbc.Row(children=[
                     dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
