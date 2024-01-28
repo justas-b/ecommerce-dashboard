@@ -121,7 +121,7 @@ app.layout = html.Div(children=[
                 ]),
 
                 dbc.Col(class_name="graph_div", children=[
-                    html.H2("Days to Dispatch"),
+                    html.H3("Days to Dispatch"),
                     
                     dcc.Graph(figure=extractor.days_to_dispatch())
                 ])
@@ -157,9 +157,9 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
         nbins = extractor.number_of_months()
  
     if analytic == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.orders_per_day(bins=nbins)
+        return html.H3(f"Orders {output_title}"), extractor.orders_per_day(bins=nbins)
     elif analytic == "revenue":
-        return html.H2(f"Revenue {output_title}"), extractor.revenue_per_day(bins=nbins)
+        return html.H3(f"Revenue {output_title}"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
@@ -181,11 +181,11 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
     output_title = "per Country"
     # head_tail input will be passed to the figure functions
     if analytic == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
+        return html.H3(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
     elif analytic == "total":
-        return html.H2(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
+        return html.H3(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
     elif analytic == "average":
-        return html.H2(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+        return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
 
 
 @app.callback(
@@ -205,9 +205,9 @@ def update_delivery_fig(analytic: str) -> tuple:
     output_title = "per Delivery Type"
 
     if analytic == "orders":
-        return html.H2(f"Orders {output_title}"), extractor.order_delivery_charge()
+        return html.H3(f"Orders {output_title}"), extractor.order_delivery_charge()
     else:
-        return html.H2(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
+        return html.H3(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":
