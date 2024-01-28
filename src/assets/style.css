@@ -1,7 +1,11 @@
+h3 {
+    text-align: center;
+}
+
 .header_div {
     text-align: center; 
     font-size: 20px;
-    background-color: lightblue;
+    background-color: rgb(154, 197, 211);
 }
 
 .info_text {
@@ -12,7 +16,7 @@
 .graph_div {
     text-align: center; 
     background-color: white;
-    box-shadow: 0px 0px 5px 0px grey;
+    box-shadow: 0px 0px 1px 0px grey;
     padding: 5px 5px 5px 5px;
     margin: 10px;
 }
