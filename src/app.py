@@ -51,7 +51,7 @@ app.layout = html.Div(children=[
             ])
         ]),
 
-        dbc.Row(id="top_plot_div", children=[
+        dbc.Row(children=[
             dbc.Card(children=[
                 dbc.CardBody(children=[                  
                     dbc.Row(html.Div(id="day_plot_title")),
@@ -78,9 +78,9 @@ app.layout = html.Div(children=[
         ], 
         justify="center"
         ),
-        # middle row
-        dbc.Row(id="bottom_plot_div", children=[
-            dbc.Col(class_name="card_div", children=[
+
+        dbc.Row(children=[
+            dbc.Col(children=[
                 html.Div(id="country_plot_title"),
 
                 dcc.Graph(id="country_plot_fig"),
@@ -109,7 +109,7 @@ app.layout = html.Div(children=[
                 ]),
             ]),
 
-            dbc.Col(class_name="card_div", children=[
+            dbc.Col(children=[
                 html.Div(id="delivery_title"),
 
                 dcc.Graph(id="delivery_plot"),
@@ -123,13 +123,16 @@ app.layout = html.Div(children=[
                     )
                 ])
             ]),
-            # bottom row
-            dbc.Col(class_name="card_div", children=[
+        ]),
+
+        dbc.Row(children=[
+            dbc.Col(children=[
                 html.H3("Days to Dispatch"),
                 
                 dcc.Graph(figure=extractor.days_to_dispatch())
             ])
         ])
+        
     ])
 ])
 
