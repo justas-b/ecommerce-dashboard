@@ -18,40 +18,42 @@ app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 START, END = extractor.date_range()
 
 app.layout = html.Div(children=[
-    dbc.Col(class_name="header_div", children=[
+    dbc.Row(class_name="header_div", children=[
         dbc.Row(html.H1("E-commerce Dashboard")),
 
         dbc.Row(html.P(f"{START} to {END}")),
     ]),
 
-    dbc.Card(children=[
-        dbc.CardBody(children=[
-            dbc.Row(id="overview_div", children=[
-                dbc.Row(children=[
-                    html.H3("Overview")
-                ]),
+    dbc.Col(children=[
+        dbc.Row(children=[
+            dbc.Card(children=[
+                dbc.CardBody(children=[
+                    dbc.Row(children=[
+                        html.H3("Overview")
+                    ]),
+                    
+                    dbc.Row(children=[
+                        dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
-                html.Hr(),
-                
-                dbc.Row(children=[
-                    dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+                        dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
 
-                    dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+                        dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text")
+                    ]),
+                    
+                    dbc.Row(children=[
+                        dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-                    dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text")
-                ]),
-                
-                dbc.Row(children=[
-                    dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+                        dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-                    dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
-
-                    dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+                        dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+                    ])
                 ])
-            ]),
+            ])
+        ]),
 
-            dbc.Row(id="top_plot_div", children=[
-                dbc.Col(class_name="graph_div", children=[
+        dbc.Row(children=[
+            dbc.Card(children=[
+                dbc.CardBody(children=[                  
                     dbc.Row(html.Div(id="day_plot_title")),
 
                     dbc.Row(children=[
@@ -70,15 +72,16 @@ app.layout = html.Div(children=[
 
                     dbc.Row(dcc.Graph(id="day_plot_fig")),
 
-                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
-                    ]
-                )
-                ], 
-            justify="center"
-            ),
+                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row")
+                ])
+            ])
+        ], 
+        justify="center"
+        ),
 
-            dbc.Row(id="bottom_plot_div", children=[
-                dbc.Col(class_name="graph_div", children=[
+        dbc.Row(children=[
+            dbc.Card(children=[
+                dbc.CardBody(children=[
                     html.Div(id="country_plot_title"),
 
                     dcc.Graph(id="country_plot_fig"),
@@ -104,10 +107,12 @@ app.layout = html.Div(children=[
                                 ], value="head", inline=True
                             )
                         ]),
-                    ]),
-                ]),
+                    ])
+                ])
+            ]),
 
-                dbc.Col(class_name="graph_div", children=[
+            dbc.Card(children=[
+                dbc.CardBody(children=[
                     html.Div(id="delivery_title"),
 
                     dcc.Graph(id="delivery_plot"),
@@ -120,15 +125,20 @@ app.layout = html.Div(children=[
                             ], value="orders", inline=True
                         )
                     ])
-                ]),
+                ])
+            ]),
+        ]),
 
-                dbc.Col(class_name="graph_div", children=[
+        dbc.Row(children=[
+            dbc.Card(children=[
+                dbc.CardBody(children=[
                     html.H3("Days to Dispatch"),
                     
                     dcc.Graph(figure=extractor.days_to_dispatch())
                 ])
             ])
         ])
+        
     ])
 ])
 
