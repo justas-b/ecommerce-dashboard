@@ -19,7 +19,9 @@ START, END = extractor.date_range()
 
 app.layout = html.Div(className="page_div", children=[
     dbc.Row(className="header_div", children=[
-        html.P("head")
+        dbc.Row(html.H1("E-commerce Dashboard")),
+
+        dbc.Row(html.P(f"{START} to {END}"))
     ]),
 
     dbc.Row(className="main_div", children=[
