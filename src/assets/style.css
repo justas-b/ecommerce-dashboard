@@ -1,11 +1,13 @@
+header {
+    padding: 60px;
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+    font-size: 30px;
+  }
+
 h3 {
     text-align: center;
-}
-
-.header_div {
-    text-align: center; 
-    font-size: 20px;
-    background-color: rgb(154, 197, 211);
 }
 
 .info_text {
@@ -31,4 +33,14 @@ h3 {
     width: 50%;
     text-align: center;
     display: inline-block;
+}
+
+main {
+    /* padding: 100px;
+    text-align: center; */
+    background: #0e0bcc;
+    /* color: white;
+    font-size: 30px;
+    float: left;
+    width: 20%; */
 }
