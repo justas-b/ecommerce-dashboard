@@ -34,9 +34,25 @@ h3 {
     height: 50%;
 }
 
+.top_left_div {
+    background: #38c41c;
+}
+
+.top_right_div {
+    background: #108874;
+}
+
 .bottom_body_div {
     background: #aebe15;
     height: 50%;
+}
+
+.bottom_left_div {
+    background: #5e090e;
+}
+
+.bottom_right_div {
+    background: #e964e9;
 }
 
 /* .info_text {

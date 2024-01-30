@@ -29,11 +29,23 @@ app.layout = html.Div(className="page_div", children=[
 
         dbc.Col(class_name="body_div", children=[
             dbc.Row(className="top_body_div", children=[
-                html.P("top") 
+                dbc.Col(class_name="top_left_div", children=[
+                    html.P("tl")
+                ], width=9),
+
+                dbc.Col(class_name="top_right_div", children=[
+                    html.P("tr")
+                ]),
             ]),
 
             dbc.Row(className="bottom_body_div", children=[
-                html.P("bottom") 
+                dbc.Col(class_name="bottom_left_div", children=[
+                    html.P("bl")
+                ]),
+
+                dbc.Col(class_name="bottom_right_div", children=[
+                    html.P("br")
+                ]), 
             ])
         ])
     ]),
