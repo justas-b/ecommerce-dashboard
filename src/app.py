@@ -80,56 +80,62 @@ app.layout = html.Div(children=[
         ),
 
         dbc.Row(children=[
-            dbc.Col(children=[
-                html.Div(id="country_plot_title"),
+            dbc.Card(children=[
+                dbc.CardBody(children=[
+                    html.Div(id="country_plot_title"),
 
-                dcc.Graph(id="country_plot_fig"),
+                    dcc.Graph(id="country_plot_fig"),
 
-                dbc.Row(children=[
-                    dbc.Col(children=[
-                        dbc.Select(
-                            class_name="selector",   id="country_analytic_callback",
-                            options=[
-                                {"label": "Orders", "value": "orders"},
-                                {"label": "Total Revenue", "value": "total"},
-                                {"label": "Average Revenue", "value": "average"}
-                            ], value="orders"
-                        )
-                    ]),
+                    dbc.Row(children=[
+                        dbc.Col(children=[
+                            dbc.Select(
+                                class_name="selector",   id="country_analytic_callback",
+                                options=[
+                                    {"label": "Orders", "value": "orders"},
+                                    {"label": "Total Revenue", "value": "total"},
+                                    {"label": "Average Revenue", "value": "average"}
+                                ], value="orders"
+                            )
+                        ]),
 
-                    dbc.Col(children=[
-                        dbc.RadioItems(
-                            class_name="selector", id="head_tail_country_callback",
-                            options=[
-                                {"label": " Top", "value": "head"},
-                                {"label": " Bottom", "value": "tail"}
-                            ], value="head", inline=True
-                        )
-                    ]),
-                ]),
+                        dbc.Col(children=[
+                            dbc.RadioItems(
+                                class_name="selector", id="head_tail_country_callback",
+                                options=[
+                                    {"label": " Top", "value": "head"},
+                                    {"label": " Bottom", "value": "tail"}
+                                ], value="head", inline=True
+                            )
+                        ]),
+                    ])
+                ])
             ]),
 
-            dbc.Col(children=[
-                html.Div(id="delivery_title"),
+            dbc.Card(children=[
+                dbc.CardBody(children=[
+                    html.Div(id="delivery_title"),
 
-                dcc.Graph(id="delivery_plot"),
+                    dcc.Graph(id="delivery_plot"),
 
-                html.Div(className="small", children=[
-                    dbc.RadioItems(
-                        class_name="selector", id="delivery_callback", options=[
-                            {"label": " Orders", "value": "orders"},
-                            {"label": " Revenue", "value": "revenue"}
-                        ], value="orders", inline=True
-                    )
+                    html.Div(className="small", children=[
+                        dbc.RadioItems(
+                            class_name="selector", id="delivery_callback", options=[
+                                {"label": " Orders", "value": "orders"},
+                                {"label": " Revenue", "value": "revenue"}
+                            ], value="orders", inline=True
+                        )
+                    ])
                 ])
             ]),
         ]),
 
         dbc.Row(children=[
-            dbc.Col(children=[
-                html.H3("Days to Dispatch"),
-                
-                dcc.Graph(figure=extractor.days_to_dispatch())
+            dbc.Card(children=[
+                dbc.CardBody(children=[
+                    html.H3("Days to Dispatch"),
+                    
+                    dcc.Graph(figure=extractor.days_to_dispatch())
+                ])
             ])
         ])
         
