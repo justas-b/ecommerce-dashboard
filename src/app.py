@@ -25,7 +25,7 @@ app.layout = html.Div(children=[
     ]),
 
     dbc.Col(children=[
-        dbc.Row(class_name="card_div", children=[
+        dbc.Row(children=[
             dbc.Card(children=[
                 dbc.CardBody(children=[
                     dbc.Row(children=[
@@ -52,30 +52,30 @@ app.layout = html.Div(children=[
         ]),
 
         dbc.Row(id="top_plot_div", children=[
-            # should be a card
-            dbc.Col(class_name="card_div", children=[
-                dbc.Row(html.Div(id="day_plot_title")),
+            dbc.Card(children=[
+                dbc.CardBody(children=[                  
+                    dbc.Row(html.Div(id="day_plot_title")),
 
-                dbc.Row(children=[
-                    html.Div(className="small", children=[
-                        dbc.RadioItems(
-                            class_name="selector",               id="day_callback",
-                            options=[
-                                {"label": " Orders",
-                                "value": "orders"},
-                                {"label": " Revenue",
-                                "value": "revenue"},
-                            ], value="orders", inline=True
-                        )
-                    ])
-                ]),    
+                    dbc.Row(children=[
+                        html.Div(className="small", children=[
+                            dbc.RadioItems(
+                                class_name="selector",               id="day_callback",
+                                options=[
+                                    {"label": " Orders",
+                                    "value": "orders"},
+                                    {"label": " Revenue",
+                                    "value": "revenue"},
+                                ], value="orders", inline=True
+                            )
+                        ])
+                    ]),    
 
-                dbc.Row(dcc.Graph(id="day_plot_fig")),
+                    dbc.Row(dcc.Graph(id="day_plot_fig")),
 
-                dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
-                ]
-            )
-            ], 
+                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row")
+                ])
+            ])
+        ], 
         justify="center"
         ),
         # middle row
