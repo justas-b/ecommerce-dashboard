@@ -17,18 +17,18 @@ app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 
 START, END = extractor.date_range()
 
-app.layout = html.Div(children=[
-    html.Header(children=[
-
+app.layout = html.Div(className="page_div", children=[
+    dbc.Row(className="header_div", children=[
+        html.P("head")
     ]),
 
-    html.Div(className="main_div", children=[
+    dbc.Row(className="main_div", children=[
         dbc.Col(class_name="sidebar_div", children=[
+            html.P("side")
+        ], width=2),
 
-        ]),
-        
         dbc.Col(class_name="body_div", children=[
-            
+            html.P("body")
         ])
     ]),
 ])

@@ -1,16 +1,36 @@
-header {
-    padding: 60px;
-    text-align: center;
-    background: #1abc9c;
-    color: white;
-    font-size: 30px;
-  }
-
 h3 {
     text-align: center;
 }
 
-.info_text {
+.page_div {
+    height: 100vh;
+    width: 100vw;
+}
+
+.header_div {
+    /* padding: 60px; */
+    text-align: center;
+    background: #97f3e1;
+    color: white;
+    font-size: 30px;
+    height: 10%;
+    width: 100%
+  }
+
+.main_div {
+    height: 90%;
+    width: 100%
+}
+
+.sidebar_div {
+    background: #97f3e1;
+}
+
+.body_div {
+    background: #fffdff;
+}
+
+/* .info_text {
     text-align: center; 
     font-size: 17px
 }
@@ -33,14 +53,4 @@ h3 {
     width: 50%;
     text-align: center;
     display: inline-block;
-}
-
-main {
-    /* padding: 100px;
-    text-align: center; */
-    background: #0e0bcc;
-    /* color: white;
-    font-size: 30px;
-    float: left;
-    width: 20%; */
-}
+} */
