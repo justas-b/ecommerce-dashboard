@@ -55,9 +55,9 @@ h3 {
     background: #e964e9;
 }
 
-/* .info_text {
+.info_text {
     text-align: center; 
-    font-size: 17px
+    font-size: 17px;
 }
 
 .card_div {
@@ -78,4 +78,4 @@ h3 {
     width: 50%;
     text-align: center;
     display: inline-block;
-} */
+}

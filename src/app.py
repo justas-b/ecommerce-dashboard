@@ -26,7 +26,19 @@ app.layout = html.Div(className="page_div", children=[
 
     dbc.Row(className="main_div", children=[
         dbc.Col(class_name="sidebar_div", children=[
-            html.P("side")
+            html.H3("Overview"),
+        
+            dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+
+            dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+
+            dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+        
+            dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+
+            dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+
+            dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
         ], width=2),
 
         dbc.Col(class_name="body_div", children=[
