@@ -2,15 +2,62 @@ h3 {
     text-align: center;
 }
 
+.page_div {
+    height: 100vh;
+    width: 100vw;
+}
+
 .header_div {
-    text-align: center; 
-    font-size: 20px;
-    background-color: rgb(154, 197, 211);
+    text-align: center;
+    background: #97f3e1;
+    color: white;
+    /* font-size: 30px; */
+    height: 10%;
+    width: 100%
+  }
+
+.main_div {
+    height: 90%;
+    width: 100%
+}
+
+.sidebar_div {
+    background: #97f3e1;
+}
+
+.body_div {
+    background: #fffdff;
+}
+
+.top_body_div {
+    background: #e964e9;
+    height: 50%;
+}
+
+.top_left_div {
+    background: #38c41c;
+}
+
+.top_right_div {
+    background: #108874;
+}
+
+.bottom_body_div {
+    background: #aebe15;
+    height: 50%;
+}
+
+.bottom_left_div {
+    background: #5e090e;
+}
+
+.bottom_right_div {
+    background: #e964e9;
 }
 
 .info_text {
     text-align: center; 
-    font-size: 17px
+    font-size: 17px;
 }
 
 .card_div {
@@ -24,11 +71,10 @@ h3 {
 .selector {
     display: inline-block;
     text-align: center;
-    width: 90%
 }
 
 .slider_row {
-    width: 50%;
+    width: 100%;
     text-align: center;
     display: inline-block;
 }
