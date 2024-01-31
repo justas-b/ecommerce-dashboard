@@ -44,7 +44,26 @@ app.layout = html.Div(className="page_div", children=[
         dbc.Col(class_name="body_div", children=[
             dbc.Row(className="top_body_div", children=[
                 dbc.Col(class_name="top_left_div", children=[
-                    html.P("tl")
+                    html.Div(id="day_plot_title"),
+                    
+                    dbc.Row(
+                        html.Div(
+                            dcc.Graph(id="day_plot_fig", style={'width': '100%', 'height': '95vh'}))
+                    ),
+
+                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row"),
+
+                    dbc.Row(children=[
+                        dbc.RadioItems(
+                            class_name="selector",               id="day_callback",
+                            options=[
+                                {"label": " Orders",
+                                "value": "orders"},
+                                {"label": " Revenue",
+                                "value": "revenue"},
+                            ], value="orders", inline=True
+                        )
+                    ]),                    
                 ], width=9),
 
                 dbc.Col(class_name="top_right_div", children=[
@@ -66,38 +85,7 @@ app.layout = html.Div(className="page_div", children=[
 ])
 
 # app.layout = html.Div(children=[
-#     dbc.Row(class_name="header_div", children=[
-#         dbc.Row(html.H1("E-commerce Dashboard")),
-
-#         dbc.Row(html.P(f"{START} to {END}")),
-#     ]),
-
-#     dbc.Col(children=[
-#         dbc.Row(children=[
-#             dbc.Card(children=[
-#                 dbc.CardBody(children=[
-#                     dbc.Row(children=[
-#                         html.H3("Overview")
-#                     ]),
-                    
-#                     dbc.Row(children=[
-#                         dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
-
-#                         dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
-
-#                         dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text")
-#                     ]),
-                    
-#                     dbc.Row(children=[
-#                         dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
-
-#                         dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
-
-#                         dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
-#                     ])
-#                 ])
-#             ])
-#         ]),
+#   
 
 #         dbc.Row(children=[
 #             dbc.Card(children=[
@@ -191,36 +179,36 @@ app.layout = html.Div(className="page_div", children=[
 # ])
 
 
-# @app.callback(
-#     Output(component_id="day_plot_title", component_property="children"),
-#     Output(component_id="day_plot_fig", component_property="figure"),
-#     Input(component_id="day_callback", component_property="value"),
-#     Input(component_id="granularity_slider", component_property="value"),
-# )
-# def update_day_fig(analytic: str, granularity: int) -> tuple:
-#     """Callback function to update the 'days' title and figure.
+@app.callback(
+    Output(component_id="day_plot_title", component_property="children"),
+    Output(component_id="day_plot_fig", component_property="figure"),
+    Input(component_id="day_callback", component_property="value"),
+    Input(component_id="granularity_slider", component_property="value"),
+)
+def update_day_fig(analytic: str, granularity: int) -> tuple:
+    """Callback function to update the 'days' title and figure.
 
-#     Args:
-#         analytic (str): Input from RadioItems where the input is 'orders' or 'revenue'.
-#         granularity (int): Input from a Slider widget where the input is 1, 2 or 3. The lower the input the higher the granularity is: 1 - daily, 2 - weekly, or 3 - monthly.
+    Args:
+        analytic (str): Input from RadioItems where the input is 'orders' or 'revenue'.
+        granularity (int): Input from a Slider widget where the input is 1, 2 or 3. The lower the input the higher the granularity is: 1 - daily, 2 - weekly, or 3 - monthly.
 
-#     Returns:
-#         tuple: Header element to update the title and a bar plot figure.
-#     """
-#     if granularity == 1:
-#         nbins = extractor.number_of_days()
-#         output_title = "Daily"
-#     elif granularity == 2:
-#         nbins = extractor.number_of_weeks()
-#         output_title = "Weekly"
-#     else:
-#         nbins = extractor.number_of_months()
-#         output_title = "Monthly"
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
+    if granularity == 1:
+        nbins = extractor.number_of_days()
+        output_title = "Daily"
+    elif granularity == 2:
+        nbins = extractor.number_of_weeks()
+        output_title = "Weekly"
+    else:
+        nbins = extractor.number_of_months()
+        output_title = "Monthly"
 
-#     if analytic == "orders":
-#         return html.H3(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
-#     elif analytic == "revenue":
-#         return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
+    if analytic == "orders":
+        return html.H3(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
+    elif analytic == "revenue":
+        return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
 
 
 # @app.callback(
