@@ -115,7 +115,9 @@ app.layout = html.Div(className="page_div", children=[
 
                 dbc.Col(class_name="bottom_right_div", children=[
                     html.Div(children=[
-
+                        html.H3("Days to Dispatch"),
+                        
+                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "70%"})
                     ], style={"height": "100%"})                
                 ]), 
             ])
