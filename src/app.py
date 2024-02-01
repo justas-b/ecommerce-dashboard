@@ -45,7 +45,7 @@ app.layout = html.Div(className="page_div", children=[
             dbc.Row(className="top_body_div", children=[
                 dbc.Col(class_name="top_left_div", children=[
                     html.Div(children=[
-                        html.Div(id="day_plot_title", children=["tsetg"]),
+                        html.Div(id="day_plot_title"),
 
                         dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
 
@@ -61,12 +61,23 @@ app.layout = html.Div(className="page_div", children=[
                             ], value="orders", inline=True
                         ),
                     ], style={"height": "100%"}),
-
-                    
                 ], width=9),
 
                 dbc.Col(class_name="top_right_div", children=[
-                    html.P("tr")
+                    html.Div(children=[
+                        html.Div(id="delivery_title"),
+
+                        dcc.Graph(id="delivery_plot", style={"height": "70%"}),
+
+                        html.Div(className="small", children=[
+                            dbc.RadioItems(
+                                class_name="selector", id="delivery_callback", options=[
+                                    {"label": " Orders", "value": "orders"},
+                                    {"label": " Revenue", "value": "revenue"}
+                                ], value="orders", inline=True
+                            )
+                        ])
+                    ], style={"height": "100%"})
                 ]),
             ]),
 
@@ -236,26 +247,26 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
 #         return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
 
 
-# @app.callback(
-#     Output(component_id="delivery_title", component_property="children"),
-#     Output(component_id="delivery_plot", component_property="figure"),
-#     Input(component_id="delivery_callback", component_property="value")
-# )
-# def update_delivery_fig(analytic: str) -> tuple:
-#     """Callback function to update the 'delivery' title and figure.
+@app.callback(
+    Output(component_id="delivery_title", component_property="children"),
+    Output(component_id="delivery_plot", component_property="figure"),
+    Input(component_id="delivery_callback", component_property="value")
+)
+def update_delivery_fig(analytic: str) -> tuple:
+    """Callback function to update the 'delivery' title and figure.
 
-#     Args:
-#         analytic (str): Input from a RadioItems widget where the inputs can be 'orders' or 'revenue'.
+    Args:
+        analytic (str): Input from a RadioItems widget where the inputs can be 'orders' or 'revenue'.
 
-#     Returns:
-#         tuple: Header element to update the title and a bar plot figure.
-#     """
-#     output_title = "per Delivery Type"
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
+    output_title = "per Delivery Type"
 
-#     if analytic == "orders":
-#         return html.H3(f"Orders {output_title}"), extractor.order_delivery_charge()
-#     else:
-#         return html.H3(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
+    if analytic == "orders":
+        return html.H3(f"Orders {output_title}"), extractor.order_delivery_charge()
+    else:
+        return html.H3(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":
