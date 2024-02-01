@@ -83,11 +83,40 @@ app.layout = html.Div(className="page_div", children=[
 
             dbc.Row(className="bottom_body_div", children=[
                 dbc.Col(class_name="bottom_left_div", children=[
-                    html.P("bl")
+                    html.Div(children=[
+                        html.Div(id="country_plot_title"),
+
+                        dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+
+                        dbc.Row(children=[
+                            dbc.Col(children=[
+                                dbc.Select(
+                                    class_name="selector",   id="country_analytic_callback",
+                                    options=[
+                                        {"label": "Orders", "value": "orders"},
+                                        {"label": "Total Revenue", "value": "total"},
+                                        {"label": "Average Revenue", "value": "average"}
+                                    ], value="orders"
+                                )
+                            ]),
+                        ]),
+
+                        dbc.Col(children=[
+                            dbc.RadioItems(
+                                class_name="selector", id="head_tail_country_callback",
+                                options=[
+                                    {"label": " Top", "value": "head"},
+                                    {"label": " Bottom", "value": "tail"}
+                                ], value="head", inline=True
+                            )
+                        ]),
+                    ], style={"height": "100%"})
                 ]),
 
                 dbc.Col(class_name="bottom_right_div", children=[
-                    html.P("br")
+                    html.Div(children=[
+
+                    ], style={"height": "100%"})                
                 ]), 
             ])
         ])
@@ -221,30 +250,30 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
         return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
 
 
-# @app.callback(
-#     Output(component_id="country_plot_title", component_property="children"),
-#     Output(component_id="country_plot_fig", component_property="figure"),
-#     Input(component_id="country_analytic_callback", component_property="value"),
-#     Input(component_id="head_tail_country_callback", component_property="value")
-# )
-# def update_country_fig(analytic: str, head_tail: str) -> tuple:
-#     """Callback function to update the 'country' title and figure.
+@app.callback(
+    Output(component_id="country_plot_title", component_property="children"),
+    Output(component_id="country_plot_fig", component_property="figure"),
+    Input(component_id="country_analytic_callback", component_property="value"),
+    Input(component_id="head_tail_country_callback", component_property="value")
+)
+def update_country_fig(analytic: str, head_tail: str) -> tuple:
+    """Callback function to update the 'country' title and figure.
 
-#     Args:
-#         analytic_input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
-#         top_bottom_input (str): Input from a Select widget where the inputs can be 'head' or 'tail'.
+    Args:
+        analytic_input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
+        top_bottom_input (str): Input from a Select widget where the inputs can be 'head' or 'tail'.
 
-#     Returns:
-#         tuple: Header element to update the title and a bar plot figure.
-#     """
-#     output_title = "per Country"
-#     # head_tail input will be passed to the figure functions
-#     if analytic == "orders":
-#         return html.H3(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
-#     elif analytic == "total":
-#         return html.H3(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
-#     elif analytic == "average":
-#         return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+    Returns:
+        tuple: Header element to update the title and a bar plot figure.
+    """
+    output_title = "per Country"
+    # head_tail input will be passed to the figure functions
+    if analytic == "orders":
+        return html.H3(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
+    elif analytic == "total":
+        return html.H3(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
+    elif analytic == "average":
+        return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
 
 
 @app.callback(
