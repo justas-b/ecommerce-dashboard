@@ -44,7 +44,7 @@ h3 {
 
 .bottom_body_div {
     background: #aebe15;
-    height: 50%;
+    /* height: 50%; */
 }
 
 .bottom_left_div {
@@ -55,17 +55,13 @@ h3 {
     background: #e964e9;
 }
 
+.inner_div {
+    height: 100%;
+}
+
 .info_text {
     text-align: center; 
     font-size: 17px;
-}
-
-.card_div {
-    text-align: center; 
-    background-color: white;
-    box-shadow: 0px 0px 1px 0px grey;
-    padding: 5px 5px 5px 5px;
-    margin: 10px;
 }
 
 .selector {

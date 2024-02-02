@@ -60,7 +60,7 @@ app.layout = html.Div(className="page_div", children=[
                                 "value": "revenue"},
                             ], value="orders", inline=True
                         ),
-                    ], style={"height": "100%"}),
+                    ], className="inner_div"),
                 ], width=9),
 
                 dbc.Col(class_name="top_right_div", children=[
@@ -77,7 +77,7 @@ app.layout = html.Div(className="page_div", children=[
                                 ], value="orders", inline=True
                             )
                         ])
-                    ], style={"height": "100%"})
+                    ], className="inner_div")
                 ]),
             ]),
 
@@ -110,15 +110,15 @@ app.layout = html.Div(className="page_div", children=[
                                 ], value="head", inline=True
                             )
                         ]),
-                    ], style={"height": "100%"})
+                    ], className="inner_div")
                 ]),
 
                 dbc.Col(class_name="bottom_right_div", children=[
                     html.Div(children=[
                         html.H3("Days to Dispatch"),
                         
-                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "70%"})
-                    ], style={"height": "100%"})                
+                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "80%"}),
+                    ], className="inner_div")                
                 ]), 
             ])
         ])
