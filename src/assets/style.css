@@ -9,6 +9,7 @@ h4 {
 .page_div {
     height: 100vh;
     width: 100vw;
+    margin-right: 0;
 }
 
 .header_div {
@@ -29,32 +30,37 @@ h4 {
 
 .body_div {
     background: #fffdff;
+    border: 2px solid grey
 }
 
 .top_body_div {
-    background: #140d14;
+    /* background: #140d14; */
     height: 50%;
 }
 
 .top_left_div {
-    background: #38c41c;
+    /* background: #38c41c; */
+    border-right: 2px solid grey;
+    border-bottom: 2px solid grey
 }
 
 .top_right_div {
-    background: #108874;
+    /* background: #108874; */
+    border-bottom: 2px solid grey;
 }
 
 .bottom_body_div {
-    background: #aebe15;
+    /* background: #aebe15; */
     height: 50%;
 }
 
 .bottom_left_div {
-    background: #5e090e;
+    /* background: #5e090e; */
+    border-right: 2px solid grey
 }
 
 .bottom_right_div {
-    background: #e964e9;
+    /* background: #e964e9; */
 }
 
 .inner_div {
