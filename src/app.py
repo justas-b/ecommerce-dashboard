@@ -21,24 +21,24 @@ app.layout = html.Div(className="page_div", children=[
     dbc.Row(className="header_div", children=[
         html.H1("E-commerce Dashboard"),
 
-        html.P(f"{START} to {END}")
+        html.P(f"{START} to {END}", className="info_text")
     ]),
 
     dbc.Row(className="main_div", children=[
         dbc.Col(class_name="sidebar_div", children=[
             html.H3("Overview"),
         
-            dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+            html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
-            dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+            html.P(f"Orders: {extractor.total_orders()}", className="info_text"),
 
-            dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+            html.P(f"Items Ordered: {extractor.total_items()}", className="info_text"),
         
-            dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+            html.P(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-            dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+            html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-            dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
         ], width=2),
 
         dbc.Col(class_name="body_div", children=[
@@ -175,7 +175,7 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
         tuple: Header element to update the title and a bar plot figure.
     """
     output_title = "per Country"
-    # head_tail input will be passed to the figure functions
+
     if analytic == "orders":
         return html.H4(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
     elif analytic == "total":
