@@ -2,16 +2,19 @@ h3 {
     text-align: center;
 }
 
+h4 {
+    text-align: center;
+}
+
 .page_div {
     height: 100vh;
     width: 100vw;
+    margin-right: 0;
 }
 
 .header_div {
     text-align: center;
     background: #97f3e1;
-    color: white;
-    /* font-size: 30px; */
     height: 10%;
     width: 100%
   }
@@ -27,45 +30,47 @@ h3 {
 
 .body_div {
     background: #fffdff;
+    border: 2px solid grey
 }
 
 .top_body_div {
-    background: #140d14;
+    /* background: #140d14; */
     height: 50%;
 }
 
 .top_left_div {
-    background: #38c41c;
+    /* background: #38c41c; */
+    border-right: 2px solid grey;
+    border-bottom: 2px solid grey
 }
 
 .top_right_div {
-    background: #108874;
+    /* background: #108874; */
+    border-bottom: 2px solid grey;
 }
 
 .bottom_body_div {
-    background: #aebe15;
+    /* background: #aebe15; */
     height: 50%;
 }
 
 .bottom_left_div {
-    background: #5e090e;
+    /* background: #5e090e; */
+    border-right: 2px solid grey
 }
 
 .bottom_right_div {
-    background: #e964e9;
+    /* background: #e964e9; */
+}
+
+.inner_div {
+    height: 100%;
+    width: 100%;    
 }
 
 .info_text {
     text-align: center; 
     font-size: 17px;
-}
-
-.card_div {
-    text-align: center; 
-    background-color: white;
-    box-shadow: 0px 0px 1px 0px grey;
-    padding: 5px 5px 5px 5px;
-    margin: 10px;
 }
 
 .selector {

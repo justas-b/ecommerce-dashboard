@@ -75,7 +75,8 @@ class DataExtractor():
         }
 
         fig = px.bar(data, x="Orders", y="Country")
-
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+        
         return fig
 
     def total_revenue_per_country(self, order: str) -> px.bar:
@@ -98,6 +99,7 @@ class DataExtractor():
         }
 
         fig = px.bar(data, x="Total Revenue", y="Country")
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
 
         return fig
 
@@ -121,6 +123,7 @@ class DataExtractor():
         }
 
         fig = px.bar(data, x="Average Revenue", y="Country")
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
 
         return fig
 
@@ -137,7 +140,8 @@ class DataExtractor():
         }
 
         fig = px.bar(data, x="Days to Dispatch", y="Orders")
-
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+        
         return fig
 
     def order_delivery_charge(self) -> px.pie:
@@ -154,6 +158,7 @@ class DataExtractor():
         }
 
         fig = px.pie(data, values="Orders", names="Delivery Type")
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
 
         return fig
 
@@ -173,6 +178,7 @@ class DataExtractor():
         }
 
         fig = px.pie(data, values="Revenue", names="Delivery Type")
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
 
         return fig
 
@@ -189,7 +195,8 @@ class DataExtractor():
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Orders",
-            bargap=0.25
+            bargap=0.25,
+            margin=dict(l=0, r=0, t=0, b=0)
         )
 
         return fig
@@ -207,7 +214,8 @@ class DataExtractor():
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Revenue",
-            bargap=0.25
+            bargap=0.25,
+            margin=dict(l=0, r=0, t=0, b=0)
         )
 
         return fig

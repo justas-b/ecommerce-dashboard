@@ -19,26 +19,26 @@ START, END = extractor.date_range()
 
 app.layout = html.Div(className="page_div", children=[
     dbc.Row(className="header_div", children=[
-        dbc.Row(html.H1("E-commerce Dashboard")),
+        html.H1("E-commerce Dashboard"),
 
-        dbc.Row(html.P(f"{START} to {END}"))
+        html.P(f"{START} to {END}", className="info_text")
     ]),
 
     dbc.Row(className="main_div", children=[
         dbc.Col(class_name="sidebar_div", children=[
             html.H3("Overview"),
         
-            dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+            html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
-            dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+            html.P(f"Orders: {extractor.total_orders()}", className="info_text"),
 
-            dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+            html.P(f"Items Ordered: {extractor.total_items()}", className="info_text"),
         
-            dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+            html.P(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-            dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+            html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-            dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
         ], width=2),
 
         dbc.Col(class_name="body_div", children=[
@@ -60,7 +60,7 @@ app.layout = html.Div(className="page_div", children=[
                                 "value": "revenue"},
                             ], value="orders", inline=True
                         ),
-                    ], style={"height": "100%"}),
+                    ], className="inner_div"),
                 ], width=9),
 
                 dbc.Col(class_name="top_right_div", children=[
@@ -77,7 +77,7 @@ app.layout = html.Div(className="page_div", children=[
                                 ], value="orders", inline=True
                             )
                         ])
-                    ], style={"height": "100%"})
+                    ], className="inner_div")
                 ]),
             ]),
 
@@ -110,15 +110,15 @@ app.layout = html.Div(className="page_div", children=[
                                 ], value="head", inline=True
                             )
                         ]),
-                    ], style={"height": "100%"})
-                ]),
+                    ], className="inner_div")
+                ], width=6),
 
                 dbc.Col(class_name="bottom_right_div", children=[
                     html.Div(children=[
-                        html.H3("Days to Dispatch"),
+                        html.H4("Days to Dispatch"),
                         
-                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "70%"})
-                    ], style={"height": "100%"})                
+                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "75%"}),
+                    ], className="inner_div")                
                 ]), 
             ])
         ])
@@ -153,9 +153,9 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
         output_title = "Monthly"
 
     if analytic == "orders":
-        return html.H3(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
+        return html.H4(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
     elif analytic == "revenue":
-        return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
+        return html.H4(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
@@ -175,13 +175,13 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
         tuple: Header element to update the title and a bar plot figure.
     """
     output_title = "per Country"
-    # head_tail input will be passed to the figure functions
+
     if analytic == "orders":
-        return html.H3(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
+        return html.H4(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
     elif analytic == "total":
-        return html.H3(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
+        return html.H4(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
     elif analytic == "average":
-        return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+        return html.H4(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
 
 
 @app.callback(
@@ -201,9 +201,9 @@ def update_delivery_fig(analytic: str) -> tuple:
     output_title = "per Delivery Type"
 
     if analytic == "orders":
-        return html.H3(f"Orders {output_title}"), extractor.order_delivery_charge()
+        return html.H4(f"Orders {output_title}"), extractor.order_delivery_charge()
     else:
-        return html.H3(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
+        return html.H4(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":
