@@ -8,7 +8,7 @@ sys.path.append("./")
 from src.data_utils.generator import DataGenerator
 
 
-class DataTransformer():
+class DataTransformer:
     """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. If there is no filename specified, data will be randomly generated. 
     """
     def __init__(self) -> None:
