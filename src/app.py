@@ -59,7 +59,7 @@ app.layout = html.Div(className="page_div", children=[
 
                         dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
 
-                        dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}),
+                        dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}, className="slider_selector"),
                     ], className="inner_div"),
                 ], width=9),
 
