@@ -4,7 +4,7 @@ import datetime
 import pandas as pd
 
 
-class DataGenerator():
+class DataGenerator:
     """Generator class that is capable of generating the necessary sample data for use with the dashboard - can serve to experiment, use as an example, or analyse.
 
     Args:

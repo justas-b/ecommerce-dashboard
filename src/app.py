@@ -18,14 +18,14 @@ app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 START, END = extractor.date_range()
 
 app.layout = html.Div(className="page_div", children=[
-    dbc.Row(className="header_div", children=[
+    dbc.Row(children=[
         html.H1("E-commerce Dashboard"),
 
         html.P(f"{START} to {END}", className="info_text")
-    ]),
+    ], className="header_div"),
 
-    dbc.Row(className="main_div", children=[
-        dbc.Col(class_name="sidebar_div", children=[
+    dbc.Row(children=[
+        dbc.Col(children=[
             html.H3("Overview"),
         
             html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
@@ -39,90 +39,98 @@ app.layout = html.Div(className="page_div", children=[
             html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
             html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
-        ], width=2),
+        ], class_name="sidebar_div", width=2),
 
-        dbc.Col(class_name="body_div", children=[
-            dbc.Row(className="top_body_div", children=[
-                dbc.Col(class_name="top_left_div", children=[
+        dbc.Col(children=[
+            dbc.Row(children=[
+                dbc.Col(children=[
                     html.Div(children=[
                         html.Div(id="day_plot_title"),
 
-                        dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
-
-                        dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}),
-
-                        dbc.RadioItems(
-                            class_name="selector",               id="day_callback",
+                        dbc.Select(
+                            id="day_callback",
                             options=[
                                 {"label": " Orders",
                                 "value": "orders"},
                                 {"label": " Revenue",
-                                "value": "revenue"},
-                            ], value="orders", inline=True
+                                "value": "revenue"}
+                            ], 
+                            value="orders", 
+                            class_name="selector"
+                        ),
+
+                        dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
+
+                        dcc.Slider(
+                            id="granularity_slider", 
+                            min=1, max=3, value=1, step=1, 
+                            marks={
+                                1: "Daily", 2: "Weekly",  3: "Monthly"
+                            }, 
+                            className="slider_selector"
                         ),
                     ], className="inner_div"),
-                ], width=9),
+                ], class_name="top_left_div", width=9),
 
-                dbc.Col(class_name="top_right_div", children=[
+                dbc.Col(children=[
                     html.Div(children=[
                         html.Div(id="delivery_title"),
 
-                        dcc.Graph(id="delivery_plot", style={"height": "70%"}),
+                        dbc.Select(
+                            id="delivery_callback",
+                            options=[
+                                {"label": " Orders", "value": "orders"},
+                                {"label": " Revenue", "value": "revenue"}
+                            ],
+                            value="orders", 
+                            class_name="selector"
+                        ),
 
-                        html.Div(className="small", children=[
-                            dbc.RadioItems(
-                                class_name="selector", id="delivery_callback", options=[
-                                    {"label": " Orders", "value": "orders"},
-                                    {"label": " Revenue", "value": "revenue"}
-                                ], value="orders", inline=True
-                            )
-                        ])
+                        dcc.Graph(id="delivery_plot", style={"height": "70%"})
                     ], className="inner_div")
-                ]),
-            ]),
+                ], class_name="top_right_div"),
+            ], className="top_body_div"),
 
-            dbc.Row(className="bottom_body_div", children=[
-                dbc.Col(class_name="bottom_left_div", children=[
+            dbc.Row(children=[
+                dbc.Col(children=[
                     html.Div(children=[
                         html.Div(id="country_plot_title"),
+                        
+                        dbc.Select(
+                            id="country_analytic_callback",
+                            options=[
+                                {"label": "Orders", "value": "orders"},
+                                {"label": "Total Revenue", "value": "total"},
+                                {"label": "Average Revenue", "value": "average"}
+                            ], 
+                            value="orders", 
+                            class_name="selector",
+                        ),
 
                         dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
 
-                        dbc.Row(children=[
-                            dbc.Col(children=[
-                                dbc.Select(
-                                    class_name="selector",   id="country_analytic_callback",
-                                    options=[
-                                        {"label": "Orders", "value": "orders"},
-                                        {"label": "Total Revenue", "value": "total"},
-                                        {"label": "Average Revenue", "value": "average"}
-                                    ], value="orders"
-                                )
-                            ]),
-                        ]),
-
-                        dbc.Col(children=[
-                            dbc.RadioItems(
-                                class_name="selector", id="head_tail_country_callback",
-                                options=[
-                                    {"label": " Top", "value": "head"},
-                                    {"label": " Bottom", "value": "tail"}
-                                ], value="head", inline=True
-                            )
-                        ]),
+                        dbc.RadioItems(
+                             id="head_tail_country_callback",
+                            options=[
+                                {"label": " Top", "value": "head"},
+                                {"label": " Bottom", "value": "tail"}
+                            ], value="head", 
+                            inline=True, 
+                            class_name="radio_selector"
+                        )
                     ], className="inner_div")
-                ], width=6),
+                ], class_name="bottom_left_div", width=6),
 
-                dbc.Col(class_name="bottom_right_div", children=[
+                dbc.Col(children=[
                     html.Div(children=[
                         html.H4("Days to Dispatch"),
                         
                         dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "75%"}),
                     ], className="inner_div")                
-                ]), 
-            ])
-        ])
-    ]),
+                ], class_name="bottom_right_div"), 
+            ], className="bottom_body_div")
+        ], class_name="body_div")
+    ], className="main_div"),
 ])
 
 

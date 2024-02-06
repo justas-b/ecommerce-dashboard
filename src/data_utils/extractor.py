@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.express as px
 
 
-class DataExtractor():
+class DataExtractor:
     """Class that is able to extract various types of data from the input dataframe.
 
     Args:
