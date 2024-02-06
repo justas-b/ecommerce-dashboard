@@ -93,20 +93,16 @@ app.layout = html.Div(className="page_div", children=[
                                 {"label": "Average Revenue", "value": "average"}
                             ], value="orders"
                         ),
-                        
+
                         dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
 
-
-
-                        dbc.Col(children=[
-                            dbc.RadioItems(
-                                class_name="selector", id="head_tail_country_callback",
-                                options=[
-                                    {"label": " Top", "value": "head"},
-                                    {"label": " Bottom", "value": "tail"}
-                                ], value="head", inline=True
-                            )
-                        ]),
+                        dbc.RadioItems(
+                            class_name="radio_selector", id="head_tail_country_callback",
+                            options=[
+                                {"label": " Top", "value": "head"},
+                                {"label": " Bottom", "value": "tail"}
+                            ], value="head", inline=True
+                        )
                     ], className="inner_div")
                 ], width=6),
 
