@@ -12,19 +12,25 @@ class DataTransformer:
     """Class that loads a data file from src/data/, based on the filename in config.json, that can apply various methods to standardise the data. If there is no filename specified, data will be randomly generated. 
     """
     def __init__(self) -> None:
+        self.random = False
+
         self.config = json.load(open("config.json"))
         self.df = self.load_file()
 
     def limit_columns(self) -> None:
         """Limits the columns only to columns that are used.
         """
-        columns = list(self.config.values())[1:]
-        self.df = self.df[columns]
+        if not self.random:
+            columns = list(self.config.values())[1:]
+            self.df = self.df[columns]
         
     def time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        self.df["days_to_dispatch"] = (self.df[self.config["POSTED_DATE"]] - self.df[self.config["SALE_DATE"]]).dt.days
+        posted_date = self.config["POSTED_DATE"] if not self.random else "post_date"
+        sale_date = self.config["SALE_DATE"] if not self.random else "sale_date"
+
+        self.df["days_to_dispatch"] = (self.df[posted_date] - self.df[sale_date]).dt.days
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.
@@ -53,6 +59,9 @@ class DataTransformer:
             generator = DataGenerator(start="2023-01-01", end="2023-12-31")
             df = generator.generate_n_rows(rows=1000)
             generator.save_csv(df, filename="sample_data")
+
+            self.random = True
+            
 
         date_columns = list(filter(lambda x: "date" in x.lower(), df.columns))
         df[date_columns] = df[date_columns].apply(pd.to_datetime)
