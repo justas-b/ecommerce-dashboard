@@ -47,19 +47,19 @@ app.layout = html.Div(className="page_div", children=[
                     html.Div(children=[
                         html.Div(id="day_plot_title"),
 
-                        dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
-
-                        dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}),
-
-                        dbc.RadioItems(
-                            class_name="selector",               id="day_callback",
+                        dbc.Select(
+                            class_name="selector", id="day_callback",
                             options=[
                                 {"label": " Orders",
                                 "value": "orders"},
                                 {"label": " Revenue",
-                                "value": "revenue"},
-                            ], value="orders", inline=True
+                                "value": "revenue"}
+                            ], value="orders"
                         ),
+
+                        dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
+
+                        dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}),
                     ], className="inner_div"),
                 ], width=9),
 
@@ -69,14 +69,13 @@ app.layout = html.Div(className="page_div", children=[
 
                         dcc.Graph(id="delivery_plot", style={"height": "70%"}),
 
-                        html.Div(className="small", children=[
-                            dbc.RadioItems(
-                                class_name="selector", id="delivery_callback", options=[
-                                    {"label": " Orders", "value": "orders"},
-                                    {"label": " Revenue", "value": "revenue"}
-                                ], value="orders", inline=True
-                            )
-                        ])
+                        dbc.Select(
+                            class_name="selector", id="delivery_callback",
+                            options=[
+                                {"label": " Orders", "value": "orders"},
+                                {"label": " Revenue", "value": "revenue"}
+                            ], value="orders"
+                        ),
                     ], className="inner_div")
                 ]),
             ]),
