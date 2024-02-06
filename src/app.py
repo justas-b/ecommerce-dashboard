@@ -67,8 +67,6 @@ app.layout = html.Div(className="page_div", children=[
                     html.Div(children=[
                         html.Div(id="delivery_title"),
 
-                        dcc.Graph(id="delivery_plot", style={"height": "70%"}),
-
                         dbc.Select(
                             class_name="selector", id="delivery_callback",
                             options=[
@@ -76,6 +74,8 @@ app.layout = html.Div(className="page_div", children=[
                                 {"label": " Revenue", "value": "revenue"}
                             ], value="orders"
                         ),
+
+                        dcc.Graph(id="delivery_plot", style={"height": "70%"})
                     ], className="inner_div")
                 ]),
             ]),
@@ -84,21 +84,19 @@ app.layout = html.Div(className="page_div", children=[
                 dbc.Col(class_name="bottom_left_div", children=[
                     html.Div(children=[
                         html.Div(id="country_plot_title"),
-
+                        
+                        dbc.Select(
+                            class_name="selector",   id="country_analytic_callback",
+                            options=[
+                                {"label": "Orders", "value": "orders"},
+                                {"label": "Total Revenue", "value": "total"},
+                                {"label": "Average Revenue", "value": "average"}
+                            ], value="orders"
+                        ),
+                        
                         dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
 
-                        dbc.Row(children=[
-                            dbc.Col(children=[
-                                dbc.Select(
-                                    class_name="selector",   id="country_analytic_callback",
-                                    options=[
-                                        {"label": "Orders", "value": "orders"},
-                                        {"label": "Total Revenue", "value": "total"},
-                                        {"label": "Average Revenue", "value": "average"}
-                                    ], value="orders"
-                                )
-                            ]),
-                        ]),
+
 
                         dbc.Col(children=[
                             dbc.RadioItems(
