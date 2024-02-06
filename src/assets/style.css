@@ -2,33 +2,81 @@ h3 {
     text-align: center;
 }
 
+h4 {
+    text-align: center;
+}
+
+.page_div {
+    height: 100vh;
+    width: 100vw;
+    margin-right: 0;
+}
+
 .header_div {
-    text-align: center; 
-    font-size: 20px;
-    background-color: rgb(154, 197, 211);
+    text-align: center;
+    background: #97f3e1;
+    height: 10%;
+    width: 100%
+  }
+
+.main_div {
+    height: 90%;
+    width: 100%
+}
+
+.sidebar_div {
+    background: #97f3e1;
+}
+
+.body_div {
+    background: #fffdff;
+    border: 2px solid grey
+}
+
+.top_body_div {
+    height: 50%;
+}
+
+.top_left_div {
+    border-right: 2px solid grey;
+    border-bottom: 2px solid grey
+}
+
+.top_right_div {
+    border-bottom: 2px solid grey;
+}
+
+.bottom_body_div {
+    height: 50%;
+}
+
+.bottom_left_div {
+    border-right: 2px solid grey
+}
+
+.inner_div {
+    height: 100%;
+    width: 100%;    
 }
 
 .info_text {
     text-align: center; 
-    font-size: 17px
-}
-
-.card_div {
-    text-align: center; 
-    background-color: white;
-    box-shadow: 0px 0px 1px 0px grey;
-    padding: 5px 5px 5px 5px;
-    margin: 10px;
+    font-size: 17px;
 }
 
 .selector {
     display: inline-block;
     text-align: center;
-    width: 90%
 }
 
-.slider_row {
-    width: 50%;
+.radio_selector {
     text-align: center;
-    display: inline-block;
+    font-size: 15px;
+}
+
+.slider_selector {
+    width: 75%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

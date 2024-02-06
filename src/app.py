@@ -17,129 +17,120 @@ app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 
 START, END = extractor.date_range()
 
-app.layout = html.Div(children=[
-    dbc.Row(class_name="header_div", children=[
-        dbc.Row(html.H1("E-commerce Dashboard")),
+app.layout = html.Div(className="page_div", children=[
+    dbc.Row(children=[
+        html.H1("E-commerce Dashboard"),
 
-        dbc.Row(html.P(f"{START} to {END}")),
-    ]),
+        html.P(f"{START} to {END}", className="info_text")
+    ], className="header_div"),
 
-    dbc.Col(children=[
-        dbc.Row(children=[
-            dbc.Card(children=[
-                dbc.CardBody(children=[
-                    dbc.Row(children=[
-                        html.H3("Overview")
-                    ]),
-                    
-                    dbc.Row(children=[
-                        dbc.Col(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+    dbc.Row(children=[
+        dbc.Col(children=[
+            html.H3("Overview"),
+        
+            html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
-                        dbc.Col(f"Orders: {extractor.total_orders()}", className="info_text"),
+            html.P(f"Orders: {extractor.total_orders()}", className="info_text"),
 
-                        dbc.Col(f"Items Ordered: {extractor.total_items()}", className="info_text")
-                    ]),
-                    
-                    dbc.Row(children=[
-                        dbc.Col(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+            html.P(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+        
+            html.P(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
 
-                        dbc.Col(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+            html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-                        dbc.Col(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
-                    ])
-                ])
-            ])
-        ]),
+            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+        ], class_name="sidebar_div", width=2),
 
-        dbc.Row(children=[
-            dbc.Card(children=[
-                dbc.CardBody(children=[                  
-                    dbc.Row(html.Div(id="day_plot_title")),
+        dbc.Col(children=[
+            dbc.Row(children=[
+                dbc.Col(children=[
+                    html.Div(children=[
+                        html.Div(id="day_plot_title"),
 
-                    dbc.Row(children=[
-                        html.Div(className="small", children=[
-                            dbc.RadioItems(
-                                class_name="selector",               id="day_callback",
-                                options=[
-                                    {"label": " Orders",
-                                    "value": "orders"},
-                                    {"label": " Revenue",
-                                    "value": "revenue"},
-                                ], value="orders", inline=True
-                            )
-                        ])
-                    ]),    
+                        dbc.Select(
+                            id="day_callback",
+                            options=[
+                                {"label": " Orders",
+                                "value": "orders"},
+                                {"label": " Revenue",
+                                "value": "revenue"}
+                            ], 
+                            value="orders", 
+                            class_name="selector"
+                        ),
 
-                    dbc.Row(dcc.Graph(id="day_plot_fig")),
+                        dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
 
-                    dbc.Row(dcc.Slider(id="granularity_slider", min=1, max=3, value=1, step=1, marks={1: "Daily", 2: "Weekly",  3: "Monthly"}), class_name="slider_row")
-                ])
-            ])
-        ], 
-        justify="center"
-        ),
+                        dcc.Slider(
+                            id="granularity_slider", 
+                            min=1, max=3, value=1, step=1, 
+                            marks={
+                                1: "Daily", 2: "Weekly",  3: "Monthly"
+                            }, 
+                            className="slider_selector"
+                        ),
+                    ], className="inner_div"),
+                ], class_name="top_left_div", width=9),
 
-        dbc.Row(children=[
-            dbc.Card(children=[
-                dbc.CardBody(children=[
-                    html.Div(id="country_plot_title"),
+                dbc.Col(children=[
+                    html.Div(children=[
+                        html.Div(id="delivery_title"),
 
-                    dcc.Graph(id="country_plot_fig"),
-
-                    dbc.Row(children=[
-                        dbc.Col(children=[
-                            dbc.Select(
-                                class_name="selector",   id="country_analytic_callback",
-                                options=[
-                                    {"label": "Orders", "value": "orders"},
-                                    {"label": "Total Revenue", "value": "total"},
-                                    {"label": "Average Revenue", "value": "average"}
-                                ], value="orders"
-                            )
-                        ]),
-
-                        dbc.Col(children=[
-                            dbc.RadioItems(
-                                class_name="selector", id="head_tail_country_callback",
-                                options=[
-                                    {"label": " Top", "value": "head"},
-                                    {"label": " Bottom", "value": "tail"}
-                                ], value="head", inline=True
-                            )
-                        ]),
-                    ])
-                ])
-            ]),
-
-            dbc.Card(children=[
-                dbc.CardBody(children=[
-                    html.Div(id="delivery_title"),
-
-                    dcc.Graph(id="delivery_plot"),
-
-                    html.Div(className="small", children=[
-                        dbc.RadioItems(
-                            class_name="selector", id="delivery_callback", options=[
+                        dbc.Select(
+                            id="delivery_callback",
+                            options=[
                                 {"label": " Orders", "value": "orders"},
                                 {"label": " Revenue", "value": "revenue"}
-                            ], value="orders", inline=True
-                        )
-                    ])
-                ])
-            ]),
-        ]),
+                            ],
+                            value="orders", 
+                            class_name="selector"
+                        ),
 
-        dbc.Row(children=[
-            dbc.Card(children=[
-                dbc.CardBody(children=[
-                    html.H3("Days to Dispatch"),
-                    
-                    dcc.Graph(figure=extractor.days_to_dispatch())
-                ])
-            ])
-        ])
-        
-    ])
+                        dcc.Graph(id="delivery_plot", style={"height": "70%"})
+                    ], className="inner_div")
+                ], class_name="top_right_div"),
+            ], className="top_body_div"),
+
+            dbc.Row(children=[
+                dbc.Col(children=[
+                    html.Div(children=[
+                        html.Div(id="country_plot_title"),
+                        
+                        dbc.Select(
+                            id="country_analytic_callback",
+                            options=[
+                                {"label": "Orders", "value": "orders"},
+                                {"label": "Total Revenue", "value": "total"},
+                                {"label": "Average Revenue", "value": "average"}
+                            ], 
+                            value="orders", 
+                            class_name="selector",
+                        ),
+
+                        dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+
+                        dbc.RadioItems(
+                             id="head_tail_country_callback",
+                            options=[
+                                {"label": " Top", "value": "head"},
+                                {"label": " Bottom", "value": "tail"}
+                            ], value="head", 
+                            inline=True, 
+                            class_name="radio_selector"
+                        )
+                    ], className="inner_div")
+                ], class_name="bottom_left_div", width=6),
+
+                dbc.Col(children=[
+                    html.Div(children=[
+                        html.H4("Days to Dispatch"),
+                        
+                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "75%"}),
+                    ], className="inner_div")                
+                ], class_name="bottom_right_div"), 
+            ], className="bottom_body_div")
+        ], class_name="body_div")
+    ], className="main_div"),
 ])
 
 
@@ -170,9 +161,9 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
         output_title = "Monthly"
 
     if analytic == "orders":
-        return html.H3(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
+        return html.H4(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
     elif analytic == "revenue":
-        return html.H3(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
+        return html.H4(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
@@ -192,13 +183,13 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
         tuple: Header element to update the title and a bar plot figure.
     """
     output_title = "per Country"
-    # head_tail input will be passed to the figure functions
+
     if analytic == "orders":
-        return html.H3(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
+        return html.H4(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
     elif analytic == "total":
-        return html.H3(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
+        return html.H4(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
     elif analytic == "average":
-        return html.H3(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+        return html.H4(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
 
 
 @app.callback(
@@ -218,9 +209,9 @@ def update_delivery_fig(analytic: str) -> tuple:
     output_title = "per Delivery Type"
 
     if analytic == "orders":
-        return html.H3(f"Orders {output_title}"), extractor.order_delivery_charge()
+        return html.H4(f"Orders {output_title}"), extractor.order_delivery_charge()
     else:
-        return html.H3(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
+        return html.H4(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":
