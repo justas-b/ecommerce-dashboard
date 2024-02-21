@@ -48,7 +48,7 @@ app.layout = html.Div(className="page_div", children=[
 
             html.H4("Winners"),
 
-            html.P(f"Day: {extractor.total_revenue()}", className="info_text"),
+            html.P(f"Day: {extractor.best_date('orders')}, {extractor.best_date('revenue')}", className="info_text"),
 
             html.P(f"Week: {extractor.total_revenue()}", className="info_text"),
 
