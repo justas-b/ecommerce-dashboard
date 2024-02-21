@@ -264,3 +264,31 @@ class DataExtractor:
         months = math.ceil(days / (365/12))
 
         return months
+    
+    def best_date(self, aggregate: str) -> str:
+        """Gets the best performing date from the data.
+
+        Args:
+            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
+
+        Returns:
+            str: The best date from the data.
+        """
+        if aggregate == "orders":
+            return self.df[self.sale_date].value_counts().idxmax().strftime("%Y-%m-%d")
+        elif aggregate == "revenue":
+            return self.df.groupby(self.sale_date)[self.price].sum().idxmax().strftime("%Y-%m-%d")
+        else:
+            raise ValueError("Invalid aggregate used.")
+        
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append("./")
+    from src.data_utils.transformer import DataTransformer
+    from src.data_utils.extractor import DataExtractor
+
+    transformer = DataTransformer()
+    transformer.apply_transformations()
+    extractor = DataExtractor(transformer.df)
+    print(extractor.best_date("revenue"))

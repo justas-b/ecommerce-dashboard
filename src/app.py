@@ -26,6 +26,12 @@ app.layout = html.Div(className="page_div", children=[
 
     dbc.Row(children=[
         dbc.Col(children=[
+            # TODO: winners tab
+            # best day, week, month
+            # best country
+            # TODO: losers tab
+            # worst day week month
+
             html.H3("Overview"),
         
             html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
@@ -38,7 +44,16 @@ app.layout = html.Div(className="page_div", children=[
 
             html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
 
-            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text")
+            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text"),
+
+            html.H4("Winners"),
+
+            html.P(f"Day: {extractor.best_date('orders')}, {extractor.best_date('revenue')}", className="info_text"),
+
+            html.P(f"Week: {extractor.total_revenue()}", className="info_text"),
+
+            html.P(f"Month: {extractor.total_revenue()}", className="info_text"),
+
         ], class_name="sidebar_div", width=2),
 
         dbc.Col(children=[
