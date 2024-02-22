@@ -17,26 +17,44 @@ class DataTransformer:
         self.config = json.load(open("config.json"))
         self.df = self.load_file()
 
-    def limit_columns(self) -> None:
+    def _limit_columns(self) -> None:
         """Limits the columns only to columns that are used.
         """
         if not self.random:
             columns = list(self.config.values())[1:]
             self.df = self.df[columns]
+
+    def _normalise_column_names(self) -> None:
+        """Normalises the column names to a standard format.
+        """
+        column_mapping = {
+            self.config["SALE_DATE"]: "sale_date",
+            self.config["QUANTITY"]: "quantity",
+            self.config["PRICE"]: "price",
+            self.config["POSTED_DATE"]: "post_date",
+            self.config["COUNTRY"]: "country",
+            self.config["DELIVERY_COST"]: "delivery_cost"
+        }
+        self.df.rename(columns=column_mapping, inplace=True)
         
-    def time_to_dispatch(self) -> None:
+    def _time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        posted_date = self.config["POSTED_DATE"] if not self.random else "post_date"
-        sale_date = self.config["SALE_DATE"] if not self.random else "sale_date"
+        self.df["days_to_dispatch"] = (self.df["post_date"] - self.df["sale_date"]).dt.days
 
-        self.df["days_to_dispatch"] = (self.df[posted_date] - self.df[sale_date]).dt.days
+    def _decompose_sale_date(self) -> None:
+        """Decomposes the sale date into year, month and day.
+        """
+        self.df["year"] = self.df["sale_date"].dt.year
+        self.df["month"] = self.df["sale_date"].dt.strftime("%B")
+        self.df["day"] = self.df["sale_date"].dt.day
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.
         """
-        self.limit_columns()
-        self.time_to_dispatch()
+        self._limit_columns()
+        self._normalise_column_names()
+        self._time_to_dispatch()
 
     def load_file(self) -> pd.DataFrame:
         """Loads the data using the filename from the config.json file (.csv or .xlsx format), or randomly generates data using a generator and saves it as 'sample_data' in src/data/.
@@ -67,3 +85,9 @@ class DataTransformer:
         df[date_columns] = df[date_columns].apply(pd.to_datetime)
 
         return df
+    
+
+if __name__ == "__main__":
+    t = DataTransformer()
+    t.apply_transformations()
+    print(t.df)
