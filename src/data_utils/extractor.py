@@ -255,7 +255,16 @@ class DataExtractor:
 
         return months
     
-    def best_datetime_perfomance(self, aggregate: str, decomposer: str) -> str:
+    def best_datetime_performance(self, aggregate: str, decomposer: str) -> str:
+        """Extracts information about the best performing date object - works for "dates", "weekday" and "months".
+
+        Args:
+            aggregate (str): Aggregate used to extract the relevant information - must be "orders" or "revenue".
+            decomposer (str): Date decomposer to use - must be "date", "weekday" or "month".
+
+        Returns:
+            str: _description_
+        """
         allowed_decomposers = ["date", "weekday", "month"]
         if decomposer not in ["date", "weekday", "month"]:
             raise ValueError(f"Invalid decomposer used - must be in {allowed_decomposers}.")
@@ -266,15 +275,3 @@ class DataExtractor:
             return self.df.groupby(decomposer)["price"].sum().idxmax()
         else:
             raise ValueError("Invalid aggregate used.")
-        
-
-if __name__ == "__main__":
-    import sys
-    sys.path.append("./")
-    from src.data_utils.transformer import DataTransformer
-    from src.data_utils.extractor import DataExtractor
-
-    transformer = DataTransformer()
-    transformer.apply_transformations()
-    extractor = DataExtractor(transformer.df)
-    print(extractor.best_weekday("orders"))
