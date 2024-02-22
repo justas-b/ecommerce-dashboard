@@ -50,8 +50,6 @@ app.layout = html.Div(className="page_div", children=[
 
             html.P(f"Day: {extractor.best_date('orders')}, {extractor.best_date('revenue')}", className="info_text"),
 
-            html.P(f"Week: {extractor.total_revenue()}", className="info_text"),
-
             html.P(f"Month: {extractor.total_revenue()}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),

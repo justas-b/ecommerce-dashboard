@@ -281,6 +281,25 @@ class DataExtractor:
         else:
             raise ValueError("Invalid aggregate used.")
         
+    def best_month(self, aggregate: str) -> str:
+        """Gets the best performing month from the data.
+
+        Args:
+            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
+
+        Returns:
+            str: The best month from the data.
+        """
+        df = self.df.copy()
+        df["month"] = df[self.sale_date].dt.strftime("%B")
+
+        if aggregate == "orders":
+            return df["month"].value_counts().idxmax()
+        elif aggregate == "revenue":
+            return df.groupby("month")[self.price].sum().idxmax()
+        else:
+            raise ValueError("Invalid aggregate used.")
+        
 
 if __name__ == "__main__":
     import sys
@@ -291,4 +310,4 @@ if __name__ == "__main__":
     transformer = DataTransformer()
     transformer.apply_transformations()
     extractor = DataExtractor(transformer.df)
-    print(extractor.best_date("revenue"))
+    print(extractor.best_month("revenue"))
