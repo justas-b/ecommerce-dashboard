@@ -12,16 +12,6 @@ class DataExtractor:
         df (pd.DataFrame): Dataframe to extract data from.
     """
     def __init__(self, df: pd.DataFrame) -> None:
-        self.config = json.load(open("config.json"))
-        
-        random_data = self.config["FILENAME"] is None
-
-        self.quantity = self.config["QUANTITY"] if not random_data else "quantity"
-        self.price = self.config["PRICE"] if not random_data else "price"
-        self.sale_date = self.config["SALE_DATE"] if not random_data else "sale_date"
-        self.country = self.config["COUNTRY"] if not random_data else "country"
-        self.delivery_cost = self.config["DELIVERY_COST"] if not random_data else "delivery_cost"
-
         self.df = df
 
     def total_orders(self) -> int:
@@ -38,7 +28,7 @@ class DataExtractor:
         Returns:
             int: Number of items ordered.
         """
-        return self.df[self.quantity].sum()
+        return self.df["quantity"].sum()
 
     def total_revenue(self) -> float:
         """Total revenue of all orders.
@@ -46,7 +36,7 @@ class DataExtractor:
         Returns:
             float: Total revenue.
         """
-        return round(self.df[self.price].sum(), 2)
+        return round(self.df["price"].sum(), 2)
 
     def average_revenue(self) -> float:
         """Average revenue across all orders.
@@ -54,7 +44,7 @@ class DataExtractor:
         Returns:
             float: Average revenue across orders.
         """
-        return round(self.df[self.price].mean(), 2)
+        return round(self.df["price"].mean(), 2)
 
     def orders_by_country(self, order: str) -> px.bar:
         """Bar plot of the distribution of orders per country.
@@ -67,7 +57,7 @@ class DataExtractor:
         """
         ascending = True if order == "head" else False
 
-        country_count = self.df[self.country].value_counts().sort_values(ascending=ascending).tail(10)
+        country_count = self.df["country"].value_counts().sort_values(ascending=ascending).tail(10)
         
         data = {
             "Country": country_count.keys(),
@@ -90,9 +80,9 @@ class DataExtractor:
         """
         ascending = True if order == "head" else False
 
-        country_revenue = self.df[[self.country, self.price]]
-        country_revenue = country_revenue.groupby(self.country)[
-            self.price].sum().sort_values(ascending=ascending).tail(10)
+        country_revenue = self.df[["country", "price"]]
+        country_revenue = country_revenue.groupby("country")[
+            "price"].sum().sort_values(ascending=ascending).tail(10)
         data = {
             "Country": country_revenue.keys(),
             "Total Revenue": country_revenue.values
@@ -114,9 +104,9 @@ class DataExtractor:
         """
         ascending = True if order == "head" else False
 
-        avg_country_revenue = self.df[[self.country, self.price]]
+        avg_country_revenue = self.df[["country", "price"]]
         avg_country_revenue = avg_country_revenue.groupby(
-            self.country)[self.price].mean().sort_values(ascending=ascending).tail(10)
+            "country")["price"].mean().sort_values(ascending=ascending).tail(10)
         data = {
             "Country": avg_country_revenue.keys(),
             "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
@@ -150,7 +140,7 @@ class DataExtractor:
         Returns:
             px.pie: Orders across paid and free deliveries.
         """
-        orders_per_delivery = self.df[self.delivery_cost].apply(
+        orders_per_delivery = self.df["delivery_cost"].apply(
             lambda x: "Paid" if x else "Free").value_counts()
         data = {
             "Delivery Type": orders_per_delivery.keys(),
@@ -168,10 +158,10 @@ class DataExtractor:
         Returns:
             px.pie: Revenue across paid and free deliveries.
         """
-        revenue_per_delivery = self.df[[self.delivery_cost, self.price]]
-        revenue_per_delivery[self.delivery_cost] = revenue_per_delivery[self.delivery_cost].apply(
+        revenue_per_delivery = self.df[["delivery_cost", "price"]]
+        revenue_per_delivery["delivery_cost"] = revenue_per_delivery["delivery_cost"].apply(
             lambda x: "Paid" if x else "Free")
-        revenue_per_delivery = revenue_per_delivery.groupby(self.delivery_cost)[self.price].sum()
+        revenue_per_delivery = revenue_per_delivery.groupby("delivery_cost")["price"].sum()
         data = {
             "Delivery Type": revenue_per_delivery.keys(),
             "Revenue": revenue_per_delivery.values
@@ -191,7 +181,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
+        fig = px.histogram(self.df, x="date", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Orders",
@@ -210,7 +200,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
+        fig = px.histogram(self.df, x="date", y="price", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Revenue",
@@ -226,8 +216,8 @@ class DataExtractor:
         Returns:
             tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
-        start = self.df[self.sale_date].min().date()
-        end = self.df[self.sale_date].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     
@@ -237,8 +227,8 @@ class DataExtractor:
         Returns:
             int: The number of days that the data covers.
         """
-        start = self.df[self.sale_date].min().date()
-        end = self.df[self.sale_date].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
         days = math.ceil((end - start).days)
 
         return days
@@ -265,30 +255,23 @@ class DataExtractor:
 
         return months
     
-    def best_date(self, aggregate: str) -> str:
-        """Gets the best performing date from the data.
+    def best_datetime_performance(self, aggregate: str, decomposer: str) -> str:
+        """Extracts information about the best performing date object - works for "dates", "weekday" and "months".
 
         Args:
-            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
+            aggregate (str): Aggregate used to extract the relevant information - must be "orders" or "revenue".
+            decomposer (str): Date decomposer to use - must be "date", "weekday" or "month".
 
         Returns:
-            str: The best date from the data.
+            str: _description_
         """
+        allowed_decomposers = ["date", "weekday", "month"]
+        if decomposer not in ["date", "weekday", "month"]:
+            raise ValueError(f"Invalid decomposer used - must be in {allowed_decomposers}.")
+        
         if aggregate == "orders":
-            return self.df[self.sale_date].value_counts().idxmax().strftime("%Y-%m-%d")
+            return self.df[decomposer].value_counts().idxmax()
         elif aggregate == "revenue":
-            return self.df.groupby(self.sale_date)[self.price].sum().idxmax().strftime("%Y-%m-%d")
+            return self.df.groupby(decomposer)["price"].sum().idxmax()
         else:
             raise ValueError("Invalid aggregate used.")
-        
-
-if __name__ == "__main__":
-    import sys
-    sys.path.append("./")
-    from src.data_utils.transformer import DataTransformer
-    from src.data_utils.extractor import DataExtractor
-
-    transformer = DataTransformer()
-    transformer.apply_transformations()
-    extractor = DataExtractor(transformer.df)
-    print(extractor.best_date("revenue"))
