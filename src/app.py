@@ -48,9 +48,9 @@ app.layout = html.Div(className="page_div", children=[
 
             html.H4("Winners"),
 
-            html.P(f"Day: Orders - {extractor.best_date('orders')}, Revenue -  {extractor.best_date('revenue')}", className="info_text"),
+            html.P(f"Day: Orders - {extractor.best_datetime_perfomance('orders', 'date').strftime('%Y-%m-%d')}, Revenue -  {extractor.best_datetime_perfomance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
-            html.P(f"Month: Orders - {extractor.best_month('orders')}, Revenue -  {extractor.best_month('revenue')}", className="info_text"),
+            html.P(f"Month: Orders - {extractor.best_datetime_perfomance('orders', 'month')}, Revenue -  {extractor.best_datetime_perfomance('revenue', 'month')}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),
 

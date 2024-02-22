@@ -256,53 +256,14 @@ class DataExtractor:
         return months
     
     def best_datetime_perfomance(self, aggregate: str, decomposer: str) -> str:
-
-
-    def best_date(self, aggregate: str) -> str:
-        """Gets the best performing date from the data.
-
-        Args:
-            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
-
-        Returns:
-            str: The best performing date from the data.
-        """
-        if aggregate == "orders":
-            return self.df["date"].value_counts().idxmax().strftime("%Y-%m-%d")
-        elif aggregate == "revenue":
-            return self.df.groupby("date")["price"].sum().idxmax().strftime("%Y-%m-%d")
-        else:
-            raise ValueError("Invalid aggregate used.")
+        allowed_decomposers = ["date", "weekday", "month"]
+        if decomposer not in ["date", "weekday", "month"]:
+            raise ValueError(f"Invalid decomposer used - must be in {allowed_decomposers}.")
         
-    def best_weekday(self, aggregate: str) -> str:
-        """Gets the best performing weekday from the data.
-
-        Args:
-            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
-
-        Returns:
-            str: The best performing weekday from the data.
-        """
         if aggregate == "orders":
-            return self.df["weekday"].value_counts().idxmax()
+            return self.df[decomposer].value_counts().idxmax()
         elif aggregate == "revenue":
-            return self.df.groupby("weekday")["price"].sum().idxmax()
-        else:
-            raise ValueError("Invalid aggregate used.")
-        
-    def best_month(self, aggregate: str) -> str:
-        """Gets the best performing month from the data.
-
-        Args:
-            aggregate (str): Aggregate data to use - must be 'orders' or 'revenue'.
-
-        Returns:
-            str: The best performing month from the data.
-        """
-        if aggregate == "orders":
-            return self.df["month"].value_counts().idxmax()
-        elif aggregate == "revenue":
-            return self.df.groupby("month")["price"].sum().idxmax()
+            return self.df.groupby(decomposer)["price"].sum().idxmax()
         else:
             raise ValueError("Invalid aggregate used.")
         
