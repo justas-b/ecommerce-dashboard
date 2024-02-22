@@ -47,6 +47,7 @@ class DataTransformer:
         """
         self.df["year"] = self.df["sale_date"].dt.year
         self.df["month"] = self.df["sale_date"].dt.strftime("%B")
+        self.df["weekday"] = self.df["sale_date"].dt.strftime("%A")
         self.df["day"] = self.df["sale_date"].dt.day
     
     def apply_transformations(self) -> None:
@@ -54,6 +55,7 @@ class DataTransformer:
         """
         self._limit_columns()
         self._normalise_column_names()
+        self._decompose_sale_date()
         self._time_to_dispatch()
 
     def load_file(self) -> pd.DataFrame:
