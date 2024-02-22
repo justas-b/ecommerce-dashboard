@@ -181,7 +181,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        fig = px.histogram(self.df, x="sale_date", nbins=bins)
+        fig = px.histogram(self.df, x="date", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Orders",
@@ -200,7 +200,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        fig = px.histogram(self.df, x="sale_date", y="price", nbins=bins)
+        fig = px.histogram(self.df, x="date", y="price", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Revenue",
@@ -216,8 +216,8 @@ class DataExtractor:
         Returns:
             tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
-        start = self.df["sale_date"].min().date()
-        end = self.df["sale_date"].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     
@@ -227,8 +227,8 @@ class DataExtractor:
         Returns:
             int: The number of days that the data covers.
         """
-        start = self.df["sale_date"].min().date()
-        end = self.df["sale_date"].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
         days = math.ceil((end - start).days)
 
         return days
@@ -255,6 +255,9 @@ class DataExtractor:
 
         return months
     
+    def best_datetime_perfomance(self, aggregate: str, decomposer: str) -> str:
+
+
     def best_date(self, aggregate: str) -> str:
         """Gets the best performing date from the data.
 
@@ -265,9 +268,9 @@ class DataExtractor:
             str: The best performing date from the data.
         """
         if aggregate == "orders":
-            return self.df["sale_date"].value_counts().idxmax().strftime("%Y-%m-%d")
+            return self.df["date"].value_counts().idxmax().strftime("%Y-%m-%d")
         elif aggregate == "revenue":
-            return self.df.groupby("sale_date")["price"].sum().idxmax().strftime("%Y-%m-%d")
+            return self.df.groupby("date")["price"].sum().idxmax().strftime("%Y-%m-%d")
         else:
             raise ValueError("Invalid aggregate used.")
         

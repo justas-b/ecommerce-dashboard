@@ -28,7 +28,7 @@ class DataTransformer:
         """Normalises the column names to a standard format.
         """
         column_mapping = {
-            self.config["SALE_DATE"]: "sale_date",
+            self.config["SALE_DATE"]: "date",
             self.config["QUANTITY"]: "quantity",
             self.config["PRICE"]: "price",
             self.config["POSTED_DATE"]: "post_date",
@@ -40,15 +40,15 @@ class DataTransformer:
     def _time_to_dispatch(self) -> None:
         """Number of days taken to dispatch order from order date.
         """
-        self.df["days_to_dispatch"] = (self.df["post_date"] - self.df["sale_date"]).dt.days
+        self.df["days_to_dispatch"] = (self.df["post_date"] - self.df["date"]).dt.days
 
     def _decompose_sale_date(self) -> None:
         """Decomposes the sale date into year, month and day.
         """
-        self.df["year"] = self.df["sale_date"].dt.year
-        self.df["month"] = self.df["sale_date"].dt.strftime("%B")
-        self.df["weekday"] = self.df["sale_date"].dt.strftime("%A")
-        self.df["day"] = self.df["sale_date"].dt.day
+        self.df["year"] = self.df["date"].dt.year
+        self.df["month"] = self.df["date"].dt.strftime("%B")
+        self.df["weekday"] = self.df["date"].dt.strftime("%A")
+        self.df["day"] = self.df["date"].dt.day
     
     def apply_transformations(self) -> None:
         """Applies all transformation methods to the instantiated dataframe.
