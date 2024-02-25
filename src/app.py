@@ -51,11 +51,13 @@ app.layout = html.Div(className="page_div", children=[
 
             html.Hr(),
 
-            html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue -  {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
+            html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue - {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
-            html.P(f"Weekday: Orders - {extractor.best_datetime_performance('orders', 'weekday')}, Revenue -  {extractor.best_datetime_performance('revenue', 'weekday')}", className="info_text"),
+            html.P(f"Weekday: Orders - {extractor.best_datetime_performance('orders', 'weekday')}, Revenue - {extractor.best_datetime_performance('revenue', 'weekday')}", className="info_text"),
 
-            html.P(f"Month: Orders - {extractor.best_datetime_performance('orders', 'month')}, Revenue -  {extractor.best_datetime_performance('revenue', 'month')}", className="info_text"),
+            html.P(f"Month: Orders - {extractor.best_datetime_performance('orders', 'month')}, Revenue - {extractor.best_datetime_performance('revenue', 'month')}", className="info_text"),
+
+            html.P(f"Country: Orders - {extractor.country_grouping('orders').idxmax()}, Revenue -  {extractor.country_grouping('revenue').idxmax()}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),
 
