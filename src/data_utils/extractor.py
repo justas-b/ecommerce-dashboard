@@ -66,17 +66,32 @@ class DataExtractor:
             return grouped_data.mean()
 
     def country_plots(self, analytic: str, order: str) -> px.bar:
+        """Country plots that are used for the dashboard.
+
+        Args:
+            analytic (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
+            order (str): Used to order the data - only "head" or "tail" are accepted.
+
+        Returns:
+            px.bar: Bar plot of the country data based on the analytic.
+        """
         ascending = True if order == "head" else False
-        x_map = {
-            "orders": "Orders", "revenue": "Revenue", "mean_revenue": "Average Revenue"
+        axis_map = {
+            "orders": "Orders", "revenue": "Revenue", "mean_revenue": "Average revenue"
         }
 
         grouped_country_series = self.country_grouping(analytic)
         sorted_grouping =grouped_country_series.sort_values(ascending=ascending).tail(10)
 
-        return px.bar(sorted_grouping, x=sorted_grouping.values, y=sorted_grouping.index)
-        
+        fig = px.bar(sorted_grouping, x=sorted_grouping.values, y=sorted_grouping.index)
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=0, b=0), 
+            xaxis_title=axis_map[analytic], 
+            yaxis_title="Country"
+        )
 
+        return fig
+        
     def days_to_dispatch(self) -> px.bar:
         """Bar plot of the distribution of the days taken to dispatch orders.
 
