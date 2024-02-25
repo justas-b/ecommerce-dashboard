@@ -1,4 +1,3 @@
-import json
 import math
 
 import pandas as pd
@@ -45,6 +44,26 @@ class DataExtractor:
             float: Average revenue across orders.
         """
         return round(self.df["price"].mean(), 2)
+
+    def country_grouping(self, aggregate: str) -> pd.Series:
+        """Groups the countries based on an aggregate. Accepted aggregates are "orders", "revenue" and "mean_revenue".
+
+        Args:
+            aggregate (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
+
+        Returns:
+            pd.Series: Countries and their respective aggregates grouped.
+        """
+        if aggregate not in ["orders", "revenue", "mean_revenue"]:
+            raise ValueError("Invalid aggregate - must be 'orders', 'revenue' or 'mean_revenue'.")
+        
+        if aggregate == "orders":
+            return self.df["country"].value_counts()
+        else:
+            grouped_data = self.df[["country", "price"]].groupby("country")["price"]
+            if aggregate == "revenue":
+                return grouped_data.sum()
+            return grouped_data.mean()
 
     def orders_by_country(self, order: str) -> px.bar:
         """Bar plot of the distribution of orders per country.
@@ -275,3 +294,21 @@ class DataExtractor:
             return self.df.groupby(decomposer)["price"].sum().idxmax()
         else:
             raise ValueError("Invalid aggregate used.")
+        
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append("./")
+
+    from src.data_utils.transformer import DataTransformer
+
+    t = DataTransformer()
+    t.apply_transformations()
+    df = t.df
+
+    e = DataExtractor(df)
+    print(e.country_grouping("mean_revenue"))
+    # orders by country
+    # revenue by country
+    # average revenue per country
+    # best countries from above data
