@@ -250,21 +250,3 @@ class DataExtractor:
             return self.df.groupby(decomposer)["price"].sum().idxmax()
         else:
             raise ValueError("Invalid aggregate used.")
-        
-
-if __name__ == "__main__":
-    import sys
-    sys.path.append("./")
-
-    from src.data_utils.transformer import DataTransformer
-
-    t = DataTransformer()
-    t.apply_transformations()
-    df = t.df
-
-    e = DataExtractor(df)
-    print(e.country_plots("orders", "head"))
-    # orders by country
-    # revenue by country
-    # average revenue per country
-    # best countries from above data

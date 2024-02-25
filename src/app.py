@@ -200,9 +200,10 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
+    country_plot = extractor.country_plots(analytic, head_tail)
+    label = country_plot["layout"]["xaxis"]["title"]["text"]
 
-    
-    return html.H4(f"{analytic} per Country"), extractor.country_plots(analytic, head_tail)
+    return html.H4(f"{label} per Country"), country_plot
 
 
 @app.callback(
