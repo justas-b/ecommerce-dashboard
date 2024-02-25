@@ -50,14 +50,14 @@ app.layout = html.Div(className="page_div", children=[
             html.H4("Winners"),
 
             html.Hr(),
-
+            # needs to be fixed to correctly extract the wanted data
             html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue - {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
             html.P(f"Weekday: Orders - {extractor.best_datetime_performance('orders', 'weekday')}, Revenue - {extractor.best_datetime_performance('revenue', 'weekday')}", className="info_text"),
 
             html.P(f"Month: Orders - {extractor.best_datetime_performance('orders', 'month')}, Revenue - {extractor.best_datetime_performance('revenue', 'month')}", className="info_text"),
 
-            html.P(f"Country: Orders - {extractor.country_grouping('orders').idxmax()}, Revenue -  {extractor.country_grouping('revenue').idxmax()}", className="info_text"),
+            html.P(f"Country: Orders - {extractor.country_grouping('orders').agg(['idxmax', 'max'])}, Revenue -  {extractor.country_grouping('revenue').agg(['idxmax', 'max'])}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),
 
