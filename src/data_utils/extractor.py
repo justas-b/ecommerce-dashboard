@@ -1,4 +1,3 @@
-import json
 import math
 
 import pandas as pd
@@ -46,77 +45,53 @@ class DataExtractor:
         """
         return round(self.df["price"].mean(), 2)
 
-    def orders_by_country(self, order: str) -> px.bar:
-        """Bar plot of the distribution of orders per country.
+    def country_grouping(self, analytic: str) -> pd.Series:
+        """Groups the countries based on an aggregate. Accepted aggregates are "orders", "revenue" and "mean_revenue".
 
         Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
+            analytic (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
 
         Returns:
-            px.bar: Bar plot of orders per country.
+            pd.Series: Countries and their respective aggregates grouped.
         """
-        ascending = True if order == "head" else False
-
-        country_count = self.df["country"].value_counts().sort_values(ascending=ascending).tail(10)
+        if analytic not in ["orders", "revenue", "mean_revenue"]:
+            raise ValueError("Invalid aggregate - must be 'orders', 'revenue' or 'mean_revenue'.")
         
-        data = {
-            "Country": country_count.keys(),
-            "Orders": country_count.values
+        if analytic == "orders":
+            return self.df["country"].value_counts()
+        else:
+            grouped_data = self.df[["country", "price"]].groupby("country")["price"]
+            if analytic == "revenue":
+                return grouped_data.sum()
+            return grouped_data.mean()
+
+    def country_plots(self, analytic: str, order: str) -> px.bar:
+        """Country plots that are used for the dashboard.
+
+        Args:
+            analytic (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
+            order (str): Used to order the data - only "head" or "tail" are accepted.
+
+        Returns:
+            px.bar: Bar plot of the country data based on the analytic.
+        """
+        ascending = True if order == "head" else False
+        axis_map = {
+            "orders": "Orders", "revenue": "Revenue", "mean_revenue": "Average revenue"
         }
 
-        fig = px.bar(data, x="Orders", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+        grouped_country_series = self.country_grouping(analytic)
+        sorted_grouping =grouped_country_series.sort_values(ascending=ascending).tail(10)
+
+        fig = px.bar(sorted_grouping, x=sorted_grouping.values, y=sorted_grouping.index)
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=0, b=0), 
+            xaxis_title=axis_map[analytic], 
+            yaxis_title="Country"
+        )
+
+        return fig
         
-        return fig
-
-    def total_revenue_per_country(self, order: str) -> px.bar:
-        """Bar plot of the total revenue per country.
-
-        Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
-
-        Returns:
-            px.bar: Bar plot of revenue per country.
-        """
-        ascending = True if order == "head" else False
-
-        country_revenue = self.df[["country", "price"]]
-        country_revenue = country_revenue.groupby("country")[
-            "price"].sum().sort_values(ascending=ascending).tail(10)
-        data = {
-            "Country": country_revenue.keys(),
-            "Total Revenue": country_revenue.values
-        }
-
-        fig = px.bar(data, x="Total Revenue", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-
-        return fig
-
-    def average_revenue_per_country(self, order: str) -> px.bar:
-        """Bar plot of the average revenue per country.
-
-        Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
-
-        Returns:
-            px.bar: Bar plot of average revenue per country.
-        """
-        ascending = True if order == "head" else False
-
-        avg_country_revenue = self.df[["country", "price"]]
-        avg_country_revenue = avg_country_revenue.groupby(
-            "country")["price"].mean().sort_values(ascending=ascending).tail(10)
-        data = {
-            "Country": avg_country_revenue.keys(),
-            "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
-        }
-
-        fig = px.bar(data, x="Average Revenue", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-
-        return fig
-
     def days_to_dispatch(self) -> px.bar:
         """Bar plot of the distribution of the days taken to dispatch orders.
 

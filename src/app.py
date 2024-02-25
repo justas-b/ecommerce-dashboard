@@ -27,12 +27,13 @@ app.layout = html.Div(className="page_div", children=[
     dbc.Row(children=[
         dbc.Col(children=[
             # TODO: winners tab
-            # best day, week, month
             # best country
             # TODO: losers tab
             # worst day week month
 
             html.H3("Overview"),
+
+            html.Hr(),
         
             html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
@@ -47,6 +48,8 @@ app.layout = html.Div(className="page_div", children=[
             html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text"),
 
             html.H4("Winners"),
+
+            html.Hr(),
 
             html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue -  {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
@@ -115,8 +118,8 @@ app.layout = html.Div(className="page_div", children=[
                             id="country_analytic_callback",
                             options=[
                                 {"label": "Orders", "value": "orders"},
-                                {"label": "Total Revenue", "value": "total"},
-                                {"label": "Average Revenue", "value": "average"}
+                                {"label": "Total Revenue", "value": "revenue"},
+                                {"label": "Average Revenue", "value": "mean_revenue"}
                             ], 
                             value="orders", 
                             class_name="selector",
@@ -197,14 +200,10 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
-    output_title = "per Country"
+    country_plot = extractor.country_plots(analytic, head_tail)
+    label = country_plot["layout"]["xaxis"]["title"]["text"]
 
-    if analytic == "orders":
-        return html.H4(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
-    elif analytic == "total":
-        return html.H4(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
-    elif analytic == "average":
-        return html.H4(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+    return html.H4(f"{label} per Country"), country_plot
 
 
 @app.callback(
