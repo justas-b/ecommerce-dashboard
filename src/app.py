@@ -118,8 +118,8 @@ app.layout = html.Div(className="page_div", children=[
                             id="country_analytic_callback",
                             options=[
                                 {"label": "Orders", "value": "orders"},
-                                {"label": "Total Revenue", "value": "total"},
-                                {"label": "Average Revenue", "value": "average"}
+                                {"label": "Total Revenue", "value": "revenue"},
+                                {"label": "Average Revenue", "value": "mean_revenue"}
                             ], 
                             value="orders", 
                             class_name="selector",
@@ -200,14 +200,7 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
-    output_title = "per Country"
-
-    if analytic == "orders":
-        return html.H4(f"Orders {output_title}"), extractor.orders_by_country(head_tail)
-    elif analytic == "total":
-        return html.H4(f"Total Revenue {output_title}"), extractor.total_revenue_per_country(head_tail)
-    elif analytic == "average":
-        return html.H4(f"Average Revenue {output_title}"), extractor.average_revenue_per_country(head_tail)
+    return html.H4(f"{analytic} per Country"), extractor.country_plots(analytic, head_tail)
 
 
 @app.callback(
