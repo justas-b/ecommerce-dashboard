@@ -27,12 +27,13 @@ app.layout = html.Div(className="page_div", children=[
     dbc.Row(children=[
         dbc.Col(children=[
             # TODO: winners tab
-            # best day, week, month
             # best country
             # TODO: losers tab
             # worst day week month
 
             html.H3("Overview"),
+
+            html.Hr(),
         
             html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
 
@@ -47,6 +48,8 @@ app.layout = html.Div(className="page_div", children=[
             html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text"),
 
             html.H4("Winners"),
+
+            html.Hr(),
 
             html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue -  {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
