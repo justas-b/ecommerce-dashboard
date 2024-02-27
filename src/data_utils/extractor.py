@@ -1,4 +1,3 @@
-import json
 import math
 
 import pandas as pd
@@ -12,16 +11,6 @@ class DataExtractor:
         df (pd.DataFrame): Dataframe to extract data from.
     """
     def __init__(self, df: pd.DataFrame) -> None:
-        self.config = json.load(open("config.json"))
-        
-        random_data = self.config["FILENAME"] is None
-
-        self.quantity = self.config["QUANTITY"] if not random_data else "quantity"
-        self.price = self.config["PRICE"] if not random_data else "price"
-        self.sale_date = self.config["SALE_DATE"] if not random_data else "sale_date"
-        self.country = self.config["COUNTRY"] if not random_data else "country"
-        self.delivery_cost = self.config["DELIVERY_COST"] if not random_data else "delivery_cost"
-
         self.df = df
 
     def total_orders(self) -> int:
@@ -38,7 +27,7 @@ class DataExtractor:
         Returns:
             int: Number of items ordered.
         """
-        return self.df[self.quantity].sum()
+        return self.df["quantity"].sum()
 
     def total_revenue(self) -> float:
         """Total revenue of all orders.
@@ -46,7 +35,7 @@ class DataExtractor:
         Returns:
             float: Total revenue.
         """
-        return round(self.df[self.price].sum(), 2)
+        return round(self.df["price"].sum(), 2)
 
     def average_revenue(self) -> float:
         """Average revenue across all orders.
@@ -54,79 +43,55 @@ class DataExtractor:
         Returns:
             float: Average revenue across orders.
         """
-        return round(self.df[self.price].mean(), 2)
+        return round(self.df["price"].mean(), 2)
 
-    def orders_by_country(self, order: str) -> px.bar:
-        """Bar plot of the distribution of orders per country.
+    def country_grouping(self, analytic: str) -> pd.Series:
+        """Groups the countries based on an aggregate. Accepted aggregates are "orders", "revenue" and "mean_revenue".
 
         Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
+            analytic (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
 
         Returns:
-            px.bar: Bar plot of orders per country.
+            pd.Series: Countries and their respective aggregates grouped.
         """
-        ascending = True if order == "head" else False
-
-        country_count = self.df[self.country].value_counts().sort_values(ascending=ascending).tail(10)
+        if analytic not in ["orders", "revenue", "mean_revenue"]:
+            raise ValueError("Invalid aggregate - must be 'orders', 'revenue' or 'mean_revenue'.")
         
-        data = {
-            "Country": country_count.keys(),
-            "Orders": country_count.values
+        if analytic == "orders":
+            return self.df["country"].value_counts()
+        else:
+            grouped_data = self.df[["country", "price"]].groupby("country")["price"]
+            if analytic == "revenue":
+                return grouped_data.sum()
+            return grouped_data.mean()
+
+    def country_plots(self, analytic: str, order: str) -> px.bar:
+        """Country plots that are used for the dashboard.
+
+        Args:
+            analytic (str): Aggregate to group the countries by. Accepted aggregates are "orders", "revenue" and "mean_revenue".
+            order (str): Used to order the data - only "head" or "tail" are accepted.
+
+        Returns:
+            px.bar: Bar plot of the country data based on the analytic.
+        """
+        ascending = True if order == "head" else False
+        axis_map = {
+            "orders": "Orders", "revenue": "Revenue", "mean_revenue": "Average revenue"
         }
 
-        fig = px.bar(data, x="Orders", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
+        grouped_country_series = self.country_grouping(analytic)
+        sorted_grouping =grouped_country_series.sort_values(ascending=ascending).tail(10)
+
+        fig = px.bar(sorted_grouping, x=sorted_grouping.values, y=sorted_grouping.index)
+        fig.update_layout(
+            margin=dict(l=0, r=0, t=0, b=0), 
+            xaxis_title=axis_map[analytic], 
+            yaxis_title="Country"
+        )
+
+        return fig
         
-        return fig
-
-    def total_revenue_per_country(self, order: str) -> px.bar:
-        """Bar plot of the total revenue per country.
-
-        Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
-
-        Returns:
-            px.bar: Bar plot of revenue per country.
-        """
-        ascending = True if order == "head" else False
-
-        country_revenue = self.df[[self.country, self.price]]
-        country_revenue = country_revenue.groupby(self.country)[
-            self.price].sum().sort_values(ascending=ascending).tail(10)
-        data = {
-            "Country": country_revenue.keys(),
-            "Total Revenue": country_revenue.values
-        }
-
-        fig = px.bar(data, x="Total Revenue", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-
-        return fig
-
-    def average_revenue_per_country(self, order: str) -> px.bar:
-        """Bar plot of the average revenue per country.
-
-        Args:
-            order (str): Order of the data, whether it is the head or tail of the ranking.
-
-        Returns:
-            px.bar: Bar plot of average revenue per country.
-        """
-        ascending = True if order == "head" else False
-
-        avg_country_revenue = self.df[[self.country, self.price]]
-        avg_country_revenue = avg_country_revenue.groupby(
-            self.country)[self.price].mean().sort_values(ascending=ascending).tail(10)
-        data = {
-            "Country": avg_country_revenue.keys(),
-            "Average Revenue": [round(val, 2) for val in avg_country_revenue.values]
-        }
-
-        fig = px.bar(data, x="Average Revenue", y="Country")
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-
-        return fig
-
     def days_to_dispatch(self) -> px.bar:
         """Bar plot of the distribution of the days taken to dispatch orders.
 
@@ -150,7 +115,7 @@ class DataExtractor:
         Returns:
             px.pie: Orders across paid and free deliveries.
         """
-        orders_per_delivery = self.df[self.delivery_cost].apply(
+        orders_per_delivery = self.df["delivery_cost"].apply(
             lambda x: "Paid" if x else "Free").value_counts()
         data = {
             "Delivery Type": orders_per_delivery.keys(),
@@ -168,10 +133,10 @@ class DataExtractor:
         Returns:
             px.pie: Revenue across paid and free deliveries.
         """
-        revenue_per_delivery = self.df[[self.delivery_cost, self.price]]
-        revenue_per_delivery[self.delivery_cost] = revenue_per_delivery[self.delivery_cost].apply(
+        revenue_per_delivery = self.df[["delivery_cost", "price"]]
+        revenue_per_delivery["delivery_cost"] = revenue_per_delivery["delivery_cost"].apply(
             lambda x: "Paid" if x else "Free")
-        revenue_per_delivery = revenue_per_delivery.groupby(self.delivery_cost)[self.price].sum()
+        revenue_per_delivery = revenue_per_delivery.groupby("delivery_cost")["price"].sum()
         data = {
             "Delivery Type": revenue_per_delivery.keys(),
             "Revenue": revenue_per_delivery.values
@@ -191,7 +156,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the count of orders over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.sale_date, nbins=bins)
+        fig = px.histogram(self.df, x="date", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Orders",
@@ -210,7 +175,7 @@ class DataExtractor:
         Returns:
             px.histogram: Histogram plot of the sum of prices over the time range of the data.
         """
-        fig = px.histogram(self.df, x=self.sale_date, y=self.price, nbins=bins)
+        fig = px.histogram(self.df, x="date", y="price", nbins=bins)
         fig.update_layout(
             xaxis_title_text = "Date", 
             yaxis_title_text = "Revenue",
@@ -226,8 +191,8 @@ class DataExtractor:
         Returns:
             tuple: Start and end dates of the data, in the format of yyyy-mm-dd.
         """
-        start = self.df[self.sale_date].min().date()
-        end = self.df[self.sale_date].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
 
         return start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")
     
@@ -237,8 +202,8 @@ class DataExtractor:
         Returns:
             int: The number of days that the data covers.
         """
-        start = self.df[self.sale_date].min().date()
-        end = self.df[self.sale_date].max().date()
+        start = self.df["date"].min().date()
+        end = self.df["date"].max().date()
         days = math.ceil((end - start).days)
 
         return days
@@ -264,3 +229,42 @@ class DataExtractor:
         months = math.ceil(days / (365/12))
 
         return months
+    
+    def best_datetime_performance(self, aggregate: str, decomposer: str) -> pd.Series:
+        """Extracts information about the best performing date object - works for "dates", "weekday" and "months".
+
+        Args:
+            aggregate (str): Aggregate used to extract the relevant information - must be "orders" or "revenue".
+            decomposer (str): Date decomposer to use - must be "date", "weekday" or "month".
+
+        Returns:
+            pd.Series: Maximum aggregate and its corresponding value.
+        """
+        allowed_decomposers = ["date", "weekday", "month"]
+        if decomposer not in ["date", "weekday", "month"]:
+            raise ValueError(f"Invalid decomposer used - must be in {allowed_decomposers}.")
+        
+        if aggregate == "orders":
+            return self.df[decomposer].value_counts().agg(["idxmax", "max"])
+        elif aggregate == "revenue":
+            return self.df.groupby(decomposer)["price"].sum().agg(["idxmax", "max"])
+        else:
+            raise ValueError("Invalid aggregate used.")
+        
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append("./")
+
+    from src.data_utils.transformer import DataTransformer
+
+    t = DataTransformer()
+    t.apply_transformations()
+    df = t.df
+
+    e = DataExtractor(df)
+    print(type(e.country_grouping("orders").agg(['idxmax', 'max'])))
+    # orders by country
+    # revenue by country
+    # average revenue per country
+    # best countries from above data

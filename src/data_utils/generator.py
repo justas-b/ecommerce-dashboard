@@ -91,7 +91,7 @@ class DataGenerator:
             pd.DataFrame: Dataframe with a given number of rows.
         """
         data = [self.generate_row() for i in range(rows)]
-        df = pd.DataFrame(data, columns=["sale_date", "quantity", "price", "post_date", "country", "delivery_cost"])
+        df = pd.DataFrame(data, columns=["date", "quantity", "price", "post_date", "country", "delivery_cost"])
 
         return df
 
