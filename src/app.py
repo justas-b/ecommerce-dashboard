@@ -19,11 +19,6 @@ app.layout = html.Div(className="page_div", children=[
 
     dbc.Row(children=[
         dbc.Col(children=[
-            # TODO: winners tab
-            # best country
-            # TODO: losers tab
-            # worst day week month
-
             html.H3("Overview"),
 
             html.Hr(),
@@ -44,13 +39,13 @@ app.layout = html.Div(className="page_div", children=[
 
             html.Hr(),
             # needs to be fixed to correctly extract the wanted data
-            html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE, appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE, appdata.TOP_REVENUE_DATE_CT}", className="info_text"),
+            html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE} {appdata.TOP_REVENUE_DATE_CT}", className="info_text"),
 
-            html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY, appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY, appdata.TOP_REVENUE_DAY_CT}", className="info_text"),
+            html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY} {appdata.TOP_REVENUE_DAY_CT}", className="info_text"),
 
-            html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH, appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH, appdata.TOP_REVENUE_MONTH_CT}", className="info_text"),
+            html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH} {appdata.TOP_REVENUE_MONTH_CT}", className="info_text"),
 
-            html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY, appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY, appdata.TOP_REVENUE_COUNTRY_CT}", className="info_text"),
+            html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY} {appdata.TOP_REVENUE_COUNTRY_CT}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),
 
