@@ -1,3 +1,5 @@
+**NOTE: I'm in the process of completely refactoring the front-end of this dashboard so it is quite messy at the moment (yes I merged to main).**
+
 ## Features
 - Runs _any_ (**subject to complete date - see below**) dumped data from an e-commerce platform (CSV [.csv] or Excel [.xlsx] format), and performs an ETL pipeline on the data for use in analysis.
 - Generator class that can be used to generate _random_ data to experiment with/to use if the user is unable to acquire their data.
