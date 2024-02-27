@@ -5,23 +5,16 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
 sys.path.append("./")
-from src.data_utils.transformer import DataTransformer
-from src.data_utils.extractor import DataExtractor
-
-transformer = DataTransformer()
-transformer.apply_transformations()
-extractor = DataExtractor(transformer.df)
+from src.assets import appdata
 
 load_figure_template("cerulean")
 app = Dash(external_stylesheets=[dbc.themes.FLATLY])
-
-START, END = extractor.date_range()
 
 app.layout = html.Div(className="page_div", children=[
     dbc.Row(children=[
         html.H1("E-commerce Dashboard"),
 
-        html.P(f"{START} to {END}", className="info_text")
+        html.P(f"{appdata.START} to {appdata.END}", className="info_text")
     ], className="header_div"),
 
     dbc.Row(children=[
@@ -35,29 +28,29 @@ app.layout = html.Div(className="page_div", children=[
 
             html.Hr(),
         
-            html.P(f"Revenue: {extractor.total_revenue()}", className="info_text"),
+            html.P(f"Revenue: {appdata.TOT_REVENUE}", className="info_text"),
 
-            html.P(f"Orders: {extractor.total_orders()}", className="info_text"),
+            html.P(f"Orders: {appdata.TOT_ORDERS}", className="info_text"),
 
-            html.P(f"Items Ordered: {extractor.total_items()}", className="info_text"),
+            html.P(f"Items Ordered: {appdata.TOT_ITEMS}", className="info_text"),
         
-            html.P(f"Daily Revenue: {round(extractor.total_revenue() / extractor.number_of_days(), 2)}", className="info_text"),
+            html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}", className="info_text"),
 
-            html.P(f"Revenue per Order: {round(extractor.total_revenue() / extractor.total_orders(), 2)}", className="info_text"),
+            html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}", className="info_text"),
 
-            html.P(f"Daily Orders: {round(extractor.total_orders() / extractor.number_of_days(), 2)}", className="info_text"),
+            html.P(f"Daily Orders: {appdata.DAILY_ORDERS}", className="info_text"),
 
             html.H4("Winners"),
 
             html.Hr(),
+            # needs to be fixed to correctly extract the wanted data
+            html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE, appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE, appdata.TOP_REVENUE_DATE_CT}", className="info_text"),
 
-            html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue - {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
+            html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY, appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY, appdata.TOP_REVENUE_DAY_CT}", className="info_text"),
 
-            html.P(f"Weekday: Orders - {extractor.best_datetime_performance('orders', 'weekday')}, Revenue - {extractor.best_datetime_performance('revenue', 'weekday')}", className="info_text"),
+            html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH, appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH, appdata.TOP_REVENUE_MONTH_CT}", className="info_text"),
 
-            html.P(f"Month: Orders - {extractor.best_datetime_performance('orders', 'month')}, Revenue - {extractor.best_datetime_performance('revenue', 'month')}", className="info_text"),
-
-            html.P(f"Country: Orders - {extractor.country_grouping('orders').idxmax()}, Revenue -  {extractor.country_grouping('revenue').idxmax()}", className="info_text"),
+            html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY, appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY, appdata.TOP_REVENUE_COUNTRY_CT}", className="info_text"),
 
         ], class_name="sidebar_div", width=2),
 
@@ -145,7 +138,7 @@ app.layout = html.Div(className="page_div", children=[
                     html.Div(children=[
                         html.H4("Days to Dispatch"),
                         
-                        dcc.Graph(figure=extractor.days_to_dispatch(), style={"height": "75%"}),
+                        dcc.Graph(figure=appdata.extractor.days_to_dispatch(), style={"height": "75%"}),
                     ], className="inner_div")                
                 ], class_name="bottom_right_div"), 
             ], className="bottom_body_div")
@@ -171,19 +164,19 @@ def update_day_fig(analytic: str, granularity: int) -> tuple:
         tuple: Header element to update the title and a bar plot figure.
     """
     if granularity == 1:
-        nbins = extractor.number_of_days()
+        nbins = appdata.extractor.number_of_days()
         output_title = "Daily"
     elif granularity == 2:
-        nbins = extractor.number_of_weeks()
+        nbins = appdata.extractor.number_of_weeks()
         output_title = "Weekly"
     else:
-        nbins = extractor.number_of_months()
+        nbins = appdata.extractor.number_of_months()
         output_title = "Monthly"
 
     if analytic == "orders":
-        return html.H4(f"{output_title} Orders "), extractor.orders_per_day(bins=nbins)
+        return html.H4(f"{output_title} Orders "), appdata.extractor.orders_per_day(bins=nbins)
     elif analytic == "revenue":
-        return html.H4(f"{output_title} Revenue"), extractor.revenue_per_day(bins=nbins)
+        return html.H4(f"{output_title} Revenue"), appdata.extractor.revenue_per_day(bins=nbins)
 
 
 @app.callback(
@@ -202,7 +195,7 @@ def update_country_fig(analytic: str, head_tail: str) -> tuple:
     Returns:
         tuple: Header element to update the title and a bar plot figure.
     """
-    country_plot = extractor.country_plots(analytic, head_tail)
+    country_plot = appdata.extractor.country_plots(analytic, head_tail)
     label = country_plot["layout"]["xaxis"]["title"]["text"]
 
     return html.H4(f"{label} per Country"), country_plot
@@ -225,9 +218,9 @@ def update_delivery_fig(analytic: str) -> tuple:
     output_title = "per Delivery Type"
 
     if analytic == "orders":
-        return html.H4(f"Orders {output_title}"), extractor.order_delivery_charge()
+        return html.H4(f"Orders {output_title}"), appdata.extractor.order_delivery_charge()
     else:
-        return html.H4(f"Revenue {output_title}"), extractor.revenue_delivery_charge()
+        return html.H4(f"Revenue {output_title}"), appdata.extractor.revenue_delivery_charge()
 
 
 if __name__ == "__main__":

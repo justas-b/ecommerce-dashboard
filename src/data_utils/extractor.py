@@ -230,7 +230,7 @@ class DataExtractor:
 
         return months
     
-    def best_datetime_performance(self, aggregate: str, decomposer: str) -> str:
+    def best_datetime_performance(self, aggregate: str, decomposer: str) -> pd.Series:
         """Extracts information about the best performing date object - works for "dates", "weekday" and "months".
 
         Args:
@@ -238,15 +238,33 @@ class DataExtractor:
             decomposer (str): Date decomposer to use - must be "date", "weekday" or "month".
 
         Returns:
-            str: _description_
+            pd.Series: Maximum aggregate and its corresponding value.
         """
         allowed_decomposers = ["date", "weekday", "month"]
         if decomposer not in ["date", "weekday", "month"]:
             raise ValueError(f"Invalid decomposer used - must be in {allowed_decomposers}.")
         
         if aggregate == "orders":
-            return self.df[decomposer].value_counts().idxmax()
+            return self.df[decomposer].value_counts().agg(["idxmax", "max"])
         elif aggregate == "revenue":
-            return self.df.groupby(decomposer)["price"].sum().idxmax()
+            return self.df.groupby(decomposer)["price"].sum().agg(["idxmax", "max"])
         else:
             raise ValueError("Invalid aggregate used.")
+        
+
+if __name__ == "__main__":
+    import sys
+    sys.path.append("./")
+
+    from src.data_utils.transformer import DataTransformer
+
+    t = DataTransformer()
+    t.apply_transformations()
+    df = t.df
+
+    e = DataExtractor(df)
+    print(type(e.country_grouping("orders").agg(['idxmax', 'max'])))
+    # orders by country
+    # revenue by country
+    # average revenue per country
+    # best countries from above data
