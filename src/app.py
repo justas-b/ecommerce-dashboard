@@ -5,21 +5,7 @@ import dash_bootstrap_components as dbc
 from dash_bootstrap_templates import load_figure_template
 
 sys.path.append("./")
-from src.data_utils.transformer import DataTransformer
-from src.data_utils.extractor import DataExtractor
-
-transformer = DataTransformer()
-transformer.apply_transformations()
-extractor = DataExtractor(transformer.df)
-
-START, END = extractor.date_range()
-NUM_OF_DAYS = extractor.number_of_days()
-TOT_REVENUE = extractor.total_revenue()
-TOT_ORDERS = extractor.total_orders()
-TOT_ITEMS = extractor.total_items()
-DAILY_REVENUE = round(TOT_REVENUE / NUM_OF_DAYS, 2)
-REVENUE_PER_ORDER = round(TOT_REVENUE / TOT_ORDERS, 2)
-DAILY_ORDERS = round(TOT_ORDERS / NUM_OF_DAYS, 2)
+from src.assets import appdata
 
 load_figure_template("cerulean")
 app = Dash(external_stylesheets=[dbc.themes.FLATLY])
@@ -28,7 +14,7 @@ app.layout = html.Div(className="page_div", children=[
     dbc.Row(children=[
         html.H1("E-commerce Dashboard"),
 
-        html.P(f"{START} to {END}", className="info_text")
+        html.P(f"{appdata.START} to {appdata.END}", className="info_text")
     ], className="header_div"),
 
     dbc.Row(children=[
@@ -42,23 +28,23 @@ app.layout = html.Div(className="page_div", children=[
 
             html.Hr(),
         
-            html.P(f"Revenue: {TOT_REVENUE}", className="info_text"),
+            html.P(f"Revenue: {appdata.TOT_REVENUE}", className="info_text"),
 
-            html.P(f"Orders: {TOT_ORDERS}", className="info_text"),
+            html.P(f"Orders: {appdata.TOT_ORDERS}", className="info_text"),
 
-            html.P(f"Items Ordered: {TOT_ITEMS}", className="info_text"),
+            html.P(f"Items Ordered: {appdata.TOT_ITEMS}", className="info_text"),
         
-            html.P(f"Daily Revenue: {DAILY_REVENUE}", className="info_text"),
+            html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}", className="info_text"),
 
-            html.P(f"Revenue per Order: {REVENUE_PER_ORDER}", className="info_text"),
+            html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}", className="info_text"),
 
-            html.P(f"Daily Orders: {DAILY_ORDERS}", className="info_text"),
+            html.P(f"Daily Orders: {appdata.DAILY_ORDERS}", className="info_text"),
 
             html.H4("Winners"),
 
             html.Hr(),
             # needs to be fixed to correctly extract the wanted data
-            html.P(f"Day: Orders - {extractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue - {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
+            html.P(f"Day: Orders - {appdataextractor.best_datetime_performance('orders', 'date').strftime('%Y-%m-%d')}, Revenue - {extractor.best_datetime_performance('revenue', 'date').strftime('%Y-%m-%d')}", className="info_text"),
 
             html.P(f"Weekday: Orders - {extractor.best_datetime_performance('orders', 'weekday')}, Revenue - {extractor.best_datetime_performance('revenue', 'weekday')}", className="info_text"),
 
