@@ -1,9 +1,35 @@
+import sys
+
 from dash import Dash, dcc, html
 import dash_bootstrap_components as dbc
 
+sys.path.append("./")
+from src.app.appdata import appdata
+
+
+def init_header() -> html.Div:
+    """Header element for the dashboard.
+
+    Returns:
+        html.Div: Header Div component.
+    """
+    header_text = html.H1("E-commerce Dashboard")
+    date_range = html.P(f"{appdata.START} to {appdata.END}")
+
+    header = html.Div([
+        header_text,
+        date_range
+    ], className="header_div")
+    
+    return header
+
 
 def init_layout() -> html.Div:
-    pass
+    layout = html.Div([
+        init_header()
+    ], className="main_div")
+
+    return layout
 
 
 # if __name__ == '__main__':
