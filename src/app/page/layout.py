@@ -24,9 +24,58 @@ def init_header() -> html.Div:
     return header
 
 
+def init_info() -> html.Div:
+    """Information element for the dashboard.
+
+    Returns:
+        html.Div: Information Div component.
+    """
+    revenue = html.P(f"Revenue: {appdata.TOT_REVENUE}")
+    orders = html.P(f"Orders: {appdata.TOT_ORDERS}")
+    items = html.P(f"Items Ordered: {appdata.TOT_ITEMS}")
+    daily_revenue = html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}")
+    revenue_order = html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}")
+    daily_order = html.P(f"Daily Orders: {appdata.DAILY_ORDERS}")
+
+    day = html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE} {appdata.TOP_REVENUE_DATE_CT}")
+    weekday = html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY} {appdata.TOP_REVENUE_DAY_CT}")
+    month = html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH} {appdata.TOP_REVENUE_MONTH_CT}")
+    country = html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY} {appdata.TOP_REVENUE_COUNTRY_CT}")
+
+    overview_tab = dcc.Tab(
+        dbc.Row([
+            dbc.Col(revenue),
+            dbc.Col(orders),
+            dbc.Col(items),
+            dbc.Col(daily_revenue),
+            dbc.Col(revenue_order),
+            dbc.Col(daily_order),
+        ]), label="Overview"
+    )
+
+    winners_tab = dcc.Tab(
+        dbc.Row([
+            dbc.Col(day),
+            dbc.Col(weekday),
+            dbc.Col(month),
+            dbc.Col(country),
+        ]), label="Winners"
+    )
+
+    info = html.Div([
+        dcc.Tabs([
+            overview_tab,
+            winners_tab
+        ])
+    ], className="info_div")
+
+    return info
+
+
 def init_layout() -> html.Div:
     layout = html.Div([
-        init_header()
+        init_header(),
+        init_info()
     ], className="main_div")
 
     return layout
@@ -35,42 +84,9 @@ def init_layout() -> html.Div:
 # if __name__ == '__main__':
 #     app.layout = html.Div(className="page_div", children=[
 #         dbc.Row(children=[
-#             html.H1("E-commerce Dashboard"),
-
-#             html.P(f"{appdata.START} to {appdata.END}", className="info_text")
-#         ], className="header_div"),
 
 #         dbc.Row(children=[
 #             dbc.Col(children=[
-#                 html.H3("Overview"),
-
-#                 html.Hr(),
-            
-#                 html.P(f"Revenue: {appdata.TOT_REVENUE}", className="info_text"),
-
-#                 html.P(f"Orders: {appdata.TOT_ORDERS}", className="info_text"),
-
-#                 html.P(f"Items Ordered: {appdata.TOT_ITEMS}", className="info_text"),
-            
-#                 html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}", className="info_text"),
-
-#                 html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}", className="info_text"),
-
-#                 html.P(f"Daily Orders: {appdata.DAILY_ORDERS}", className="info_text"),
-
-#                 html.H4("Winners"),
-
-#                 html.Hr(),
-#                 # needs to be fixed to correctly extract the wanted data
-#                 html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE} {appdata.TOP_REVENUE_DATE_CT}", className="info_text"),
-
-#                 html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY} {appdata.TOP_REVENUE_DAY_CT}", className="info_text"),
-
-#                 html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH} {appdata.TOP_REVENUE_MONTH_CT}", className="info_text"),
-
-#                 html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY} {appdata.TOP_REVENUE_COUNTRY_CT}", className="info_text"),
-
-#             ], class_name="sidebar_div", width=2),
 
 #             dbc.Col(children=[
 #                 dbc.Row(children=[
