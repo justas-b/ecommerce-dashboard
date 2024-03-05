@@ -4,6 +4,7 @@ sys.path.append("./")
 from src.data_utils.transformer import DataTransformer
 from src.data_utils.extractor import DataExtractor
 
+
 transformer = DataTransformer()
 transformer.apply_transformations()
 extractor = DataExtractor(transformer.df)
