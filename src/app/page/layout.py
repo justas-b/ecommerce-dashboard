@@ -128,11 +128,50 @@ def init_date_plot() -> html.Div:
     return day_div
     
 
+def init_country_plot() -> html.Div:
+    """Country plot element that displays the trends across countries, along with the best and worst performing ones.
+
+    Returns:
+        html.Div: Country plot div element.
+    """
+    country_title = html.Div(id="country_plot_title"),
+    analytic_select = dbc.Select(
+        id="country_analytic_callback",
+        options=[
+            {"label": "Orders", "value": "orders"},
+            {"label": "Total Revenue", "value": "revenue"},
+            {"label": "Average Revenue", "value": "mean_revenue"}
+        ], 
+        value="orders", 
+        class_name="selector",
+    ),
+    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+    top_bottom_radio = dbc.RadioItems(
+        id="head_tail_country_callback",
+        options=[
+            {"label": " Top", "value": "head"},
+            {"label": " Bottom", "value": "tail"}
+        ], value="head", 
+        inline=True, 
+        class_name="radio_selector"
+    )
+
+    country_div = html.Div([
+        country_title,
+        analytic_select,
+        country_graph,
+        top_bottom_radio
+    ], className="country_div")
+
+    return country_div
+
+
 def init_layout() -> html.Div:
     layout = html.Div([
         init_header(),
         init_info(),
-        init_date_plot()
+        init_date_plot(),
+        init_country_plot()
     ], className="main_div")
 
     return layout
