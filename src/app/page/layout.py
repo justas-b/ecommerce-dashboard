@@ -37,10 +37,10 @@ def init_info() -> html.Div:
     revenue_order = html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}")
     daily_order = html.P(f"Daily Orders: {appdata.DAILY_ORDERS}")
 
-    day = html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE} {appdata.TOP_REVENUE_DATE_CT}")
-    weekday = html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY} {appdata.TOP_REVENUE_DAY_CT}")
-    month = html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH} {appdata.TOP_REVENUE_MONTH_CT}")
-    country = html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY} {appdata.TOP_REVENUE_COUNTRY_CT}")
+    day = html.P(f"Best Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}")
+    weekday = html.P(f"Best Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}")
+    month = html.P(f"Best Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}")
+    country = html.P(f"Top Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}")
 
     overview_tab = dcc.Tab(
         dbc.Row([
