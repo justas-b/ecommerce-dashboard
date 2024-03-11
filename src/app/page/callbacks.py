@@ -61,23 +61,23 @@ def init_callbacks(app: Dash) -> None:
         return html.H4(f"{label} per Country"), country_plot
 
 
-    @app.callback(
-        Output(component_id="delivery_title", component_property="children"),
-        Output(component_id="delivery_plot", component_property="figure"),
-        Input(component_id="delivery_callback", component_property="value")
-    )
-    def update_delivery_fig(analytic: str) -> tuple:
-        """Callback function to update the 'delivery' title and figure.
+    # @app.callback(
+    #     Output(component_id="delivery_title", component_property="children"),
+    #     Output(component_id="delivery_plot", component_property="figure"),
+    #     Input(component_id="delivery_callback", component_property="value")
+    # )
+    # def update_delivery_fig(analytic: str) -> tuple:
+    #     """Callback function to update the 'delivery' title and figure.
 
-        Args:
-            analytic (str): Input from a RadioItems widget where the inputs can be 'orders' or 'revenue'.
+    #     Args:
+    #         analytic (str): Input from a RadioItems widget where the inputs can be 'orders' or 'revenue'.
 
-        Returns:
-            tuple: Header element to update the title and a bar plot figure.
-        """
-        output_title = "per Delivery Type"
+    #     Returns:
+    #         tuple: Header element to update the title and a bar plot figure.
+    #     """
+    #     output_title = "per Delivery Type"
 
-        if analytic == "orders":
-            return html.H4(f"Orders {output_title}"), appdata.extractor.order_delivery_charge()
-        else:
-            return html.H4(f"Revenue {output_title}"), appdata.extractor.revenue_delivery_charge()
+    #     if analytic == "orders":
+    #         return html.H4(f"Orders {output_title}"), appdata.extractor.order_delivery_charge()
+    #     else:
+    #         return html.H4(f"Revenue {output_title}"), appdata.extractor.revenue_delivery_charge()

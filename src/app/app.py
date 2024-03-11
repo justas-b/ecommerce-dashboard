@@ -9,7 +9,7 @@ from src.app.page.layout import init_layout
 from src.app.page.callbacks import init_callbacks
 
 
-load_figure_template("cerulean")
+load_figure_template("lux")
 app = Dash(external_stylesheets=[dbc.themes.FLATLY])
 
 app.layout = init_layout

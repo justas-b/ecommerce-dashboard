@@ -30,35 +30,53 @@ def init_info() -> html.Div:
     Returns:
         html.Div: Information Div component.
     """
-    revenue = html.P(f"Revenue: {appdata.TOT_REVENUE}")
-    orders = html.P(f"Orders: {appdata.TOT_ORDERS}")
-    items = html.P(f"Items Ordered: {appdata.TOT_ITEMS}")
-    daily_revenue = html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}")
-    revenue_order = html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}")
-    daily_order = html.P(f"Daily Orders: {appdata.DAILY_ORDERS}")
+    revenue = html.P(appdata.TOT_REVENUE)
+    revenue_div = html.Div(children=["Revenue", revenue])
 
-    day = html.P(f"Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}, Revenue - {appdata.TOP_REVENUE_DATE} {appdata.TOP_REVENUE_DATE_CT}")
-    weekday = html.P(f"Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}, Revenue - {appdata.TOP_REVENUE_DAY} {appdata.TOP_REVENUE_DAY_CT}")
-    month = html.P(f"Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}, Revenue - {appdata.TOP_REVENUE_MONTH} {appdata.TOP_REVENUE_MONTH_CT}")
-    country = html.P(f"Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}, Revenue -  {appdata.TOP_REVENUE_COUNTRY} {appdata.TOP_REVENUE_COUNTRY_CT}")
+    orders = html.P(appdata.TOT_ORDERS)
+    orders_div = html.Div(children=["Orders", orders])
+
+    items = html.P(appdata.TOT_ITEMS)
+    items_div = html.Div(children=["Items Ordered", items])
+
+    daily_revenue = html.P(appdata.DAILY_REVENUE)
+    daily_revenue_div = html.Div(children=["Daily Revenue", daily_revenue])
+
+    revenue_order = html.P(appdata.REVENUE_PER_ORDER)
+    revenue_div = html.Div(children=["Revenue per Order", revenue_order]) 
+
+    daily_order = html.P(appdata.DAILY_ORDERS)
+    daily_order_div = html.Div(children=["Daily Orders", daily_order]) 
+
+    date = html.P(f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]")
+    date_div = html.Div(children=["Best Date", date])
+
+    weekday = html.P(f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]")
+    weekday_div = html.Div(children=["Best Weekday", weekday])
+
+    month = html.P(f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]")
+    month_div = html.Div(children=["Best Month", month])
+
+    country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
+    country_div = html.Div(children=["Top Country", country])
 
     overview_tab = dcc.Tab(
         dbc.Row([
-            dbc.Col(revenue),
-            dbc.Col(orders),
-            dbc.Col(items),
-            dbc.Col(daily_revenue),
-            dbc.Col(revenue_order),
-            dbc.Col(daily_order),
+            dbc.Col(revenue_div),
+            dbc.Col(orders_div),
+            dbc.Col(items_div),
+            dbc.Col(daily_revenue_div),
+            dbc.Col(revenue_div),
+            dbc.Col(daily_order_div),
         ]), label="Overview"
     )
 
     winners_tab = dcc.Tab(
         dbc.Row([
-            dbc.Col(day),
-            dbc.Col(weekday),
-            dbc.Col(month),
-            dbc.Col(country),
+            dbc.Col(date_div),
+            dbc.Col(weekday_div),
+            dbc.Col(month_div),
+            dbc.Col(country_div),
         ]), label="Winners"
     )
 
@@ -72,10 +90,88 @@ def init_info() -> html.Div:
     return info
 
 
+def init_date_plot() -> html.Div:
+    """Date plot element that displays the trend of orders and revenue across date. Daily, weekly and monthly granularities are available.
+
+    Returns:
+        html.Div: Date plot div element.
+    """
+    title = html.Div(id="day_plot_title")
+    select = dbc.Select(
+        id="day_callback",
+        options=[
+            {"label": " Orders",
+            "value": "orders"},
+            {"label": " Revenue",
+            "value": "revenue"}
+        ], 
+        value="orders", 
+        class_name="selector"
+    )
+    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
+    slider = dcc.Slider(
+        id="granularity_slider", 
+        min=1, max=3, value=1, step=1, 
+        marks={
+            1: "Daily", 2: "Weekly",  3: "Monthly"
+        }, 
+        className="slider_selector"
+    )
+
+    day_div = html.Div([
+        title,
+        select,
+        graph,
+        slider
+    ], className="day_div")
+
+    return day_div
+    
+
+def init_country_plot() -> html.Div:
+    """Country plot element that displays the trends across countries, along with the best and worst performing ones.
+
+    Returns:
+        html.Div: Country plot div element.
+    """
+    country_title = html.Div(id="country_plot_title"),
+    analytic_select = dbc.Select(
+        id="country_analytic_callback",
+        options=[
+            {"label": "Orders", "value": "orders"},
+            {"label": "Total Revenue", "value": "revenue"},
+            {"label": "Average Revenue", "value": "mean_revenue"}
+        ], 
+        value="orders", 
+        class_name="selector",
+    ),
+    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+    top_bottom_radio = dbc.RadioItems(
+        id="head_tail_country_callback",
+        options=[
+            {"label": " Top", "value": "head"},
+            {"label": " Bottom", "value": "tail"}
+        ], value="head", 
+        inline=True, 
+        class_name="radio_selector"
+    )
+
+    country_div = html.Div([
+        country_title,
+        analytic_select,
+        country_graph,
+        top_bottom_radio
+    ], className="country_div")
+
+    return country_div
+
+
 def init_layout() -> html.Div:
     layout = html.Div([
         init_header(),
-        init_info()
+        init_info(),
+        init_date_plot(),
+        init_country_plot()
     ], className="main_div")
 
     return layout
@@ -92,33 +188,6 @@ def init_layout() -> html.Div:
 #                 dbc.Row(children=[
 #                     dbc.Col(children=[
 #                         html.Div(children=[
-#                             html.Div(id="day_plot_title"),
-
-#                             dbc.Select(
-#                                 id="day_callback",
-#                                 options=[
-#                                     {"label": " Orders",
-#                                     "value": "orders"},
-#                                     {"label": " Revenue",
-#                                     "value": "revenue"}
-#                                 ], 
-#                                 value="orders", 
-#                                 class_name="selector"
-#                             ),
-
-#                             dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
-
-#                             dcc.Slider(
-#                                 id="granularity_slider", 
-#                                 min=1, max=3, value=1, step=1, 
-#                                 marks={
-#                                     1: "Daily", 2: "Weekly",  3: "Monthly"
-#                                 }, 
-#                                 className="slider_selector"
-#                             ),
-#                         ], className="inner_div"),
-#                     ], class_name="top_left_div", width=9),
-
 #                     dbc.Col(children=[
 #                         html.Div(children=[
 #                             html.Div(id="delivery_title"),
