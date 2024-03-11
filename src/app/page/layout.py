@@ -48,12 +48,17 @@ def init_info() -> html.Div:
     daily_order = html.P(appdata.DAILY_ORDERS)
     daily_order_div = html.Div(children=["Daily Orders", daily_order]) 
 
-    
+    date = html.P(f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]")
+    date_div = html.Div(children=["Best Date", date])
 
-    day = html.P(f"Best Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}")
-    weekday = html.P(f"Best Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}")
-    month = html.P(f"Best Month: Orders - {appdata.TOP_ORDERS_MONTH} {appdata.TOP_ORDERS_DAY_MONTH}")
-    country = html.P(f"Top Country: Orders - {appdata.TOP_ORDERS_COUNTRY} {appdata.TOP_ORDERS_COUNTRY_CT}")
+    weekday = html.P(f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]")
+    weekday_div = html.Div(children=["Best Weekday", weekday])
+
+    month = html.P(f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]")
+    month_div = html.Div(children=["Best Month", month])
+
+    country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
+    country_div = html.Div(children=["Top Country", country])
 
     overview_tab = dcc.Tab(
         dbc.Row([
@@ -68,10 +73,10 @@ def init_info() -> html.Div:
 
     winners_tab = dcc.Tab(
         dbc.Row([
-            dbc.Col(day),
-            dbc.Col(weekday),
-            dbc.Col(month),
-            dbc.Col(country),
+            dbc.Col(date_div),
+            dbc.Col(weekday_div),
+            dbc.Col(month_div),
+            dbc.Col(country_div),
         ]), label="Winners"
     )
 
