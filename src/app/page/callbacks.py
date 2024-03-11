@@ -7,37 +7,36 @@ from src.app.appdata import appdata
 
 
 def init_callbacks(app: Dash) -> None:
-    pass
-    # @app.callback(
-    #     Output(component_id="day_plot_title", component_property="children"),
-    #     Output(component_id="day_plot_fig", component_property="figure"),
-    #     Input(component_id="day_callback", component_property="value"),
-    #     Input(component_id="granularity_slider", component_property="value"),
-    # )
-    # def update_day_fig(analytic: str, granularity: int) -> tuple:
-    #     """Callback function to update the 'days' title and figure.
+    @app.callback(
+        Output(component_id="day_plot_title", component_property="children"),
+        Output(component_id="day_plot_fig", component_property="figure"),
+        Input(component_id="day_callback", component_property="value"),
+        Input(component_id="granularity_slider", component_property="value"),
+    )
+    def update_day_fig(analytic: str, granularity: int) -> tuple:
+        """Callback function to update the 'days' title and figure.
 
-    #     Args:
-    #         analytic (str): Input from RadioItems where the input is 'orders' or 'revenue'.
-    #         granularity (int): Input from a Slider widget where the input is 1, 2 or 3. The lower the input the higher the granularity is: 1 - daily, 2 - weekly, or 3 - monthly.
+        Args:
+            analytic (str): Input from RadioItems where the input is 'orders' or 'revenue'.
+            granularity (int): Input from a Slider widget where the input is 1, 2 or 3. The lower the input the higher the granularity is: 1 - daily, 2 - weekly, or 3 - monthly.
 
-    #     Returns:
-    #         tuple: Header element to update the title and a bar plot figure.
-    #     """
-    #     if granularity == 1:
-    #         nbins = appdata.extractor.number_of_days()
-    #         output_title = "Daily"
-    #     elif granularity == 2:
-    #         nbins = appdata.extractor.number_of_weeks()
-    #         output_title = "Weekly"
-    #     else:
-    #         nbins = appdata.extractor.number_of_months()
-    #         output_title = "Monthly"
+        Returns:
+            tuple: Header element to update the title and a bar plot figure.
+        """
+        if granularity == 1:
+            nbins = appdata.extractor.number_of_days()
+            output_title = "Daily"
+        elif granularity == 2:
+            nbins = appdata.extractor.number_of_weeks()
+            output_title = "Weekly"
+        else:
+            nbins = appdata.extractor.number_of_months()
+            output_title = "Monthly"
 
-    #     if analytic == "orders":
-    #         return html.H4(f"{output_title} Orders "), appdata.extractor.orders_per_day(bins=nbins)
-    #     elif analytic == "revenue":
-    #         return html.H4(f"{output_title} Revenue"), appdata.extractor.revenue_per_day(bins=nbins)
+        if analytic == "orders":
+            return html.H4(f"{output_title} Orders "), appdata.extractor.orders_per_day(bins=nbins)
+        elif analytic == "revenue":
+            return html.H4(f"{output_title} Revenue"), appdata.extractor.revenue_per_day(bins=nbins)
 
 
     # @app.callback(

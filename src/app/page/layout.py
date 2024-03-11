@@ -90,10 +90,49 @@ def init_info() -> html.Div:
     return info
 
 
+def init_date_plot() -> html.Div:
+    """Date plot element that displays the trend of orders and revenue across date. Daily, weekly and monthly granularities are available.
+
+    Returns:
+        html.Div: Date plot div element.
+    """
+    title = html.Div(id="day_plot_title")
+    select = dbc.Select(
+        id="day_callback",
+        options=[
+            {"label": " Orders",
+            "value": "orders"},
+            {"label": " Revenue",
+            "value": "revenue"}
+        ], 
+        value="orders", 
+        class_name="selector"
+    )
+    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
+    slider = dcc.Slider(
+        id="granularity_slider", 
+        min=1, max=3, value=1, step=1, 
+        marks={
+            1: "Daily", 2: "Weekly",  3: "Monthly"
+        }, 
+        className="slider_selector"
+    )
+
+    day_div = html.Div([
+        title,
+        select,
+        graph,
+        slider
+    ], className="day_div")
+
+    return day_div
+    
+
 def init_layout() -> html.Div:
     layout = html.Div([
         init_header(),
-        init_info()
+        init_info(),
+        init_date_plot()
     ], className="main_div")
 
     return layout
@@ -110,33 +149,6 @@ def init_layout() -> html.Div:
 #                 dbc.Row(children=[
 #                     dbc.Col(children=[
 #                         html.Div(children=[
-#                             html.Div(id="day_plot_title"),
-
-#                             dbc.Select(
-#                                 id="day_callback",
-#                                 options=[
-#                                     {"label": " Orders",
-#                                     "value": "orders"},
-#                                     {"label": " Revenue",
-#                                     "value": "revenue"}
-#                                 ], 
-#                                 value="orders", 
-#                                 class_name="selector"
-#                             ),
-
-#                             dcc.Graph(id="day_plot_fig", style={"height": "70%"}),
-
-#                             dcc.Slider(
-#                                 id="granularity_slider", 
-#                                 min=1, max=3, value=1, step=1, 
-#                                 marks={
-#                                     1: "Daily", 2: "Weekly",  3: "Monthly"
-#                                 }, 
-#                                 className="slider_selector"
-#                             ),
-#                         ], className="inner_div"),
-#                     ], class_name="top_left_div", width=9),
-
 #                     dbc.Col(children=[
 #                         html.Div(children=[
 #                             html.Div(id="delivery_title"),
