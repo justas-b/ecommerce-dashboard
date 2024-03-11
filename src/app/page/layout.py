@@ -30,12 +30,25 @@ def init_info() -> html.Div:
     Returns:
         html.Div: Information Div component.
     """
-    revenue = html.P(f"Revenue: {appdata.TOT_REVENUE}")
-    orders = html.P(f"Orders: {appdata.TOT_ORDERS}")
-    items = html.P(f"Items Ordered: {appdata.TOT_ITEMS}")
-    daily_revenue = html.P(f"Daily Revenue: {appdata.DAILY_REVENUE}")
-    revenue_order = html.P(f"Revenue per Order: {appdata.REVENUE_PER_ORDER}")
-    daily_order = html.P(f"Daily Orders: {appdata.DAILY_ORDERS}")
+    revenue = html.P(appdata.TOT_REVENUE)
+    revenue_div = html.Div(children=["Revenue", revenue])
+
+    orders = html.P(appdata.TOT_ORDERS)
+    orders_div = html.Div(children=["Orders", orders])
+
+    items = html.P(appdata.TOT_ITEMS)
+    items_div = html.Div(children=["Items Ordered", items])
+
+    daily_revenue = html.P(appdata.DAILY_REVENUE)
+    daily_revenue_div = html.Div(children=["Daily Revenue", daily_revenue])
+
+    revenue_order = html.P(appdata.REVENUE_PER_ORDER)
+    revenue_div = html.Div(children=["Revenue per Order", revenue_order]) 
+
+    daily_order = html.P(appdata.DAILY_ORDERS)
+    daily_order_div = html.Div(children=["Daily Orders", daily_order]) 
+
+    
 
     day = html.P(f"Best Day: Orders - {appdata.TOP_ORDERS_DATE} {appdata.TOP_ORDERS_DATE_CT}")
     weekday = html.P(f"Best Weekday: Orders - {appdata.TOP_ORDERS_DAY} {appdata.TOP_ORDERS_DAY_CT}")
@@ -44,12 +57,12 @@ def init_info() -> html.Div:
 
     overview_tab = dcc.Tab(
         dbc.Row([
-            dbc.Col(revenue),
-            dbc.Col(orders),
-            dbc.Col(items),
-            dbc.Col(daily_revenue),
-            dbc.Col(revenue_order),
-            dbc.Col(daily_order),
+            dbc.Col(revenue_div),
+            dbc.Col(orders_div),
+            dbc.Col(items_div),
+            dbc.Col(daily_revenue_div),
+            dbc.Col(revenue_div),
+            dbc.Col(daily_order_div),
         ]), label="Overview"
     )
 
