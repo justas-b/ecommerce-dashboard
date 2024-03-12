@@ -166,85 +166,35 @@ def init_country_plot() -> html.Div:
     return country_div
 
 
+def init_dispatch() -> html.Div:
+    """Dispatch plot element that displays the distribution of days taken to dispatch orders.
+
+    Returns:
+        html.Div: Dispatch plot div element.
+    """
+    dispatch_title = html.H4("Days to Dispatch")          
+    dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch(), style={"height": "75%"})
+
+    dispatch_div = html.Div([
+        dispatch_title,
+        dispatch_graph
+    ], className="dispatch_div")
+
+    return dispatch_div
+
+
 def init_layout() -> html.Div:
+    """Main application layout initialisation function. Used to initialise the layout and all elements contained within it.
+
+    Returns:
+        html.Div: Layout div element.
+    """
     layout = html.Div([
         init_header(),
         init_info(),
         init_date_plot(),
-        init_country_plot()
+        init_country_plot(),
+        init_dispatch()
     ], className="main_div")
 
     return layout
-
-
-# if __name__ == '__main__':
-#     app.layout = html.Div(className="page_div", children=[
-#         dbc.Row(children=[
-
-#         dbc.Row(children=[
-#             dbc.Col(children=[
-
-#             dbc.Col(children=[
-#                 dbc.Row(children=[
-#                     dbc.Col(children=[
-#                         html.Div(children=[
-#                     dbc.Col(children=[
-#                         html.Div(children=[
-#                             html.Div(id="delivery_title"),
-
-#                             dbc.Select(
-#                                 id="delivery_callback",
-#                                 options=[
-#                                     {"label": " Orders", "value": "orders"},
-#                                     {"label": " Revenue", "value": "revenue"}
-#                                 ],
-#                                 value="orders", 
-#                                 class_name="selector"
-#                             ),
-
-#                             dcc.Graph(id="delivery_plot", style={"height": "70%"})
-#                         ], className="inner_div")
-#                     ], class_name="top_right_div"),
-#                 ], className="top_body_div"),
-
-#                 dbc.Row(children=[
-#                     dbc.Col(children=[
-#                         html.Div(children=[
-#                             html.Div(id="country_plot_title"),
-                            
-#                             dbc.Select(
-#                                 id="country_analytic_callback",
-#                                 options=[
-#                                     {"label": "Orders", "value": "orders"},
-#                                     {"label": "Total Revenue", "value": "revenue"},
-#                                     {"label": "Average Revenue", "value": "mean_revenue"}
-#                                 ], 
-#                                 value="orders", 
-#                                 class_name="selector",
-#                             ),
-
-#                             dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
-
-#                             dbc.RadioItems(
-#                                 id="head_tail_country_callback",
-#                                 options=[
-#                                     {"label": " Top", "value": "head"},
-#                                     {"label": " Bottom", "value": "tail"}
-#                                 ], value="head", 
-#                                 inline=True, 
-#                                 class_name="radio_selector"
-#                             )
-#                         ], className="inner_div")
-#                     ], class_name="bottom_left_div", width=6),
-
-#                     dbc.Col(children=[
-#                         html.Div(children=[
-#                             html.H4("Days to Dispatch"),
-                            
-#                             dcc.Graph(figure=appdata.extractor.days_to_dispatch(), style={"height": "75%"}),
-#                         ], className="inner_div")                
-#                     ], class_name="bottom_right_div"), 
-#                 ], className="bottom_body_div")
-#             ], class_name="body_div")
-#         ], className="main_div"),
-#     ])
