@@ -31,34 +31,31 @@ def init_info() -> html.Div:
         html.Div: Information Div component.
     """
     revenue = appdata.TOT_REVENUE
-    revenue_card = dbc.Card([dbc.CardHeader("Revenue"), dbc.CardBody(revenue)])
+    revenue_card = dbc.Card(dbc.CardBody([html.H5("Revenue"), revenue]))
 
     orders = appdata.TOT_ORDERS
-    orders_card = dbc.Card([dbc.CardHeader("Orders"), dbc.CardBody(orders)])
+    orders_card = dbc.Card(dbc.CardBody([html.H5("Orders"), orders]))
 
     items = appdata.TOT_ITEMS
-    items_card = dbc.Card([dbc.CardHeader("Items Ordered"), dbc.CardBody(items)])
+    items_card = dbc.Card(dbc.CardBody([html.H5("Items Ordered"), items]))
 
     daily_revenue = appdata.DAILY_REVENUE
-    daily_revenue_card = dbc.Card([dbc.CardHeader("Daily Revenue"), dbc.CardBody(daily_revenue)])
-
-    revenue_order = appdata.REVENUE_PER_ORDER
-    revenue_order_card = dbc.Card([dbc.CardHeader("Revenue per Order"), dbc.CardBody(revenue_order)])
+    daily_revenue_card = dbc.Card(dbc.CardBody([html.H5("Daily Revenue"), daily_revenue]))
 
     daily_order = appdata.DAILY_ORDERS
-    daily_order_card = dbc.Card([dbc.CardHeader("Daily Orders"), dbc.CardBody(daily_order)])
+    daily_order_card = dbc.Card(dbc.CardBody([html.H5("Daily Orders"), daily_order]))
 
     date = f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]"
-    date_card = dbc.Card([dbc.CardHeader("Best Date"), dbc.CardBody(date)])
+    date_card = dbc.Card(dbc.CardBody([html.H5("Best Date"), date]))
 
     weekday = f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]"
-    weekday_card = dbc.Card([dbc.CardHeader("Best Weekday"), dbc.CardBody(weekday)])
+    weekday_card = dbc.Card(dbc.CardBody([html.H5("Best Weekday"), weekday]))
 
     month = f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]"
-    month_card = dbc.Card([dbc.CardHeader("Best Month"), dbc.CardBody(month)])
+    month_card = dbc.Card(dbc.CardBody([html.H5("Best Month"), month]))
 
     country = f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]"
-    country_card = dbc.Card([dbc.CardHeader("Top Country"), dbc.CardBody(country)])
+    country_card = dbc.Card(dbc.CardBody([html.H5("Top Country"), country]))
 
     overview_tab = dbc.Tab(
         dbc.Row([
@@ -66,7 +63,6 @@ def init_info() -> html.Div:
             dbc.Col(orders_card),
             dbc.Col(items_card),
             dbc.Col(daily_revenue_card),
-            dbc.Col(revenue_order_card),
             dbc.Col(daily_order_card)
         ]), label="Overview"
     )
