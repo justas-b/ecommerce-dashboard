@@ -27,5 +27,5 @@ TOP_REVENUE_DAY, TOP_REVENUE_DAY_CT = extractor.best_datetime_performance("reven
 TOP_ORDERS_MONTH, TOP_ORDERS_DAY_MONTH = extractor.best_datetime_performance("orders", "month")
 TOP_REVENUE_MONTH, TOP_REVENUE_MONTH_CT = extractor.best_datetime_performance("revenue", "month")
 
-TOP_ORDERS_COUNTRY, TOP_ORDERS_COUNTRY_CT = extractor.country_grouping('orders').agg(['idxmax', 'max'])
-TOP_REVENUE_COUNTRY, TOP_REVENUE_COUNTRY_CT = extractor.country_grouping('revenue').agg(['idxmax', 'max'])
+TOP_ORDERS_COUNTRY, TOP_ORDERS_COUNTRY_CT = extractor.country_grouping("orders").agg(["idxmax", "max"])
+TOP_REVENUE_COUNTRY, TOP_REVENUE_COUNTRY_CT = extractor.country_grouping("revenue").agg(["idxmax", "max"])

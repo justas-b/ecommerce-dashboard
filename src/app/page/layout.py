@@ -31,52 +31,52 @@ def init_info() -> html.Div:
         html.Div: Information Div component.
     """
     revenue = appdata.TOT_REVENUE
-    revenue_div = dbc.Card(children=[dbc.CardHeader("Revenue"), dbc.CardBody(revenue)])
+    revenue_card = dbc.Card([dbc.CardHeader("Revenue"), dbc.CardBody(revenue)])
 
     orders = appdata.TOT_ORDERS
-    orders_div = dbc.Card(children=[dbc.CardHeader("Orders"), dbc.CardBody(orders)])
+    orders_card = dbc.Card([dbc.CardHeader("Orders"), dbc.CardBody(orders)])
 
     items = appdata.TOT_ITEMS
-    items_div = dbc.Card(children=[dbc.CardHeader("Items Ordered"), dbc.CardBody(items)])
+    items_card = dbc.Card([dbc.CardHeader("Items Ordered"), dbc.CardBody(items)])
 
     daily_revenue = appdata.DAILY_REVENUE
-    daily_revenue_div = dbc.Card(children=[dbc.CardHeader("Daily Revenue"), dbc.CardBody(daily_revenue)])
+    daily_revenue_card = dbc.Card([dbc.CardHeader("Daily Revenue"), dbc.CardBody(daily_revenue)])
 
     revenue_order = appdata.REVENUE_PER_ORDER
-    revenue_order_div = dbc.Card(children=[dbc.CardHeader("Revenue per Order"), dbc.CardBody(revenue_order)])
+    revenue_order_card = dbc.Card([dbc.CardHeader("Revenue per Order"), dbc.CardBody(revenue_order)])
 
     daily_order = appdata.DAILY_ORDERS
-    daily_order_div = dbc.Card(children=[dbc.CardHeader("Daily Orders"), dbc.CardBody(daily_order)])
+    daily_order_card = dbc.Card([dbc.CardHeader("Daily Orders"), dbc.CardBody(daily_order)])
 
     date = f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]"
-    date_div = dbc.Card(children=["Best Date", date])
+    date_card = dbc.Card([dbc.CardHeader("Best Date"), dbc.CardBody(date)])
 
-    weekday = html.P(f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]")
-    weekday_div = dbc.Card(children=["Best Weekday", weekday])
+    weekday = f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]"
+    weekday_card = dbc.Card([dbc.CardHeader("Best Weekday"), dbc.CardBody(weekday)])
 
-    month = html.P(f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]")
-    month_div = dbc.Card(children=["Best Month", month])
+    month = f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]"
+    month_card = dbc.Card([dbc.CardHeader("Best Month"), dbc.CardBody(month)])
 
-    country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
-    country_div = dbc.Card(children=["Top Country", country])
+    country = f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]"
+    country_card = dbc.Card([dbc.CardHeader("Top Country"), dbc.CardBody(country)])
 
     overview_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(revenue_div),
-            dbc.Col(orders_div),
-            dbc.Col(items_div),
-            dbc.Col(daily_revenue_div),
-            dbc.Col(revenue_order_div),
-            dbc.Col(daily_order_div)
+            dbc.Col(revenue_card),
+            dbc.Col(orders_card),
+            dbc.Col(items_card),
+            dbc.Col(daily_revenue_card),
+            dbc.Col(revenue_order_card),
+            dbc.Col(daily_order_card)
         ]), label="Overview"
     )
 
     winners_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(date_div),
-            dbc.Col(weekday_div),
-            dbc.Col(month_div),
-            dbc.Col(country_div),
+            dbc.Col(date_card),
+            dbc.Col(weekday_card),
+            dbc.Col(month_card),
+            dbc.Col(country_card),
         ]), label="Winners"
     )
 
