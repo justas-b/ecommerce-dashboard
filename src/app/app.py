@@ -9,8 +9,8 @@ from src.app.page.layout import init_layout
 from src.app.page.callbacks import init_callbacks
 
 
-load_figure_template("lux")
-app = Dash(external_stylesheets=[dbc.themes.FLATLY])
+load_figure_template("minty")
+app = Dash(external_stylesheets=[dbc.themes.MINTY])
 
 app.layout = init_layout
 init_callbacks(app)
