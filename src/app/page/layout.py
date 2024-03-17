@@ -60,7 +60,7 @@ def init_info() -> html.Div:
     country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
     country_div = html.Div(children=["Top Country", country])
 
-    overview_tab = dcc.Tab(
+    overview_tab = dbc.Tab(
         dbc.Row([
             dbc.Col(revenue_div),
             dbc.Col(orders_div),
@@ -71,7 +71,7 @@ def init_info() -> html.Div:
         ]), label="Overview"
     )
 
-    winners_tab = dcc.Tab(
+    winners_tab = dbc.Tab(
         dbc.Row([
             dbc.Col(date_div),
             dbc.Col(weekday_div),
@@ -81,7 +81,7 @@ def init_info() -> html.Div:
     )
 
     info = html.Div([
-        dcc.Tabs([
+        dbc.Tabs([
             overview_tab,
             winners_tab
         ])
@@ -145,7 +145,7 @@ def init_country_plot() -> html.Div:
         value="orders", 
         class_name="selector",
     ),
-    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+    country_graph = dcc.Graph(id="country_plot_fig"),
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -193,7 +193,7 @@ def init_layout() -> html.Div:
         init_header(),
         init_info(),
         init_date_plot(),
-        init_country_plot(),
+        # init_country_plot(),
         init_dispatch()
     ], className="main_div")
 
