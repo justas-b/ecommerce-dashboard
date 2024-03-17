@@ -31,72 +31,52 @@ def init_info() -> html.Div:
         html.Div: Information Div component.
     """
     revenue = html.P(appdata.TOT_REVENUE)
-    revenue_div = html.Div(children=["Revenue", revenue])
+    revenue_div = dbc.Card(children=["Revenue", revenue])
 
     orders = html.P(appdata.TOT_ORDERS)
-    orders_div = html.Div(children=["Orders", orders])
+    orders_div = dbc.Card(children=["Orders", orders])
 
     items = html.P(appdata.TOT_ITEMS)
-    items_div = html.Div(children=["Items Ordered", items])
+    items_div = dbc.Card(children=["Items Ordered", items])
 
     daily_revenue = html.P(appdata.DAILY_REVENUE)
-    daily_revenue_div = html.Div(children=["Daily Revenue", daily_revenue])
+    daily_revenue_div = dbc.Card(children=["Daily Revenue", daily_revenue])
 
     revenue_order = html.P(appdata.REVENUE_PER_ORDER)
-    revenue_div = html.Div(children=["Revenue per Order", revenue_order]) 
+    revenue_order_div = dbc.Card(children=["Revenue per Order", revenue_order]) 
 
     daily_order = html.P(appdata.DAILY_ORDERS)
-    daily_order_div = html.Div(children=["Daily Orders", daily_order]) 
+    daily_order_div = dbc.Card(children=["Daily Orders", daily_order]) 
 
     date = html.P(f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]")
-    date_div = html.Div(children=["Best Date", date])
+    date_div = dbc.Card(children=["Best Date", date])
 
     weekday = html.P(f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]")
-    weekday_div = html.Div(children=["Best Weekday", weekday])
+    weekday_div = dbc.Card(children=["Best Weekday", weekday])
 
     month = html.P(f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]")
-    month_div = html.Div(children=["Best Month", month])
+    month_div = dbc.Card(children=["Best Month", month])
 
     country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
-    country_div = html.Div(children=["Top Country", country])
+    country_div = dbc.Card(children=["Top Country", country])
 
     overview_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(
-                dbc.Card(revenue_div)
-            ),
-            dbc.Col(
-                dbc.Card(orders_div)
-            ),
-            dbc.Col(
-                dbc.Card(items_div)
-            ),
-            dbc.Col(
-                dbc.Card(daily_revenue_div)
-            ),
-            dbc.Col(
-                dbc.Card(revenue_div)
-            ),
-            dbc.Col(
-                dbc.Card(daily_order_div)
-            )
+            dbc.Col(revenue_div),
+            dbc.Col(orders_div),
+            dbc.Col(items_div),
+            dbc.Col(daily_revenue_div),
+            dbc.Col(revenue_order_div),
+            dbc.Col(daily_order_div)
         ]), label="Overview"
     )
 
     winners_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(
-                dbc.Card(date_div)
-            ),
-            dbc.Col(
-                dbc.Card(weekday_div)
-            ),
-            dbc.Col(
-                dbc.Card(month_div)
-            ),
-            dbc.Col(
-                dbc.Card(country_div)
-            ),
+            dbc.Col(date_div),
+            dbc.Col(weekday_div),
+            dbc.Col(month_div),
+            dbc.Col(country_div),
         ]), label="Winners"
     )
 
