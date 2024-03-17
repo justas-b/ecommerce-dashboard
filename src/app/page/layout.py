@@ -57,30 +57,33 @@ def init_info() -> html.Div:
     country = f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]"
     country_card = dbc.Card(dbc.CardBody([html.H5("Top Country"), country]))
 
-    overview_tab = dbc.Tab(
+    overview_tab = dbc.Tab([
+        html.Br(),
         dbc.Row([
             dbc.Col(revenue_card),
             dbc.Col(orders_card),
             dbc.Col(items_card),
             dbc.Col(daily_revenue_card),
             dbc.Col(daily_order_card)
-        ]), label="Overview"
-    )
+        ])
+    ], label="Overview")
 
-    winners_tab = dbc.Tab(
+    winners_tab = dbc.Tab([
+        html.Br(),
         dbc.Row([
             dbc.Col(date_card),
             dbc.Col(weekday_card),
             dbc.Col(month_card),
             dbc.Col(country_card),
-        ]), label="Winners"
-    )
+        ])
+    ], label="Winners")
 
     info = html.Div([
         dbc.Tabs([
             overview_tab,
             winners_tab
-        ])
+        ]),
+        html.Br()
     ], className="info_div")
 
     return info
