@@ -66,7 +66,7 @@ def init_info() -> html.Div:
             dbc.Col(daily_revenue_card),
             dbc.Col(daily_order_card)
         ])
-    ], label="Overview")
+    ], label="Overview", label_class_name="tab_label")
 
     winners_tab = dbc.Tab([
         html.Br(),
@@ -76,7 +76,7 @@ def init_info() -> html.Div:
             dbc.Col(month_card),
             dbc.Col(country_card),
         ])
-    ], label="Winners")
+    ], label="Winners", label_class_name="tab_label")
 
     info = html.Div([
         dbc.Tabs([
