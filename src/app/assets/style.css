@@ -6,12 +6,6 @@ h4 {
     text-align: center;
 }
 
-.page_div {
-    height: 100vh;
-    width: 100vw;
-    margin-right: 0;
-}
-
 .header_div {
     text-align: center;
     background: #97f3e1;
@@ -20,48 +14,9 @@ h4 {
   }
 
 .main_div {
-    height: 90%;
-    width: 100%
-}
-
-.sidebar_div {
-    background: #97f3e1;
-}
-
-.body_div {
-    background: #fffdff;
-    border: 2px solid grey
-}
-
-.top_body_div {
-    height: 50%;
-}
-
-.top_left_div {
-    border-right: 2px solid grey;
-    border-bottom: 2px solid grey
-}
-
-.top_right_div {
-    border-bottom: 2px solid grey;
-}
-
-.bottom_body_div {
-    height: 50%;
-}
-
-.bottom_left_div {
-    border-right: 2px solid grey
-}
-
-.inner_div {
-    height: 100%;
-    width: 100%;    
-}
-
-.info_text {
-    text-align: center; 
-    font-size: 17px;
+    min-width: 940px;
+    max-width: 75%;
+    margin: auto;
 }
 
 .selector {

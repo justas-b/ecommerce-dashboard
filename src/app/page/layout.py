@@ -190,11 +190,13 @@ def init_layout() -> html.Div:
         html.Div: Layout div element.
     """
     layout = html.Div([
-        init_header(),
-        init_info(),
-        init_date_plot(),
-        # init_country_plot(),
-        init_dispatch()
-    ], className="main_div")
+        html.Div([
+            init_header(),
+            init_info(),
+            init_date_plot(),
+            # init_country_plot(),
+            init_dispatch()
+        ], className="main_div")
+    ], className="page_div")
 
     return layout
