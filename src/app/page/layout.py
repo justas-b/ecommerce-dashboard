@@ -30,48 +30,48 @@ def init_info() -> html.Div:
     Returns:
         html.Div: Information Div component.
     """
-    revenue = html.P(appdata.TOT_REVENUE)
-    revenue_div = html.Div(children=["Revenue", revenue])
+    revenue = appdata.TOT_REVENUE
+    revenue_div = dbc.Card(children=[dbc.CardHeader("Revenue"), dbc.CardBody(revenue)])
 
     orders = html.P(appdata.TOT_ORDERS)
-    orders_div = html.Div(children=["Orders", orders])
+    orders_div = dbc.Card(children=[dbc.CardHeader("Orders"), dbc.CardBody(orders)])
 
     items = html.P(appdata.TOT_ITEMS)
-    items_div = html.Div(children=["Items Ordered", items])
+    items_div = dbc.Card(children=[dbc.CardHeader("Items Ordered"), dbc.CardBody(items)])
 
     daily_revenue = html.P(appdata.DAILY_REVENUE)
-    daily_revenue_div = html.Div(children=["Daily Revenue", daily_revenue])
+    daily_revenue_div = dbc.Card(children=[dbc.CardHeader("Daily Revenue"), dbc.CardBody(daily_revenue)])
 
     revenue_order = html.P(appdata.REVENUE_PER_ORDER)
-    revenue_div = html.Div(children=["Revenue per Order", revenue_order]) 
+    revenue_order_div = dbc.Card(children=[dbc.CardHeader("Revenue per Order"), dbc.CardBody(revenue_order)])
 
     daily_order = html.P(appdata.DAILY_ORDERS)
-    daily_order_div = html.Div(children=["Daily Orders", daily_order]) 
+    daily_order_div = dbc.Card(children=[dbc.CardHeader("Daily Orders"), dbc.CardBody(daily_order)])
 
     date = html.P(f"{appdata.TOP_ORDERS_DATE.strftime('%Y-%m-%d')} [{appdata.TOP_ORDERS_DATE_CT} orders]")
-    date_div = html.Div(children=["Best Date", date])
+    date_div = dbc.Card(children=["Best Date", date])
 
     weekday = html.P(f"{appdata.TOP_ORDERS_DAY} [{appdata.TOP_ORDERS_DAY_CT} orders]")
-    weekday_div = html.Div(children=["Best Weekday", weekday])
+    weekday_div = dbc.Card(children=["Best Weekday", weekday])
 
     month = html.P(f"{appdata.TOP_ORDERS_MONTH} [{appdata.TOP_ORDERS_DAY_MONTH} orders]")
-    month_div = html.Div(children=["Best Month", month])
+    month_div = dbc.Card(children=["Best Month", month])
 
     country = html.P(f"{appdata.TOP_ORDERS_COUNTRY} [{appdata.TOP_ORDERS_COUNTRY_CT} orders]")
-    country_div = html.Div(children=["Top Country", country])
+    country_div = dbc.Card(children=["Top Country", country])
 
-    overview_tab = dcc.Tab(
+    overview_tab = dbc.Tab(
         dbc.Row([
             dbc.Col(revenue_div),
             dbc.Col(orders_div),
             dbc.Col(items_div),
             dbc.Col(daily_revenue_div),
-            dbc.Col(revenue_div),
-            dbc.Col(daily_order_div),
+            dbc.Col(revenue_order_div),
+            dbc.Col(daily_order_div)
         ]), label="Overview"
     )
 
-    winners_tab = dcc.Tab(
+    winners_tab = dbc.Tab(
         dbc.Row([
             dbc.Col(date_div),
             dbc.Col(weekday_div),
@@ -81,7 +81,7 @@ def init_info() -> html.Div:
     )
 
     info = html.Div([
-        dcc.Tabs([
+        dbc.Tabs([
             overview_tab,
             winners_tab
         ])
@@ -145,7 +145,7 @@ def init_country_plot() -> html.Div:
         value="orders", 
         class_name="selector",
     ),
-    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"}),
+    country_graph = dcc.Graph(id="country_plot_fig"),
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -190,11 +190,13 @@ def init_layout() -> html.Div:
         html.Div: Layout div element.
     """
     layout = html.Div([
-        init_header(),
-        init_info(),
-        init_date_plot(),
-        init_country_plot(),
-        init_dispatch()
-    ], className="main_div")
+        html.Div([
+            init_header(),
+            init_info(),
+            init_date_plot(),
+            # init_country_plot(),
+            init_dispatch()
+        ], className="main_div")
+    ], className="page_div")
 
     return layout
