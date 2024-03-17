@@ -62,21 +62,41 @@ def init_info() -> html.Div:
 
     overview_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(revenue_div),
-            dbc.Col(orders_div),
-            dbc.Col(items_div),
-            dbc.Col(daily_revenue_div),
-            dbc.Col(revenue_div),
-            dbc.Col(daily_order_div),
+            dbc.Col(
+                dbc.Card(revenue_div)
+            ),
+            dbc.Col(
+                dbc.Card(orders_div)
+            ),
+            dbc.Col(
+                dbc.Card(items_div)
+            ),
+            dbc.Col(
+                dbc.Card(daily_revenue_div)
+            ),
+            dbc.Col(
+                dbc.Card(revenue_div)
+            ),
+            dbc.Col(
+                dbc.Card(daily_order_div)
+            )
         ]), label="Overview"
     )
 
     winners_tab = dbc.Tab(
         dbc.Row([
-            dbc.Col(date_div),
-            dbc.Col(weekday_div),
-            dbc.Col(month_div),
-            dbc.Col(country_div),
+            dbc.Col(
+                dbc.Card(date_div)
+            ),
+            dbc.Col(
+                dbc.Card(weekday_div)
+            ),
+            dbc.Col(
+                dbc.Card(month_div)
+            ),
+            dbc.Col(
+                dbc.Card(country_div)
+            ),
         ]), label="Winners"
     )
 
