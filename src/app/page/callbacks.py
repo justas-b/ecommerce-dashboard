@@ -62,8 +62,8 @@ def init_callbacks(app: Dash) -> None:
     
     @app.callback(
         Output("date_collapse", "is_open"),
-        [Input("date_collapse_button", "n_clicks")],
-        [State("date_collapse", "is_open")],
+        Input("date_collapse_button", "n_clicks"),
+        State("date_collapse", "is_open"),
     )
     def toggle_date_collapse(n, is_open):
         if n:
@@ -72,8 +72,8 @@ def init_callbacks(app: Dash) -> None:
     
     @app.callback(
         Output("country_collapse", "is_open"),
-        [Input("country_collapse_button", "n_clicks")],
-        [State("country_collapse", "is_open")],
+        Input("country_collapse_button", "n_clicks"),
+        State("country_collapse", "is_open"),
     )
     def toggle_country_collapse(n, is_open):
         if n:

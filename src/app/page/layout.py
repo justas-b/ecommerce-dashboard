@@ -13,11 +13,11 @@ def init_header() -> html.Div:
     Returns:
         html.Div: Header Div component.
     """
-    header_text = html.H1("E-commerce Dashboard")
+    title = html.H1("E-commerce Dashboard")
     date_range = html.P(f"{appdata.START} to {appdata.END}")
 
     header = html.Div([
-        header_text,
+        title,
         date_range
     ], className="header_div")
     
@@ -28,7 +28,7 @@ def init_info() -> html.Div:
     """Information element for the dashboard.
 
     Returns:
-        html.Div: Information Div component.
+        html.Div: Information div element.
     """
     revenue = appdata.TOT_REVENUE
     revenue_card = dbc.Card(dbc.CardBody([html.H5("Revenue"), revenue]))
@@ -98,7 +98,7 @@ def init_date_plot() -> html.Div:
     title = html.Div(id="day_plot_title")
     graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
     options_button = dbc.Button(
-        "Open collapse",
+        "Options",
         id="date_collapse_button",
         className="mb-3",
         color="primary",
@@ -129,14 +129,14 @@ def init_date_plot() -> html.Div:
         is_open=False,
     )
 
-    day_div = html.Div([
+    day = html.Div([
         title,
         graph,
         options_button,
         options_collapse
     ], className="day_div")
 
-    return day_div
+    return day
     
 
 def init_country_plot() -> html.Div:
@@ -145,10 +145,10 @@ def init_country_plot() -> html.Div:
     Returns:
         html.Div: Country plot div element.
     """
-    country_title = html.Div(id="country_plot_title")
-    country_graph = dcc.Graph(id="country_plot_fig")
+    title = html.Div(id="country_plot_title")
+    graph = dcc.Graph(id="country_plot_fig")
     options_button = dbc.Button(
-        "Open collapse",
+        "Options",
         id="country_collapse_button",
         className="mb-3",
         color="primary",
@@ -179,14 +179,14 @@ def init_country_plot() -> html.Div:
         is_open=False,
     )
 
-    country_div = html.Div([
-        country_title,
-        country_graph,
+    country = html.Div([
+        title,
+        graph,
         options_button,
         options_collapse
     ], className="country_div")
 
-    return country_div
+    return country
 
 
 def init_dispatch() -> html.Div:
@@ -198,12 +198,12 @@ def init_dispatch() -> html.Div:
     dispatch_title = html.H4("Days to Dispatch")          
     dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch())
 
-    dispatch_div = html.Div([
+    dispatch = html.Div([
         dispatch_title,
         dispatch_graph
     ], className="dispatch_div")
 
-    return dispatch_div
+    return dispatch
 
 
 def init_layout() -> html.Div:
