@@ -133,7 +133,7 @@ def init_country_plot() -> html.Div:
     Returns:
         html.Div: Country plot div element.
     """
-    country_title = html.Div(id="country_plot_title"),
+    country_title = html.Div(id="country_plot_title")
     analytic_select = dbc.Select(
         id="country_analytic_callback",
         options=[
@@ -142,9 +142,9 @@ def init_country_plot() -> html.Div:
             {"label": "Average Revenue", "value": "mean_revenue"}
         ], 
         value="orders", 
-        class_name="selector",
-    ),
-    country_graph = dcc.Graph(id="country_plot_fig"),
+        class_name="selector"
+    )
+    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"})
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -193,8 +193,10 @@ def init_layout() -> html.Div:
             init_header(),
             init_info(),
             init_date_plot(),
-            # init_country_plot(),
-            init_dispatch()
+            dbc.Row([
+                dbc.Col(init_country_plot()),
+                dbc.Col(init_dispatch())
+            ])
         ], className="main_div")
     ], className="page_div")
 
