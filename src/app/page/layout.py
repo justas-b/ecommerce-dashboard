@@ -144,7 +144,7 @@ def init_country_plot() -> html.Div:
         value="orders", 
         class_name="selector"
     )
-    country_graph = dcc.Graph(id="country_plot_fig", style={"height": "70%"})
+    country_graph = dcc.Graph(id="country_plot_fig")
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -172,7 +172,7 @@ def init_dispatch() -> html.Div:
         html.Div: Dispatch plot div element.
     """
     dispatch_title = html.H4("Days to Dispatch")          
-    dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch(), style={"height": "75%"})
+    dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch())
 
     dispatch_div = html.Div([
         dispatch_title,
@@ -192,7 +192,9 @@ def init_layout() -> html.Div:
         html.Div([
             init_header(),
             init_info(),
+            html.Hr(),
             init_date_plot(),
+            html.Br(),
             dbc.Row([
                 dbc.Col(init_country_plot()),
                 dbc.Col(init_dispatch())
