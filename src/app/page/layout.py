@@ -194,7 +194,7 @@ def init_layout() -> html.Div:
             init_info(),
             html.Hr(),
             init_date_plot(),
-            html.Br(),
+            html.Hr(),
             dbc.Row([
                 dbc.Col(init_country_plot()),
                 dbc.Col(init_dispatch())
