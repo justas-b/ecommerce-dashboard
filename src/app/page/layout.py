@@ -146,6 +146,14 @@ def init_country_plot() -> html.Div:
         html.Div: Country plot div element.
     """
     country_title = html.Div(id="country_plot_title")
+    country_graph = dcc.Graph(id="country_plot_fig")
+    options_button = dbc.Button(
+        "Open collapse",
+        id="country_collapse_button",
+        className="mb-3",
+        color="primary",
+        n_clicks=0,
+    )
     analytic_select = dbc.Select(
         id="country_analytic_callback",
         options=[
@@ -156,7 +164,6 @@ def init_country_plot() -> html.Div:
         value="orders", 
         class_name="selector"
     )
-    country_graph = dcc.Graph(id="country_plot_fig")
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -166,12 +173,17 @@ def init_country_plot() -> html.Div:
         inline=True, 
         class_name="radio_selector"
     )
+    options_collapse = dbc.Collapse(
+        dbc.Card(dbc.CardBody([analytic_select, top_bottom_radio])),
+        id="country_collapse",
+        is_open=False,
+    )
 
     country_div = html.Div([
         country_title,
-        analytic_select,
         country_graph,
-        top_bottom_radio
+        options_button,
+        options_collapse
     ], className="country_div")
 
     return country_div
