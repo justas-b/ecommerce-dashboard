@@ -13,11 +13,11 @@ def init_header() -> html.Div:
     Returns:
         html.Div: Header Div component.
     """
-    header_text = html.H1("E-commerce Dashboard")
+    title = html.H1("E-commerce Dashboard")
     date_range = html.P(f"{appdata.START} to {appdata.END}")
 
     header = html.Div([
-        header_text,
+        title,
         date_range
     ], className="header_div")
     
@@ -28,7 +28,7 @@ def init_info() -> html.Div:
     """Information element for the dashboard.
 
     Returns:
-        html.Div: Information Div component.
+        html.Div: Information div element.
     """
     revenue = appdata.TOT_REVENUE
     revenue_card = dbc.Card(dbc.CardBody([html.H5("Revenue"), revenue]))
@@ -96,6 +96,14 @@ def init_date_plot() -> html.Div:
         html.Div: Date plot div element.
     """
     title = html.Div(id="day_plot_title")
+    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
+    options_button = dbc.Button(
+        "Options",
+        id="date_collapse_button",
+        className="mb-3",
+        color="primary",
+        n_clicks=0,
+    )
     select = dbc.Select(
         id="day_callback",
         options=[
@@ -107,7 +115,6 @@ def init_date_plot() -> html.Div:
         value="orders", 
         class_name="selector"
     )
-    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
     slider = dcc.Slider(
         id="granularity_slider", 
         min=1, max=3, value=1, step=1, 
@@ -116,15 +123,19 @@ def init_date_plot() -> html.Div:
         }, 
         className="slider_selector"
     )
+    options_collapse = dbc.Collapse(
+        dbc.Card(dbc.CardBody([select, slider])),
+        id="date_collapse",
+        is_open=False,
+    )
 
-    day_div = html.Div([
-        title,
-        select,
-        graph,
-        slider
+    day = html.Div([
+        dbc.Row([dbc.Col(title), dbc.Col(options_button, width=1)]),
+        options_collapse,
+        graph
     ], className="day_div")
 
-    return day_div
+    return day
     
 
 def init_country_plot() -> html.Div:
@@ -133,7 +144,15 @@ def init_country_plot() -> html.Div:
     Returns:
         html.Div: Country plot div element.
     """
-    country_title = html.Div(id="country_plot_title"),
+    title = html.Div(id="country_plot_title")
+    graph = dcc.Graph(id="country_plot_fig")
+    options_button = dbc.Button(
+        "Options",
+        id="country_collapse_button",
+        className="mb-3",
+        color="primary",
+        n_clicks=0,
+    )
     analytic_select = dbc.Select(
         id="country_analytic_callback",
         options=[
@@ -142,9 +161,8 @@ def init_country_plot() -> html.Div:
             {"label": "Average Revenue", "value": "mean_revenue"}
         ], 
         value="orders", 
-        class_name="selector",
-    ),
-    country_graph = dcc.Graph(id="country_plot_fig"),
+        class_name="selector"
+    )
     top_bottom_radio = dbc.RadioItems(
         id="head_tail_country_callback",
         options=[
@@ -154,15 +172,20 @@ def init_country_plot() -> html.Div:
         inline=True, 
         class_name="radio_selector"
     )
+    options_collapse = dbc.Collapse(
+        dbc.Card(dbc.CardBody([analytic_select, top_bottom_radio])),
+        id="country_collapse",
+        is_open=False,
+    )
 
-    country_div = html.Div([
-        country_title,
-        analytic_select,
-        country_graph,
-        top_bottom_radio
+    country = html.Div([
+        title,
+        graph,
+        options_button,
+        options_collapse
     ], className="country_div")
 
-    return country_div
+    return country
 
 
 def init_dispatch() -> html.Div:
@@ -172,14 +195,14 @@ def init_dispatch() -> html.Div:
         html.Div: Dispatch plot div element.
     """
     dispatch_title = html.H4("Days to Dispatch")          
-    dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch(), style={"height": "75%"})
+    dispatch_graph = dcc.Graph(figure=appdata.extractor.days_to_dispatch())
 
-    dispatch_div = html.Div([
+    dispatch = html.Div([
         dispatch_title,
         dispatch_graph
     ], className="dispatch_div")
 
-    return dispatch_div
+    return dispatch
 
 
 def init_layout() -> html.Div:
@@ -192,9 +215,13 @@ def init_layout() -> html.Div:
         html.Div([
             init_header(),
             init_info(),
+            html.Hr(),
             init_date_plot(),
-            # init_country_plot(),
-            init_dispatch()
+            html.Hr(),
+            dbc.Row([
+                dbc.Col(init_country_plot()),
+                dbc.Col(init_dispatch())
+            ])
         ], className="main_div")
     ], className="page_div")
 

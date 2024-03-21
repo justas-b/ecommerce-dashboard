@@ -1,6 +1,6 @@
 import sys
 
-from dash import Dash, html, Input, Output
+from dash import Dash, html, Input, Output, State
 
 sys.path.append("./")
 from src.app.appdata import appdata
@@ -39,23 +39,43 @@ def init_callbacks(app: Dash) -> None:
             return html.H4(f"{output_title} Revenue"), appdata.extractor.revenue_per_day(bins=nbins)
 
 
-    # @app.callback(
-    #     Output(component_id="country_plot_title", component_property="children"),
-    #     Output(component_id="country_plot_fig", component_property="figure"),
-    #     Input(component_id="country_analytic_callback", component_property="value"),
-    #     Input(component_id="head_tail_country_callback", component_property="value")
-    # )
-    # def update_country_fig(analytic: str, head_tail: str) -> tuple:
-    #     """Callback function to update the 'country' title and figure.
+    @app.callback(
+        Output(component_id="country_plot_title", component_property="children"),
+        Output(component_id="country_plot_fig", component_property="figure"),
+        Input(component_id="country_analytic_callback", component_property="value"),
+        Input(component_id="head_tail_country_callback", component_property="value")
+    )
+    def update_country_fig(analytic: str, head_tail: str) -> tuple:
+        """Callback function to update the 'country' title and figure.
 
-    #     Args:
-    #         analytic_input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
-    #         top_bottom_input (str): Input from a Select widget where the inputs can be 'head' or 'tail'.
+        Args:
+            analytic_input (str): Input from a Select widget where the inputs can be 'orders', 'total' or 'average'.
+            top_bottom_input (str): Input from a Select widget where the inputs can be 'head' or 'tail'.
 
-    #     Returns:
-    #         tuple: Header element to update the title and a bar plot figure.
-    #     """
-    #     country_plot = appdata.extractor.country_plots(analytic, head_tail)
-    #     label = country_plot["layout"]["xaxis"]["title"]["text"]
+        Returns:
+            tuple: Header element to update the title and a bar plot figure.
+        """
+        country_plot = appdata.extractor.country_plots(analytic, head_tail)
+        label = country_plot["layout"]["xaxis"]["title"]["text"]
 
-    #     return html.H4(f"{label} per Country"), country_plot
+        return html.H4(f"{label} per Country"), country_plot
+    
+    @app.callback(
+        Output("date_collapse", "is_open"),
+        Input("date_collapse_button", "n_clicks"),
+        State("date_collapse", "is_open"),
+    )
+    def toggle_date_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+    
+    @app.callback(
+        Output("country_collapse", "is_open"),
+        Input("country_collapse_button", "n_clicks"),
+        State("country_collapse", "is_open"),
+    )
+    def toggle_country_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
