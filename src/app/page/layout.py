@@ -130,10 +130,9 @@ def init_date_plot() -> html.Div:
     )
 
     day = html.Div([
-        title,
-        graph,
-        options_button,
-        options_collapse
+        dbc.Row([dbc.Col(title), dbc.Col(options_button, width=1)]),
+        options_collapse,
+        graph
     ], className="day_div")
 
     return day
