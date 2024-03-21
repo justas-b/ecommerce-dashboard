@@ -1,6 +1,6 @@
 import sys
 
-from dash import Dash, html, Input, Output
+from dash import Dash, html, Input, Output, State
 
 sys.path.append("./")
 from src.app.appdata import appdata
@@ -59,3 +59,13 @@ def init_callbacks(app: Dash) -> None:
         label = country_plot["layout"]["xaxis"]["title"]["text"]
 
         return html.H4(f"{label} per Country"), country_plot
+    
+    @app.callback(
+        Output("date_collapse", "is_open"),
+        [Input("date_collapse_button", "n_clicks")],
+        [State("date_collapse", "is_open")],
+    )
+    def toggle_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open

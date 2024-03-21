@@ -96,6 +96,14 @@ def init_date_plot() -> html.Div:
         html.Div: Date plot div element.
     """
     title = html.Div(id="day_plot_title")
+    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
+    options_button = dbc.Button(
+        "Open collapse",
+        id="date_collapse_button",
+        className="mb-3",
+        color="primary",
+        n_clicks=0,
+    )
     select = dbc.Select(
         id="day_callback",
         options=[
@@ -107,7 +115,6 @@ def init_date_plot() -> html.Div:
         value="orders", 
         class_name="selector"
     )
-    graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
     slider = dcc.Slider(
         id="granularity_slider", 
         min=1, max=3, value=1, step=1, 
@@ -116,12 +123,17 @@ def init_date_plot() -> html.Div:
         }, 
         className="slider_selector"
     )
+    options_collapse = dbc.Collapse(
+        dbc.Card(dbc.CardBody([select, slider])),
+        id="date_collapse",
+        is_open=False,
+    )
 
     day_div = html.Div([
         title,
-        select,
         graph,
-        slider
+        options_button,
+        options_collapse
     ], className="day_div")
 
     return day_div
