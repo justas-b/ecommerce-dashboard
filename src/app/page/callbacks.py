@@ -71,11 +71,11 @@ def init_callbacks(app: Dash) -> None:
         return is_open
     
     @app.callback(
-        Output("country_collapse", "is_open"),
-        Input("country_collapse_button", "n_clicks"),
-        State("country_collapse", "is_open"),
+        Output("country_off_canvas", "is_open"),
+        Input("country_off_canvas_button", "n_clicks"),
+        State("country_off_canvas", "is_open"),
     )
-    def toggle_country_collapse(n, is_open):
+    def toggle_country_off_canvas(n, is_open):
         if n:
             return not is_open
         return is_open

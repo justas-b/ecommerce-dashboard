@@ -148,7 +148,7 @@ def init_country_plot() -> html.Div:
     graph = dcc.Graph(id="country_plot_fig")
     options_button = dbc.Button(
         "Options",
-        id="country_collapse_button",
+        id="country_off_canvas_button",
         className="mb-3",
         color="primary",
         n_clicks=0,
@@ -172,9 +172,9 @@ def init_country_plot() -> html.Div:
         inline=True, 
         class_name="radio_selector"
     )
-    options_collapse = dbc.Collapse(
+    options_off_canvas = dbc.Offcanvas(
         dbc.Card(dbc.CardBody([analytic_select, top_bottom_radio])),
-        id="country_collapse",
+        id="country_off_canvas",
         is_open=False,
     )
 
@@ -182,7 +182,7 @@ def init_country_plot() -> html.Div:
         title,
         graph,
         options_button,
-        options_collapse
+        options_off_canvas
     ], className="country_div")
 
     return country
