@@ -99,7 +99,7 @@ def init_date_plot() -> html.Div:
     graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
     options_button = dbc.Button(
         "Options",
-        id="date_collapse_button",
+        id="date_off_canvas_button",
         className="mb-3",
         color="primary",
         n_clicks=0,
@@ -123,15 +123,13 @@ def init_date_plot() -> html.Div:
         }, 
         className="slider_selector"
     )
-    options_collapse = dbc.Collapse(
-        dbc.Card(dbc.CardBody([select, slider])),
-        id="date_collapse",
-        is_open=False,
-    )
+    options_off_canvas = dbc.Offcanvas([
+        select, slider
+    ], id="date_off_canvas", is_open=False)
 
     day = html.Div([
         dbc.Row([dbc.Col(title), dbc.Col(options_button, width=1)]),
-        options_collapse,
+        options_off_canvas,
         graph
     ], className="day_div")
 
@@ -148,7 +146,7 @@ def init_country_plot() -> html.Div:
     graph = dcc.Graph(id="country_plot_fig")
     options_button = dbc.Button(
         "Options",
-        id="country_collapse_button",
+        id="country_off_canvas_button",
         className="mb-3",
         color="primary",
         n_clicks=0,
@@ -172,17 +170,14 @@ def init_country_plot() -> html.Div:
         inline=True, 
         class_name="radio_selector"
     )
-    options_collapse = dbc.Collapse(
-        dbc.Card(dbc.CardBody([analytic_select, top_bottom_radio])),
-        id="country_collapse",
-        is_open=False,
-    )
+    options_off_canvas = dbc.Offcanvas([
+        analytic_select, top_bottom_radio
+    ], id="country_off_canvas", is_open=False)
 
     country = html.Div([
-        title,
+        dbc.Row([dbc.Col(options_button, width=1), dbc.Col(title)]),
         graph,
-        options_button,
-        options_collapse
+        options_off_canvas
     ], className="country_div")
 
     return country

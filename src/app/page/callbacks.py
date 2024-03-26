@@ -61,21 +61,21 @@ def init_callbacks(app: Dash) -> None:
         return html.H4(f"{label} per Country"), country_plot
     
     @app.callback(
-        Output("date_collapse", "is_open"),
-        Input("date_collapse_button", "n_clicks"),
-        State("date_collapse", "is_open"),
+        Output("date_off_canvas", "is_open"),
+        Input("date_off_canvas_button", "n_clicks"),
+        State("date_off_canvas", "is_open"),
     )
-    def toggle_date_collapse(n, is_open):
+    def toggle_date_off_canvas(n, is_open):
         if n:
             return not is_open
         return is_open
     
     @app.callback(
-        Output("country_collapse", "is_open"),
-        Input("country_collapse_button", "n_clicks"),
-        State("country_collapse", "is_open"),
+        Output("country_off_canvas", "is_open"),
+        Input("country_off_canvas_button", "n_clicks"),
+        State("country_off_canvas", "is_open"),
     )
-    def toggle_country_collapse(n, is_open):
+    def toggle_country_off_canvas(n, is_open):
         if n:
             return not is_open
         return is_open
