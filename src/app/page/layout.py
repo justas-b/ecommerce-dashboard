@@ -175,9 +175,8 @@ def init_country_plot() -> html.Div:
     ], id="country_off_canvas", is_open=False)
 
     country = html.Div([
-        title,
+        dbc.Row([dbc.Col(options_button, width=1), dbc.Col(title)]),
         graph,
-        options_button,
         options_off_canvas
     ], className="country_div")
 
