@@ -99,7 +99,7 @@ def init_date_plot() -> html.Div:
     graph = dcc.Graph(id="day_plot_fig", style={"height": "70%"})
     options_button = dbc.Button(
         "Options",
-        id="date_collapse_button",
+        id="date_off_canvas_button",
         className="mb-3",
         color="primary",
         n_clicks=0,
@@ -123,15 +123,15 @@ def init_date_plot() -> html.Div:
         }, 
         className="slider_selector"
     )
-    options_collapse = dbc.Collapse(
+    options_off_canvas = dbc.Offcanvas(
         dbc.Card(dbc.CardBody([select, slider])),
-        id="date_collapse",
+        id="date_off_canvas",
         is_open=False,
     )
 
     day = html.Div([
         dbc.Row([dbc.Col(title), dbc.Col(options_button, width=1)]),
-        options_collapse,
+        options_off_canvas,
         graph
     ], className="day_div")
 
