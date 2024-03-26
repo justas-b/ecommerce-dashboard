@@ -123,11 +123,9 @@ def init_date_plot() -> html.Div:
         }, 
         className="slider_selector"
     )
-    options_off_canvas = dbc.Offcanvas(
-        dbc.Card(dbc.CardBody([select, slider])),
-        id="date_off_canvas",
-        is_open=False,
-    )
+    options_off_canvas = dbc.Offcanvas([
+        select, slider
+    ], id="date_off_canvas", is_open=False)
 
     day = html.Div([
         dbc.Row([dbc.Col(title), dbc.Col(options_button, width=1)]),
@@ -172,11 +170,9 @@ def init_country_plot() -> html.Div:
         inline=True, 
         class_name="radio_selector"
     )
-    options_off_canvas = dbc.Offcanvas(
-        dbc.Card(dbc.CardBody([analytic_select, top_bottom_radio])),
-        id="country_off_canvas",
-        is_open=False,
-    )
+    options_off_canvas = dbc.Offcanvas([
+        analytic_select, top_bottom_radio
+    ], id="country_off_canvas", is_open=False)
 
     country = html.Div([
         title,
