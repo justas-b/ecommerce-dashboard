@@ -125,11 +125,12 @@ def init_date_plot() -> html.Div:
     )
     options_off_canvas = dbc.Offcanvas([
         dbc.Row([
-            dbc.Col(dbc.Label("Analytic:")),
+            dbc.Col(dbc.Label("Analytic:"), width=2),
             dbc.Col(select)
         ]),
+        html.Hr(),
         dbc.Row([
-            dbc.Col(dbc.Label("Granularity:")),
+            dbc.Col(dbc.Label("Granularity:"), width=2),
             dbc.Col(slider)
         ])
     ], id="date_off_canvas", is_open=False)
@@ -179,11 +180,12 @@ def init_country_plot() -> html.Div:
     )
     options_off_canvas = dbc.Offcanvas([
         dbc.Row([
-            dbc.Col(dbc.Label("Analytic:")),
+            dbc.Col(dbc.Label("Analytic:"), width=2),
             dbc.Col(analytic_select)
         ]),
+        html.Hr(),
         dbc.Row([
-            dbc.Col(dbc.Label("Order:")),
+            dbc.Col(dbc.Label("Order:"), width=2),
             dbc.Col(top_bottom_radio)
         ])
     ], id="country_off_canvas", is_open=False)
