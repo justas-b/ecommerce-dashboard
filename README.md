@@ -1,4 +1,8 @@
-**NOTE: I'm in the process of completely refactoring the front-end of this dashboard so it is quite messy at the moment (yes I merged to main).**
+**
+NOTE: 
+- I'm in the process of completely refactoring the front-end of this dashboard so it is quite messy at the moment (yes I merged to main).
+- FYI this is my playground for experimenting, however, I am happy for comments! 
+**
 
 ## Features
 - Runs _any_ (**subject to complete date - see below**) dumped data from an e-commerce platform (CSV [.csv] or Excel [.xlsx] format), and performs an ETL pipeline on the data for use in analysis.
