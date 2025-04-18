@@ -1,0 +1,2 @@
+-r requirements.txt
+commitizen==4.6.0

@@ -1,0 +1,22 @@
+name: Bump version and changelog
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Commitizen
+        run: pip install commitizen
+      - name: Bump version and generate changelog
+        run: cz bump --yes
+      - name: Push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git push origin main
