@@ -1,3 +1,6 @@
+# [WIP] NOTE: 
+- **This is something that I'm currently not working on, it is just a personal project that I started. If anyone is interested in this, please [contact me](https://www.linkedin.com/in/justasbauras/)!**
+
 ## Features
 - Runs _any_ (**subject to complete date - see below**) dumped data from an e-commerce platform (CSV [.csv] or Excel [.xlsx] format), and performs an ETL pipeline on the data for use in analysis.
 - Generator class that can be used to generate _random_ data to experiment with/to use if the user is unable to acquire their data.
